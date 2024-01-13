@@ -4,14 +4,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.dao.base import BaseDAO
 from src.database import get_async_session
-from src.users.models import Users
+from src.users.models import User
 
 
 class UserDAO(BaseDAO):
-    model = Users
+    model = User
 
     @classmethod
     async def get_user_db(
         cls, session: AsyncSession = Depends(get_async_session)
     ):
-        yield SQLAlchemyUserDatabase(session, Users)
+        yield SQLAlchemyUserDatabase(session, User)
