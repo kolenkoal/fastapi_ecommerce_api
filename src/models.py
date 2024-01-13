@@ -5,6 +5,8 @@ from uuid import UUID, uuid4
 from sqlalchemy import text
 from sqlalchemy.orm import mapped_column
 
+from src.database import str_256
+
 
 uuidpk = Annotated[
     UUID,
@@ -22,3 +24,5 @@ updated_at = Annotated[
         onupdate=datetime.utcnow,
     ),
 ]
+
+str256 = Annotated[str_256, mapped_column(nullable=False)]

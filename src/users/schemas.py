@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from uuid import UUID
 
 from pydantic import BaseModel, EmailStr
@@ -11,5 +11,5 @@ class SUser(BaseModel):
     first_name: str
     last_name: str
     phone_number: str
-    created_at = datetime
-    updated_at: datetime
+    created_at: date
+    updated_at: date

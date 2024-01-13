@@ -5,3 +5,5 @@ sqlalchemy==2.0.25
 alembic==1.13.1
 asyncpg==0.29.0
 greenlet==3.0.3
+fastapi-users==12.1.2
+bcrypt==4.0.1

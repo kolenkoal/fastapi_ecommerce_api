@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     TEST_DB_PASS: str
     TEST_DB_NAME: str
 
+    JWT_SECRET_KEY: str
+
     @property
     def DATABASE_URL_asyncpg(self):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
