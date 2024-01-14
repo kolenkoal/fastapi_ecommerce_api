@@ -1,4 +1,3 @@
-import re
 import uuid
 from typing import Type, Union
 
@@ -6,12 +5,7 @@ from fastapi_users import schemas
 from pydantic import ConfigDict, EmailStr, Field, field_validator
 
 from src.exceptions import WrongNameOrSurnameException
-
-
-PHONE_MATCH_PATTERN = re.compile(
-    r"^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$"
-)
-LETTER_MATCH_PATTERN = re.compile(r"^[а-яА-Яa-zA-Z\-]+$")
+from src.patterns import LETTER_MATCH_PATTERN
 
 
 class UserRead(schemas.CreateUpdateDictModel):

@@ -12,3 +12,13 @@ class EcommerceException(HTTPException):
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."
+
+
+class WrongCountryNameException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid country name."
+
+
+class CountryDoesNotExistException(EcommerceException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "Country does not exist"

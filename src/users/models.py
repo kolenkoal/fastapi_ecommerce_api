@@ -1,20 +1,15 @@
-import uuid
-
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
-from fastapi_users_db_sqlalchemy import GUID, UUID_ID
 from sqlalchemy import Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Base
-from src.models import created_at, str256, updated_at
+from src.models import created_at, str256, updated_at, uuidpk
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
     __tablename__ = "users"
 
-    id: Mapped[UUID_ID] = mapped_column(
-        GUID, primary_key=True, default=uuid.uuid4
-    )
+    id: Mapped[uuidpk]
     email: Mapped[str256] = mapped_column(unique=True)
     hashed_password: Mapped[str256]
     first_name: Mapped[str256]
