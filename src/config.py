@@ -22,6 +22,8 @@ class Settings(BaseSettings):
 
     JWT_SECRET_KEY: str
 
+    ADMIN_PASSWORD: str
+
     @property
     def DATABASE_URL_asyncpg(self):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
