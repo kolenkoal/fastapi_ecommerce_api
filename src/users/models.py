@@ -19,7 +19,6 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     hashed_password: Mapped[str256]
     first_name: Mapped[str256]
     last_name: Mapped[str256]
-    phone_number: Mapped[str256] = mapped_column(unique=True)
     created_at = Mapped[created_at]
     updated_at: Mapped[updated_at]
     is_active: Mapped[bool] = mapped_column(

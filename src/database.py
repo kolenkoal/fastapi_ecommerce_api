@@ -12,7 +12,7 @@ from src.config import settings
 
 
 async_engine = create_async_engine(
-    url=settings.DATABASE_URL_asyncpg, echo=True
+    url=settings.DATABASE_URL_asyncpg, echo=False, future=True
 )
 
 async_session_factory = async_sessionmaker(
