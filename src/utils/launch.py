@@ -29,7 +29,7 @@ async def insert_initial_values():
 
         result = await session.execute(query)
 
-        role = result.scalar_one_or_none()
+        role = result.all()
 
         if not role:
             for data in roles_data:
@@ -49,7 +49,7 @@ async def insert_initial_values():
 
         result = await session.execute(query)
 
-        admin = result.scalar_one_or_none()
+        admin = result.all()
 
         if not admin:
             admin = User(**admin_data)
@@ -62,7 +62,7 @@ async def insert_initial_values():
 
         result = await session.execute(query)
 
-        country = result.scalar_one_or_none()
+        country = result.all()
 
         if not country:
             for data in countries_data:
@@ -72,6 +72,5 @@ async def insert_initial_values():
             await session.commit()
 
 
-if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(insert_initial_values())
+loop = asyncio.get_event_loop()
+loop.run_until_complete(insert_initial_values())

@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from sqlalchemy import String
+from sqlalchemy import NullPool, String
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_sessionmaker,
@@ -11,8 +11,15 @@ from sqlalchemy.orm import DeclarativeBase
 from src.config import settings
 
 
+if settings.MODE == "TEST":
+    DATABASE_URL = settings.TEST_DATABASE_URL
+    DATABASE_PARAMS = {"poolclass": NullPool}
+else:
+    DATABASE_URL = settings.DATABASE_URL_asyncpg
+    DATABASE_PARAMS = {}
+
 async_engine = create_async_engine(
-    url=settings.DATABASE_URL_asyncpg, echo=False, future=True
+    url=DATABASE_URL, echo=False, future=True, **DATABASE_PARAMS
 )
 
 async_session_factory = async_sessionmaker(

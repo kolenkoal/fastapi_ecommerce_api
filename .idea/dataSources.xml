@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/ecommerce_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="test_ecommerce_db@localhost" uuid="ed98c8b3-aaed-49e1-8b9b-e09efa52d5f4">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/test_ecommerce_db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

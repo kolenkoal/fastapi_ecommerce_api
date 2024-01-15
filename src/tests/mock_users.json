@@ -1,0 +1,9 @@
+[
+    {
+    "email": "admin@admin.com",
+    "first_name": "Admin",
+    "last_name": "Admin",
+    "hashed_password": "$2b$12$HdAJFdMgFt19T3ZyqYwFWuP5dHGNOVFlK0Ard2DomucIC/yoiLVDu",
+    "role_id": 2
+    }
+]

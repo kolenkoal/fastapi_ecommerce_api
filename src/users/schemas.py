@@ -32,7 +32,7 @@ class UserCreate(schemas.CreateUpdateDictModel):
             return WrongNameOrSurnameException
         return value.title()
 
-    class Config:
+    class ConfigDict:
         json_schema_extra = {
             "example": {
                 "email": "user@example.com",

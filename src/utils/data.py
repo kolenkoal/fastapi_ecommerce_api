@@ -1,6 +1,20 @@
 from src.config import settings
 
 
+admin_data = {
+    "email": "admin@admin.com",
+    "first_name": "Admin",
+    "last_name": "Admin",
+    "hashed_password": settings.ADMIN_PASSWORD,
+    "role_id": 2,
+}
+
+roles_data = [
+    {"name": "user"},
+    {"name": "admin"},
+    {"name": "manager"},
+]
+
 countries_data = [
     {"name": "Aruba"},
     {"name": "Afghanistan"},
@@ -221,17 +235,4 @@ countries_data = [
     {
         "name": "Zimbabwe",
     },
-]
-admin_data = {
-    "email": "admin@admin.com",
-    "first_name": "Admin",
-    "last_name": "Admin",
-    "hashed_password": settings.ADMIN_PASSWORD,
-    "role_id": 2,
-}
-
-roles_data = [
-    {"name": "user"},
-    {"name": "admin"},
-    {"name": "manager"},
 ]
