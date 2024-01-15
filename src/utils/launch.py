@@ -16,8 +16,10 @@ great_grandparent_dir = os.path.dirname(grandparent_dir)
 sys.path.insert(1, os.path.dirname(grandparent_dir))
 
 from src.config import settings  # noqa
+from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
 from src.users.models import Role, User  # noqa
+from src.utils.data import admin_data, countries_data, roles_data  # noqa
 from src.utils.hasher import Hasher  # noqa
 
 
@@ -30,12 +32,6 @@ async def insert_initial_values():
         role = result.scalar_one_or_none()
 
         if not role:
-            roles_data = [
-                {"name": "user"},
-                {"name": "admin"},
-                {"name": "manager"},
-            ]
-
             for data in roles_data:
                 role = Role(**data)
                 session.add(role)
@@ -43,14 +39,6 @@ async def insert_initial_values():
             await session.commit()
 
     async with async_session_factory() as session:
-        admin_data = {
-            "email": "admin@admin.com",
-            "first_name": "Admin",
-            "last_name": "Admin",
-            "hashed_password": settings.ADMIN_PASSWORD,
-            "role_id": 2,
-        }
-
         hashed_password = Hasher.get_password_hash(
             admin_data["hashed_password"]
         )
@@ -66,6 +54,20 @@ async def insert_initial_values():
         if not admin:
             admin = User(**admin_data)
             session.add(admin)
+
+            await session.commit()
+
+    async with async_session_factory() as session:
+        query = select(Country)
+
+        result = await session.execute(query)
+
+        country = result.scalar_one_or_none()
+
+        if not country:
+            for data in countries_data:
+                country = Country(**data)
+                session.add(country)
 
             await session.commit()
 

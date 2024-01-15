@@ -28,3 +28,12 @@ class BaseDAO:
             result = await session.execute(query)
 
             return result.scalar_one_or_none()
+
+    @classmethod
+    async def find_all(cls) -> model:
+        async with async_session_factory() as session:
+            query = select(cls.model)
+
+            result = await session.execute(query)
+
+            return result.scalars().all()

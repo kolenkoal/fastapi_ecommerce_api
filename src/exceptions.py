@@ -22,3 +22,8 @@ class WrongCountryNameException(EcommerceException):
 class CountryDoesNotExistException(EcommerceException):
     status_code = status.HTTP_400_BAD_REQUEST
     detail = "Country does not exist"
+
+
+class CountrieDoesNotExistException(EcommerceException):
+    status_code = status.HTTP_501_NOT_IMPLEMENTED
+    detail = "Countries does not exist"

@@ -1,4 +1,4 @@
-from fastapi_users.db import SQLAlchemyBaseUserTableUUID
+from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
 from sqlalchemy import Boolean, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
