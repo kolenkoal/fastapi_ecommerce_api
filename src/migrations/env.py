@@ -3,6 +3,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+from src.addresses.models import Address  # noqa
 from src.countries.models import Country  # noqa
 from src.database import DATABASE_URL, Base
 from src.users.models import User  # noqa

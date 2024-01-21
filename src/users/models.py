@@ -1,6 +1,6 @@
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
 from sqlalchemy import Boolean, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import created_at, str256, updated_at, uuidpk
@@ -11,6 +11,8 @@ class Role(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str256] = mapped_column(unique=True)
+
+    user = relationship("User", back_populates="role")
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
@@ -36,3 +38,5 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     is_verified: Mapped[bool] = mapped_column(
         Boolean, default=False, nullable=False
     )
+
+    role = relationship("Role", back_populates="user")
