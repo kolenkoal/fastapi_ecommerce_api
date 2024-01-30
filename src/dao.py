@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import insert, select
 
 from src.database import async_session_factory
 
@@ -37,3 +37,10 @@ class BaseDAO:
             result = await session.execute(query)
 
             return result.scalars().all()
+
+    @classmethod
+    async def add(cls, **data):
+        async with async_session_factory() as session:
+            query = insert(cls.model).values(**data)
+            await session.execute(query)
+            await session.commit()

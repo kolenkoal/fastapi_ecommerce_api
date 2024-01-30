@@ -19,11 +19,6 @@ class WrongCountryNameException(EcommerceException):
     detail = "Invalid country name."
 
 
-class CountryDoesNotExistException(EcommerceException):
-    status_code = status.HTTP_400_BAD_REQUEST
-    detail = "Country does not exist"
-
-
-class CountrieDoesNotExistException(EcommerceException):
-    status_code = status.HTTP_501_NOT_IMPLEMENTED
-    detail = "Countries does not exist"
+class AddressNotImplmentedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add address."

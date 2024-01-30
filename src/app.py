@@ -1,10 +1,28 @@
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
+from src.addresses.router import router as router_addresses
 from src.auth.router import router as router_auth
 from src.users.router import router as router_users
 
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://localhost:3000",
+    "https://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(router_auth)
 app.include_router(router_users)
+app.include_router(router_addresses)

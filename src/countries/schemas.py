@@ -7,7 +7,7 @@ from src.exceptions import WrongCountryNameException
 from src.patterns import LETTER_MATCH_PATTERN
 
 
-class CountryCreate(BaseModel):
+class SCountryCreate(BaseModel):
     name: str
 
     @field_validator("name")
@@ -30,5 +30,5 @@ class CountryCreate(BaseModel):
         return country.name.title()
 
 
-class Country(CountryCreate):
+class SCountry(SCountryCreate):
     id: uuid.UUID
