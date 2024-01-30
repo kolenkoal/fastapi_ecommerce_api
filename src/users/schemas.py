@@ -25,11 +25,11 @@ class UserCreate(schemas.CreateUpdateDictModel):
 
     @field_validator("first_name", "last_name")
     @classmethod
-    def validate_first_name_or_last_name(
+    def validate_city_or_region(
         cls, value: str
     ) -> Union[str, Type[WrongNameOrSurnameException]]:
         if not LETTER_MATCH_PATTERN.match(value):
-            return WrongNameOrSurnameException
+            raise WrongNameOrSurnameException
         return value.title()
 
     class ConfigDict:

@@ -2,6 +2,7 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
 from sqlalchemy import Boolean, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from src.addresses.models import Address
 from src.database import Base
 from src.models import created_at, str256, updated_at, uuidpk
 
@@ -40,3 +41,8 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     )
 
     role = relationship("Role", back_populates="user")
+
+    addresses: Mapped[list["Address"]] = relationship(
+        back_populates="users_living",
+        secondary="user_addresses",
+    )

@@ -22,3 +22,18 @@ class WrongCountryNameException(EcommerceException):
 class AddressNotImplmentedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add address."
+
+
+class WrongCityOrRegionException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid City, Region or Address Line."
+
+
+class WrongUnitOrPostalCodeException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid Unit number or postal code."
+
+
+class WrongStreetNumberException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid street number."
