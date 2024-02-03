@@ -1,4 +1,5 @@
 import uuid
+from typing import List
 
 import pycountry
 from pydantic import BaseModel, field_validator
@@ -32,3 +33,7 @@ class SCountryCreate(BaseModel):
 
 class SCountry(SCountryCreate):
     id: uuid.UUID
+
+
+class SCountries(BaseModel):
+    countries: List[SCountry]
