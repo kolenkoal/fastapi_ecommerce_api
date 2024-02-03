@@ -3,6 +3,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from src.addresses.router import router as router_addresses
 from src.auth.router import router as router_auth
+from src.countries.router import router as router_countries
 from src.users.router import router as router_users
 
 
@@ -25,4 +26,5 @@ app.add_middleware(
 
 app.include_router(router_auth)
 app.include_router(router_users)
+app.include_router(router_countries)
 app.include_router(router_addresses)

@@ -7,6 +7,7 @@ admin_data = {
     "last_name": "Admin",
     "hashed_password": settings.ADMIN_PASSWORD,
     "role_id": 2,
+    "is_superuser": True,
 }
 
 roles_data = [
