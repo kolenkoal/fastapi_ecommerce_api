@@ -31,43 +31,31 @@ class AddressDAO(BaseDAO):
     @classmethod
     @manage_session
     async def add(cls, user: User, session=None, **data):
-        # Check if country exists
-        if not await CountryDAO.validate_country_by_id(data["country_id"]):
-            raise CountryNotFoundException
+        await cls._validate_country(data["country_id"])
 
-        # Check if the address exists
         get_address_query = select(Address).filter_by(**data)
         address = (await session.execute(get_address_query)).scalar()
 
         if not address:
-            # Create the address if it doesn't exist
             insert_address_query = (
                 insert(cls.model).values(**data).returning(cls.model)
             )
             address = (await session.execute(insert_address_query)).scalar()
-
             await session.commit()
 
-        # Check if the user already has this address added
-        get_user_address_added_query = select(UserAddress.address_id).where(
+        user_address_ids_query = select(UserAddress.address_id).where(
             UserAddress.user_id == user.id
         )
-        user_address = (
-            (await session.execute(get_user_address_added_query))
-            .scalars()
-            .all()
+        user_address_ids = (
+            (await session.execute(user_address_ids_query)).scalars().all()
         )
 
-        if address.id in user_address:
+        if address.id in user_address_ids:
             raise UserAlreadyHasThisAddress
 
-        if len(user_address) > 0:
-            data.update({"is_default": False})
-        else:
-            data.update({"is_default": True})
+        data["is_default"] = not bool(user_address_ids)
 
-        # Connect user with a new address
-        insert_address_query = (
+        insert_user_address_query = (
             insert(UserAddress)
             .values(
                 user_id=user.id,
@@ -77,8 +65,7 @@ class AddressDAO(BaseDAO):
             .returning(UserAddress)
         )
 
-        await session.execute(insert_address_query)
-
+        await session.execute(insert_user_address_query)
         await session.commit()
 
         return address
@@ -98,7 +85,6 @@ class AddressDAO(BaseDAO):
     @classmethod
     @manage_session
     async def _user_find_all(cls, user, session=None):
-        # Find all user addresses and connect it with user and country data
         get_user_addresses_data_query = (
             select(User)
             .join(UserAddress, UserAddress.user_id == User.id)
@@ -116,7 +102,6 @@ class AddressDAO(BaseDAO):
             .where(User.id == user.id)
         )
 
-        # Find all user addresses
         get_user_addresses_query = select(UserAddress).where(
             UserAddress.user_id == user.id
         )
@@ -142,7 +127,6 @@ class AddressDAO(BaseDAO):
     @classmethod
     @manage_session
     async def _superior_user_find_all(cls, session=None):
-        # Find all addresses and connect it with every user and country data
         get_all_users_addresses_data_query = (
             select(User)
             .join(UserAddress, UserAddress.user_id == User.id)
@@ -168,7 +152,6 @@ class AddressDAO(BaseDAO):
         for user in users:
             user_data = user["User"]
 
-            # Find all user addresses
             get_user_addresses_query = select(UserAddress).where(
                 UserAddress.user_id == user_data.id
             )
@@ -187,29 +170,25 @@ class AddressDAO(BaseDAO):
     @classmethod
     @manage_session
     async def find_by_id(cls, user: User, address_id: UUID, session=None):
-        # Get all user ids, who use this address
         get_address_users_ids_query = select(UserAddress.user_id).where(
             UserAddress.address_id == address_id
         )
 
-        address_users_ids_result = await session.execute(
-            get_address_users_ids_query
+        address_users_ids = (
+            (await session.execute(get_address_users_ids_query))
+            .scalars()
+            .all()
         )
 
-        address_users_ids = address_users_ids_result.scalars().all()
-
-        # If nobody uses this address
         if not address_users_ids:
             raise AddressNotFoundException
 
-        # If user does not use the address or user has no permission
         if (
             user.id not in address_users_ids
             and user.role_id not in superior_roles_id
         ):
             raise ForbiddenException
 
-        # Get and return the address
         if user.id in address_users_ids or user.role_id in superior_roles_id:
             get_address_query = (
                 select(cls.model)
@@ -239,15 +218,83 @@ class AddressDAO(BaseDAO):
         session=None,
     ):
         address_data = address_data.model_dump(exclude_unset=True)
+        await cls._validate_new_country(address_data)
 
+        address_users_ids = await cls._get_address_users_ids(address_id)
+        await cls._validate_existing_address(user, address_users_ids)
+
+        current_address = await cls._get_current_address(address_id)
+
+        new_address_data = get_new_address_data(current_address, address_data)
+
+        existing_address = await cls._get_existing_address(new_address_data)
+
+        return await cls._handle_existing_or_new_address(
+            existing_address,
+            user,
+            address_id,
+            new_address_data,
+            address_users_ids,
+        )
+
+    @classmethod
+    async def _validate_new_country(cls, address_data):
         if "country_id" in address_data:
-            # If new country is not present
             if not await CountryDAO.validate_country_by_id(
                 address_data["country_id"]
             ):
                 raise CountryNotFoundException
 
-        # Get all user ids, who has this address
+    @classmethod
+    @manage_session
+    async def _validate_existing_address(
+        cls, user, address_users_ids, session=None
+    ):  # Fixed
+        if (
+            user.id not in address_users_ids
+            and user.role_id not in superior_roles_id
+        ):
+            raise ForbiddenException
+
+    @classmethod
+    @manage_session
+    async def _get_current_address(cls, address_id, session=None):
+        get_address_query = (
+            select(cls.model)
+            .options(
+                joinedload(cls.model.country).load_only(
+                    Country.id, Country.name
+                )
+            )
+            .where(cls.model.id == address_id)
+        )
+
+        address_result = await session.execute(get_address_query)
+
+        address = address_result.scalars().one_or_none()
+
+        return address
+
+    @classmethod
+    @manage_session
+    async def _get_existing_address(
+        cls, new_address_data, session=None
+    ):  # Fixed
+        get_existing_address_query = select(cls.model).filter_by(
+            **new_address_data
+        )
+
+        existing_address = (
+            await session.execute(get_existing_address_query)
+        ).scalar_one_or_none()
+
+        return existing_address
+
+    @classmethod
+    @manage_session
+    async def _get_address_users_ids(
+        cls, address_id: UUID, session=None
+    ):  # Fixed
         get_address_users_ids_query = (
             select(UserAddress.user_id)
             .select_from(UserAddress)
@@ -261,46 +308,33 @@ class AddressDAO(BaseDAO):
             .all()
         )
 
-        # If no one use this address
-        if len(address_users_ids) < 1:
-            raise AddressNotFoundException
+        return address_users_ids
 
-        # If current user does not use this address
-        if user.id not in address_users_ids:
-            raise ForbiddenException
-
-        get_address_query = select(cls.model).where(cls.model.id == address_id)
-
-        current_address = (
-            await session.execute(get_address_query)
-        ).scalar_one_or_none()
-
-        new_address_data = get_new_address_data(current_address, address_data)
-
-        get_existing_address_query = select(cls.model).filter_by(
-            **new_address_data
-        )
-
-        existing_address = (
-            await session.execute(get_existing_address_query)
-        ).scalar_one_or_none()
-
+    @classmethod
+    @manage_session
+    async def _handle_existing_or_new_address(
+        cls,
+        existing_address,
+        user,
+        address_id,
+        new_address_data,
+        address_users_ids,
+        session=None,
+    ):
         if existing_address:
             if await cls._check_existing_address(existing_address, user):
                 raise UserAlreadyHasThisAddress
-
             return await cls._update_to_existing_address(
-                user, address_id, existing_address
+                user, address_id, existing_address, session
             )
 
         if len(address_users_ids) == 1:
-            # If only one user uses the address
-            return await cls._update_to_new_address(address_data, address_id)
-
+            return await cls._update_to_new_address(
+                new_address_data, address_id
+            )
         else:
-            # Create new address
             return await cls._create_new_address(
-                new_address_data, address_id, user
+                new_address_data, address_id, user, session
             )
 
     @classmethod
@@ -324,7 +358,6 @@ class AddressDAO(BaseDAO):
     @classmethod
     @manage_session
     async def set_to_default(cls, address_id: UUID, user: User, session=None):
-        # Get all user ids, who use this address
         get_user_address_query = select(UserAddress).where(
             and_(
                 UserAddress.address_id == address_id,
@@ -349,7 +382,6 @@ class AddressDAO(BaseDAO):
     async def _change_default_address(
         cls, address_id: UUID, user: User, session=None
     ):
-        # Get user default address
         get_default_address_query = select(UserAddress).where(
             and_(
                 UserAddress.user_id == user.id,
@@ -361,18 +393,15 @@ class AddressDAO(BaseDAO):
             await session.execute(get_default_address_query)
         ).scalar()
 
-        # If user does not have default address
         if not default_address:
             raise DefaultAddressNotFoundException
 
-        # Set is_default to False in the default address
         unset_default_address_query = (
             update(UserAddress)
             .where(UserAddress.address_id == default_address.address_id)
             .values(is_default=False)
         )
 
-        # Set is_default to true in the desired address
         set_default_address_query = (
             update(UserAddress)
             .where(UserAddress.address_id == address_id)
@@ -409,7 +438,6 @@ class AddressDAO(BaseDAO):
         )
 
         await session.execute(update_user_address_to_existing_query)
-
         await session.commit()
 
         get_updated_address_query = select(Address).where(
@@ -435,7 +463,6 @@ class AddressDAO(BaseDAO):
         )
 
         updated_address = await session.execute(update_address_query)
-
         await session.commit()
 
         return updated_address.scalars().one()
@@ -450,13 +477,12 @@ class AddressDAO(BaseDAO):
         )
 
         new_address = await session.execute(insert_new_address_query)
-
         await session.commit()
 
         new_address = new_address.scalars().one()
 
         return await cls._update_to_existing_address(
-            user, address_id, new_address
+            user, address_id, new_address, session
         )
 
     @classmethod
@@ -496,7 +522,6 @@ class AddressDAO(BaseDAO):
         )
 
         await session.execute(delete_from_user_address_query)
-
         await session.commit()
 
     @classmethod
@@ -508,7 +533,6 @@ class AddressDAO(BaseDAO):
         delete_address_query = delete(Address).where(Address.id == address_id)
 
         await session.execute(delete_address_query)
-
         await session.commit()
 
         return None
@@ -529,7 +553,6 @@ class AddressDAO(BaseDAO):
             .all()
         )
 
-        # If no one use this address
         if len(address_users_ids) < 1:
             if user.id not in superior_roles_id:
                 raise AddressNotFoundException
@@ -540,6 +563,5 @@ class AddressDAO(BaseDAO):
 
         if len(address_users_ids) == 1:
             return await cls._delete_certain_address(user, address_id)
-
         else:
             return await cls._remove_user_address(user, address_id)

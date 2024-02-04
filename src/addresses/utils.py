@@ -7,7 +7,8 @@ def manage_session(func):
     @wraps(func)
     async def wrapper(*args, **kwargs):
         async with async_session_factory() as session:
-            kwargs["session"] = session
+            if "session" not in kwargs:
+                kwargs["session"] = session
             return await func(*args, **kwargs)
 
     return wrapper
