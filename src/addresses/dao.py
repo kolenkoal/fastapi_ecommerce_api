@@ -32,8 +32,18 @@ class AddressDAO(BaseDAO):
     @manage_session
     async def add(cls, user: User, session=None, **data):
         await cls._validate_country(data["country_id"])
+        address = await cls._get_or_create_address(session, **data)
+        await cls._check_and_insert_user_address(session, user, address)
+        return address
 
-        get_address_query = select(Address).filter_by(**data)
+    @classmethod
+    async def _validate_country(cls, country_id):
+        if not await CountryDAO.validate_country_by_id(country_id):
+            raise CountryNotFoundException
+
+    @classmethod
+    async def _get_or_create_address(cls, session, **data):
+        get_address_query = select(cls.model).filter_by(**data)
         address = (await session.execute(get_address_query)).scalar()
 
         if not address:
@@ -43,6 +53,10 @@ class AddressDAO(BaseDAO):
             address = (await session.execute(insert_address_query)).scalar()
             await session.commit()
 
+        return address
+
+    @classmethod
+    async def _check_and_insert_user_address(cls, session, user, address):
         user_address_ids_query = select(UserAddress.address_id).where(
             UserAddress.user_id == user.id
         )
@@ -53,27 +67,18 @@ class AddressDAO(BaseDAO):
         if address.id in user_address_ids:
             raise UserAlreadyHasThisAddress
 
-        data["is_default"] = not bool(user_address_ids)
+        data = {
+            "user_id": user.id,
+            "address_id": address.id,
+            "is_default": not bool(user_address_ids),
+        }
 
         insert_user_address_query = (
-            insert(UserAddress)
-            .values(
-                user_id=user.id,
-                address_id=address.id,
-                is_default=data["is_default"],
-            )
-            .returning(UserAddress)
+            insert(UserAddress).values(**data).returning(UserAddress)
         )
 
         await session.execute(insert_user_address_query)
         await session.commit()
-
-        return address
-
-    @classmethod
-    async def _validate_country(cls, country_id):
-        if not await CountryDAO.validate_country_by_id(country_id):
-            raise CountryNotFoundException
 
     @classmethod
     async def find_all(cls, user: User):
@@ -292,9 +297,7 @@ class AddressDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def _get_address_users_ids(
-        cls, address_id: UUID, session=None
-    ):  # Fixed
+    async def _get_address_users_ids(cls, address_id: UUID, session=None):
         get_address_users_ids_query = (
             select(UserAddress.user_id)
             .select_from(UserAddress)
@@ -540,18 +543,7 @@ class AddressDAO(BaseDAO):
     @classmethod
     @manage_session
     async def delete_address(cls, user, address_id: UUID, session=None):
-        get_address_users_ids_query = (
-            select(UserAddress.user_id)
-            .select_from(UserAddress)
-            .join(Address, UserAddress.address_id == Address.id)
-            .where(Address.id == address_id)
-        )
-
-        address_users_ids = (
-            (await session.execute(get_address_users_ids_query))
-            .scalars()
-            .all()
-        )
+        address_users_ids = await cls._get_address_users_ids(address_id)
 
         if len(address_users_ids) < 1:
             if user.id not in superior_roles_id:
