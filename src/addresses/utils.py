@@ -1,3 +1,18 @@
+from functools import wraps
+
+from src.database import async_session_factory
+
+
+def manage_session(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        async with async_session_factory() as session:
+            kwargs["session"] = session
+            return await func(*args, **kwargs)
+
+    return wrapper
+
+
 def add_is_default_to_every_user_address(user_data, subquery_result):
     address_data_with_is_default = []
 
