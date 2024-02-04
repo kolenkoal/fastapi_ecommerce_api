@@ -18,3 +18,15 @@ class CountryDAO(BaseDAO):
             countries = result.scalars().all()
 
             return countries
+
+    @classmethod
+    async def validate_country_by_id(cls, value):
+        async with async_session_factory() as session:
+            query = select(cls.model).where(cls.model.id == value)
+
+            result = (await session.execute(query)).scalar()
+
+            if not result:
+                return False
+
+            return True

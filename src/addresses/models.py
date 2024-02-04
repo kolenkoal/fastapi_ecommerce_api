@@ -31,6 +31,8 @@ class Address(Base):
         secondary="user_addresses",
     )
 
+    __mapper_args__ = {"eager_defaults": True}
+
 
 class UserAddress(Base):
     __tablename__ = "user_addresses"

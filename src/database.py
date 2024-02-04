@@ -34,6 +34,8 @@ async def get_async_session() -> AsyncSession:
 
 str_256 = Annotated[str, 256]
 
+superior_roles_id = [2, 3]
+
 
 class Base(DeclarativeBase):
     type_annotation_map = {str_256: String(256)}

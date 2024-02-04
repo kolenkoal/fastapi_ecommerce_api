@@ -59,11 +59,26 @@ class NoSuchAddressException(EcommerceException):
     detail = "There is no such address."
 
 
-class NoCountriesFoundException(EcommerceException):
+class CountriesNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Countries not found."
 
 
-class NoCountryFoundException(EcommerceException):
+class CountryNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Country not found."
+
+
+class AddressesNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Addresses not found."
+
+
+class AddressNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Address not found."
+
+
+class DefaultAddressNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "You do not have default address."
