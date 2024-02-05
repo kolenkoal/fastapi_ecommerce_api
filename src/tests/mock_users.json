@@ -1,9 +1,17 @@
 [
-    {
+  {
     "email": "admin@admin.com",
     "first_name": "Admin",
     "last_name": "Admin",
-    "hashed_password": "$2b$12$HdAJFdMgFt19T3ZyqYwFWuP5dHGNOVFlK0Ard2DomucIC/yoiLVDu",
+    "hashed_password": "$2b$12$O.Vmj0PluZjbdL1VE6ns/elOdloWPXvi3zzveeKfC5xYTN6grAKjO",
     "role_id": 2
-    }
+  },
+  {
+    "email": "testing@test.com",
+    "first_name": "Test",
+    "last_name": "Test",
+    "hashed_password": "$2b$12$O.Vmj0PluZjbdL1VE6ns/elOdloWPXvi3zzveeKfC5xYTN6grAKjO",
+    "role_id": 1
+  }
 ]
+

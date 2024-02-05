@@ -21,7 +21,13 @@ updated_at = Annotated[
 ]
 
 uuidpk = Annotated[
-    UUID_ID, mapped_column(GUID, primary_key=True, default=uuid.uuid4)
+    UUID_ID,
+    mapped_column(GUID, primary_key=True, default=uuid.uuid4, unique=True),
+]
+
+uuidpk_not_unique = Annotated[
+    UUID_ID,
+    mapped_column(GUID, primary_key=True, default=uuid.uuid4, unique=False),
 ]
 
 str256 = Annotated[str_256, mapped_column(nullable=False)]

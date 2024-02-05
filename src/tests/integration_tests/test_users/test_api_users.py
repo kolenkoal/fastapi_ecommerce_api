@@ -2,6 +2,7 @@ import pytest
 from httpx import AsyncClient
 
 
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "email,first_name,last_name,password,status_code",
     [
@@ -29,7 +30,7 @@ async def test_register_user(
     assert response.status_code == status_code
 
 
-#
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "username,password,status_code",
     [
@@ -51,7 +52,5 @@ async def test_login_user(username, password, status_code, ac: AsyncClient):
             "client_secret": "",
         },
     )
-
-    print(response.text)
 
     assert response.status_code == status_code

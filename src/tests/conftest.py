@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import traceback
 
 import pytest
 from httpx import AsyncClient
@@ -26,8 +27,15 @@ async def prepare_database():
         await conn.run_sync(Base.metadata.create_all)
 
     def open_mock_json(model: str):
-        with open(f"src/tests/mock_{model}.json", encoding="utf-8") as file:
-            return json.load(file)
+        try:
+            with open(
+                f"src/tests/mock_{model}.json", encoding="utf-8"
+            ) as file:
+                content = file.read()
+                return json.loads(content)
+        except Exception as e:
+            print(f"Error opening or parsing mock_{model}.json file: {e}")
+            raise
 
     try:
         users = open_mock_json("users")
@@ -35,9 +43,7 @@ async def prepare_database():
         countries = open_mock_json("countries")
 
         async with async_session_factory() as session:
-            add_roles = insert(Role).values(roles)
-
-            print("Hello")
+            add_roles = insert(Role).values(roles).returning(Role)
 
             await session.execute(add_roles)
 
@@ -51,7 +57,9 @@ async def prepare_database():
             await session.execute(add_countries)
 
             await session.commit()
+
     except Exception as e:
+        traceback.print_exc()
         print(f"An error occurred during database setup: {e}")
 
 
@@ -64,12 +72,23 @@ async def ac():
 @pytest.fixture(scope="session")
 async def authenticated_ac():
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
-        await ac.post(
-            "/auth/login",
-            json={
-                "email": "test@test.com",
-                "password": "test",
-            },
-        )
-        assert ac.cookies["booking_access_token"]
+        data = {
+            "grant_type": "",
+            "username": "testing@test.com",
+            "password": "string",
+            "scope": "",
+            "client_id": "",
+            "client_secret": "",
+        }
+        headers = {
+            "accept": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+
+        response = await ac.post("/auth/login", data=data, headers=headers)
+
+        assert response.status_code == 204
+
+        assert "ecommerce_token" in ac.cookies
+
         yield ac
