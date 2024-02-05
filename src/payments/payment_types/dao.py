@@ -15,6 +15,6 @@ class PaymentTypeDAO(BaseDAO):
 
             result = await session.execute(query)
 
-            countries = result.scalars().all()
+            payment_types = result.scalars().all()
 
-            return countries
+            return payment_types

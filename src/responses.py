@@ -1,6 +1,25 @@
 from fastapi import status
 
 
+PAYMENT_METHODS_SUCCESS_EXAMPLE = {
+    status.HTTP_200_OK: {
+        "content": {
+            "application/json": {
+                "example": [
+                    {
+                        "name": "Credit card",
+                        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+                    },
+                    {
+                        "name": "Cash",
+                        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    },
+                ]
+            }
+        },
+    },
+}
+
 DELETED_RESPONSE = {
     status.HTTP_204_NO_CONTENT: {
         "content": {
@@ -61,6 +80,21 @@ ADDRESS_NOT_FOUND_RESPONSE = {
     }
 }
 
+PAYMENT_METHODS_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Payment methods not found.": {
+                        "summary": "Payment methods not found.",
+                        "value": {"detail": "Payment methods not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 COUNTRY_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -91,6 +125,11 @@ UNPROCESSABLE_ENTITY = {
             }
         }
     },
+}
+
+PAYMENT_METHODS_SUCCESS_NOT_FOUND_RESPONSE = {
+    **PAYMENT_METHODS_SUCCESS_EXAMPLE,
+    **PAYMENT_METHODS_NOT_FOUND_RESPONSE,
 }
 
 UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE = {

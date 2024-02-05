@@ -4,7 +4,11 @@ from fastapi import APIRouter, status
 
 from src.countries.dao import CountryDAO
 from src.countries.schemas import SCountry
-from src.exceptions import CountriesNotFoundException, CountryNotFoundException
+from src.exceptions import (
+    CountriesNotFoundException,
+    CountryNotFoundException,
+    raise_http_exception,
+)
 
 
 router = APIRouter(prefix="/countries", tags=["Countries"])
@@ -76,6 +80,6 @@ async def get_country(country_id: UUID):
     country = await CountryDAO.find_by_id(country_id)
 
     if not country:
-        raise CountryNotFoundException
+        raise_http_exception(CountryNotFoundException)
 
     return country

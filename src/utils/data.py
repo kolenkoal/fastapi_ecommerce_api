@@ -237,3 +237,10 @@ countries_data = [
         "name": "Zimbabwe",
     },
 ]
+
+payment_types_data = [
+    {"name": "Credit Card"},
+    {"name": "PayPal"},
+    {"name": "Apple Pay"},
+    {"name": "Android Pay"},
+]

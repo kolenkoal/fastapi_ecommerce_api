@@ -18,7 +18,9 @@ sys.path.insert(1, os.path.dirname(grandparent_dir))
 from src.config import settings  # noqa
 from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
+from src.payments.payment_types.models import PaymentType  # noqa
 from src.users.models import Role, User  # noqa
+from src.utils.data import payment_types_data  # noqa
 from src.utils.data import admin_data, countries_data, roles_data  # noqa
 from src.utils.hasher import Hasher  # noqa
 
@@ -68,6 +70,20 @@ async def insert_initial_values():
             for data in countries_data:
                 country = Country(**data)
                 session.add(country)
+
+            await session.commit()
+
+    async with async_session_factory() as session:
+        query = select(PaymentType)
+
+        result = await session.execute(query)
+
+        payment_types = result.all()
+
+        if not payment_types:
+            for data in payment_types_data:
+                payment_type = PaymentType(**data)
+                session.add(payment_type)
 
             await session.commit()
 
