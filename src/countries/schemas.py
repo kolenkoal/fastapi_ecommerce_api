@@ -15,18 +15,18 @@ class SCountryCreate(BaseModel):
     @classmethod
     def validate_name(cls, name: str):
         if not LETTER_MATCH_PATTERN.match(name):
-            return WrongCountryNameException
+            raise WrongCountryNameException
 
         if len(name) == 2 and not pycountry.countries.get(alpha_2=name):
-            return WrongCountryNameException
+            raise WrongCountryNameException
 
         if len(name) == 3 and not pycountry.countries.get(alpha_3=name):
-            return WrongCountryNameException
+            raise WrongCountryNameException
 
         country = pycountry.countries.get(name=name)
 
         if not country:
-            return WrongCountryNameException
+            raise WrongCountryNameException
 
         return country.name.title()
 

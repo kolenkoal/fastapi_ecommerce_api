@@ -9,6 +9,12 @@ class EcommerceException(HTTPException):
         super().__init__(status_code=self.status_code, detail=self.detail)
 
 
+def raise_http_exception(exception_class):
+    raise HTTPException(
+        status_code=exception_class.status_code, detail=exception_class.detail
+    )
+
+
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."
@@ -82,3 +88,8 @@ class AddressNotFoundException(EcommerceException):
 class DefaultAddressNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "You do not have default address."
+
+
+class WrongPaymentTypeNameException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid payment type name."
