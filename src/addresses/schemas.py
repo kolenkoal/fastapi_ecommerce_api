@@ -84,7 +84,7 @@ class SAddressCreate(BaseModel):
                 "city": "Boston",
                 "region": "MA",
                 "postal_code": "12313",
-                "country_id": "300f1712-a311-40da-94e1-acc569588fe9",
+                "country_id": "95fa574f-9ac1-413e-9ace-5817e4cda634",
             }
         }
 
@@ -137,18 +137,21 @@ class SAddressOptional(BaseModel):
 
 class SAddressCountry(BaseModel):
     id: uuid.UUID
-    unit_number: str = Field(max_length=20, min_length=1)
-    street_number: str = Field(max_length=256, min_length=2)
-    address_line1: str = Field(max_length=256, min_length=2)
+    unit_number: str = Field(min_length=1, max_length=20)
+    street_number: str = Field(min_length=2, max_length=256)
+    address_line1: str = Field(min_length=2, max_length=256)
     address_line2: Optional[str] = ""
-    city: str = Field(max_length=256, min_length=2)
-    region: str = Field(max_length=256, min_length=2)
-    postal_code: str = Field(max_length=256, min_length=2)
+    city: str = Field(min_length=2, max_length=256)
+    region: str = Field(min_length=2, max_length=256)
+    postal_code: str = Field(min_length=2, max_length=256)
     country: SCountry
 
 
 class SAddress(SAddressCreate):
     id: uuid.UUID
+
+    class Config:
+        response_model_exclude_unset = True
 
 
 class SAddressesCountry(SAddressCountry):

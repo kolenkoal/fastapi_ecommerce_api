@@ -1,7 +1,7 @@
 from fastapi import status
 
 
-PAYMENT_METHODS_SUCCESS_EXAMPLE = {
+PAYMENT_TYPES_SUCCESS_EXAMPLE = {
     status.HTTP_200_OK: {
         "content": {
             "application/json": {
@@ -9,10 +9,6 @@ PAYMENT_METHODS_SUCCESS_EXAMPLE = {
                     {
                         "name": "Credit card",
                         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
-                    },
-                    {
-                        "name": "Cash",
-                        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     },
                 ]
             }
@@ -80,6 +76,21 @@ ADDRESS_NOT_FOUND_RESPONSE = {
     }
 }
 
+PAYMENT_TYPES_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Payment types not found.": {
+                        "summary": "Payment types not found.",
+                        "value": {"detail": "Payment types not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 PAYMENT_METHODS_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -127,9 +138,9 @@ UNPROCESSABLE_ENTITY = {
     },
 }
 
-PAYMENT_METHODS_SUCCESS_NOT_FOUND_RESPONSE = {
-    **PAYMENT_METHODS_SUCCESS_EXAMPLE,
-    **PAYMENT_METHODS_NOT_FOUND_RESPONSE,
+PAYMENT_TYPES_SUCCESS_NOT_FOUND_RESPONSE = {
+    **PAYMENT_TYPES_SUCCESS_EXAMPLE,
+    **PAYMENT_TYPES_NOT_FOUND_RESPONSE,
 }
 
 UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE = {
@@ -154,4 +165,9 @@ UNAUTHORIZED_COUNTRY_NOT_FOUND_UNPROCESSABLE_RESPONSE = {
 UNAUTHORIZED_ADDRESS_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **ADDRESS_NOT_FOUND_RESPONSE,
+}
+
+UNAUTHORIZED_PAYMENT_METHODS_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **PAYMENT_METHODS_NOT_FOUND_RESPONSE,
 }

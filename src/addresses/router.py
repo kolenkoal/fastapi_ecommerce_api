@@ -12,7 +12,7 @@ from src.addresses.schemas import (
     SAllUserAddresses,
     SAllUsersAddresses,
 )
-from src.auth.auth import fastapi_users
+from src.auth.auth import current_user
 from src.examples import example_address
 from src.exceptions import (
     AddressNotImplementedException,
@@ -27,8 +27,6 @@ from src.responses import (
 )
 from src.users.models import User
 
-
-current_user = fastapi_users.current_user()
 
 router = APIRouter(prefix="/addresses", tags=["Addresses"])
 
@@ -119,7 +117,7 @@ async def delete_user_address(
 
 @router.post(
     "/{address_id}/set_default",
-    name="Set an address to default",
+    name="Set an address to default.",
     responses=UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE,
 )
 async def set_address_to_default(

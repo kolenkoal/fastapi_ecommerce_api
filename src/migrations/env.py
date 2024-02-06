@@ -7,6 +7,7 @@ from src.addresses.models import Address  # noqa
 from src.countries.models import Country  # noqa
 from src.database import DATABASE_URL, Base
 from src.payments.payment_types.models import PaymentType  # noqa
+from src.payments.user_payment_methods.models import UserPaymentMethod  # noqa
 from src.users.models import User  # noqa
 
 

@@ -10,8 +10,8 @@ from src.exceptions import (
 from src.payments.payment_types.dao import PaymentTypeDAO
 from src.payments.payment_types.schemas import SPaymentType
 from src.responses import (
-    PAYMENT_METHODS_NOT_FOUND_RESPONSE,
-    PAYMENT_METHODS_SUCCESS_NOT_FOUND_RESPONSE,
+    PAYMENT_TYPES_NOT_FOUND_RESPONSE,
+    PAYMENT_TYPES_SUCCESS_NOT_FOUND_RESPONSE,
 )
 
 
@@ -20,10 +20,10 @@ router = APIRouter(prefix="/payment_types", tags=["Payment Types"])
 
 @router.get(
     "",
-    name="Get all payment methods.",
-    responses=PAYMENT_METHODS_SUCCESS_NOT_FOUND_RESPONSE,
+    name="Get all payment types.",
+    responses=PAYMENT_TYPES_SUCCESS_NOT_FOUND_RESPONSE,
 )
-async def get_payment_methods():
+async def get_payment_types():
     payment_types = await PaymentTypeDAO.find_all()
 
     if not payment_types:
@@ -36,7 +36,7 @@ async def get_payment_methods():
     "/{payment_type_id}",
     name="Get certain payment type.",
     response_model=SPaymentType,
-    responses=PAYMENT_METHODS_NOT_FOUND_RESPONSE,
+    responses=PAYMENT_TYPES_NOT_FOUND_RESPONSE,
 )
 async def get_payment_type(payment_type_id: UUID):
     payment_type = await PaymentTypeDAO.find_by_id(payment_type_id)

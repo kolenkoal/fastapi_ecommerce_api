@@ -46,6 +46,15 @@ class BaseDAO:
             await session.commit()
 
     @classmethod
+    async def insert(cls, **data):
+        async with async_session_factory() as session:
+            query = insert(cls.model).values(**data).returning(cls.model)
+            result = await session.execute(query)
+            await session.commit()
+
+            return result.scalar_one_or_none()
+
+    @classmethod
     async def validate_by_id(cls, value):
         async with async_session_factory() as session:
             query = select(cls.model).where(cls.model.id == value)

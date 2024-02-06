@@ -15,44 +15,9 @@ def raise_http_exception(exception_class):
     )
 
 
-class WrongNameOrSurnameException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid First Name or Last Name."
-
-
 class ForbiddenException(EcommerceException):
     status_code = status.HTTP_403_FORBIDDEN
     detail = "Forbidden"
-
-
-class WrongCountryNameException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid country name."
-
-
-class AddressNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add address."
-
-
-class WrongCityOrRegionException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid City, Region or Address Line."
-
-
-class WrongUnitOrPostalCodeException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid Unit number or postal code."
-
-
-class WrongStreetNumberException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid street number."
-
-
-class UserAlreadyHasThisAddress(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "You already have this address added."
 
 
 class UserHasNoAddressesException(EcommerceException):
@@ -90,11 +55,6 @@ class DefaultAddressNotFoundException(EcommerceException):
     detail = "You do not have default address."
 
 
-class WrongPaymentTypeNameException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid payment type name."
-
-
 class PaymentTypesNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Payment types not found."
@@ -103,3 +63,73 @@ class PaymentTypesNotFoundException(EcommerceException):
 class PaymentTypeNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Payment type not found."
+
+
+class PaymentMethodNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Payment Method not found."
+
+
+class PaymentMethodsNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Payment Methods not found."
+
+
+class WrongNameOrSurnameException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid First Name or Last Name."
+
+
+class WrongCountryNameException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid country name."
+
+
+class WrongCityOrRegionException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid City, Region or Address Line."
+
+
+class WrongUnitOrPostalCodeException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid Unit number or postal code."
+
+
+class WrongStreetNumberException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid street number."
+
+
+class UserAlreadyHasThisAddress(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "You already have this address added."
+
+
+class WrongPaymentTypeNameException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid payment type name."
+
+
+class WrongProviderNameException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid Provider."
+
+
+class WrongAccountNumberException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid Account Number."
+
+
+class ExpiredCardException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Your Card is Expired."
+
+
+class InvalidCardException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Card number should have 16 digits."
+
+
+class AddressNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add address."

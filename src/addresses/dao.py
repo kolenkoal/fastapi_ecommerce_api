@@ -8,7 +8,6 @@ from src.addresses.schemas import SAddressOptional
 from src.addresses.utils import (
     add_is_default_to_every_user_address,
     get_new_address_data,
-    manage_session,
 )
 from src.countries.dao import CountryDAO
 from src.countries.models import Country
@@ -24,6 +23,7 @@ from src.exceptions import (
     raise_http_exception,
 )
 from src.users.models import User
+from src.utils.session import manage_session
 
 
 class AddressDAO(BaseDAO):
@@ -45,7 +45,9 @@ class AddressDAO(BaseDAO):
     @classmethod
     async def _get_or_create_address(cls, session, **data):
         get_address_query = select(cls.model).filter_by(**data)
-        address = (await session.execute(get_address_query)).scalar()
+        address = (
+            await session.execute(get_address_query)
+        ).scalar_one_or_none()
 
         if not address:
             insert_address_query = (

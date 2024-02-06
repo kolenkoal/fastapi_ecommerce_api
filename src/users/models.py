@@ -46,3 +46,5 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
         back_populates="users_living",
         secondary="user_addresses",
     )
+
+    payment_methods = relationship("UserPaymentMethod", back_populates="user")

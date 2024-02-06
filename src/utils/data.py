@@ -238,9 +238,4 @@ countries_data = [
     },
 ]
 
-payment_types_data = [
-    {"name": "Credit Card"},
-    {"name": "PayPal"},
-    {"name": "Apple Pay"},
-    {"name": "Android Pay"},
-]
+payment_types_data = [{"name": "Card"}]

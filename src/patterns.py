@@ -10,6 +10,8 @@ ALPHA_NUMERIC_PATTERN = compile(r"^(?=.*\d)[а-яА-ЯA-Za-z\d]+$")
 
 STREET_NUMBER_PATTERN = compile(r"^[0-9_-]*$")
 
+NUMBER_PATTERN = compile(r"^\d+$")
+
 
 def REMOVE_WHITESPACES(value):
     return compile(r"\s+").sub(" ", value).strip()
