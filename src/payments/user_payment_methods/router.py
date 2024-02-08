@@ -1,7 +1,7 @@
 from typing import Union
 from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
 from src.exceptions import (
@@ -18,6 +18,7 @@ from src.payments.user_payment_methods.schemas import (
     SUsersPaymentMethods,
 )
 from src.responses import (
+    DELETED_UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_PAYMENT_METHODS_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_RESPONSE,
@@ -96,6 +97,42 @@ async def change_user_payment_method(
 ):
     payment_method = await UserPaymentMethodDAO.change_payment_method(
         payment_method_id, user, payment_method_data
+    )
+
+    if not payment_method:
+        raise PaymentMethodNotFoundException
+
+    return payment_method
+
+
+@router.delete(
+    "/{payment_method_id}",
+    name="Delete certain payment_method.",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses=DELETED_UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE,
+)
+async def delete_payment_method(
+    payment_method_id: UUID,
+    user: User = Depends(current_user),
+):
+    payment_method = await UserPaymentMethodDAO.delete_payment_method(
+        user, payment_method_id
+    )
+
+    if not payment_method:
+        return {"detail": "The payment_method was deleted."}
+
+
+@router.post(
+    "/{payment_method_id}/set_default",
+    name="Set an payment_method to default.",
+    responses=UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE,
+)
+async def set_payment_method_to_default(
+    payment_method_id: UUID, user: User = Depends(current_user)
+):
+    payment_method = await UserPaymentMethodDAO.set_default(
+        user, payment_method_id
     )
 
     if not payment_method:

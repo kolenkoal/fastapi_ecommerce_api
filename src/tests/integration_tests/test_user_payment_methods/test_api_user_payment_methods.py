@@ -87,7 +87,7 @@ async def test_create_user_payment_method_with_bad_entities(
 
 
 @pytest.mark.asyncio
-async def test_create_address(
+async def test_create_payment_method(
     authenticated_ac_with_payment_types, authenticated_ac
 ):
     authenticated_ac, payment_type_id = authenticated_ac_with_payment_types
@@ -167,84 +167,88 @@ async def test_change_user_payment_method(authenticated_ac: AsyncClient):
     assert new_payment_method_data["account_number"] == "1234567812345678"
 
 
-#
-#
-# @pytest.mark.asyncio
-# async def test_delete_user_address(authenticated_ac: AsyncClient):
-#     response = await authenticated_ac.get("/addresses")
-#     assert response.status_code == 200
-#
-#     address_id = response.json()["addresses"][0]["id"]
-#     response = await authenticated_ac.get(f"/addresses/{address_id}")
-#     assert response.status_code == 200
-#
-#     response = await authenticated_ac.delete(f"/addresses/{address_id}")
-#     assert response.status_code == 204
-#
-#
-# @pytest.mark.asyncio
-# async def test_create_several_addresses(
-#         authenticated_ac_with_countries, authenticated_ac
-# ):
-#     authenticated_ac, country_id = authenticated_ac_with_countries
-#     address_data_boston = {
-#         "unit_number": "3A",
-#         "street_number": "54",
-#         "address_line1": "Clements Rd",
-#         "address_line2": "North Shore",
-#         "city": "Boston",
-#         "region": "MA",
-#         "postal_code": "12313",
-#         "country_id": country_id,
-#     }
-#     address_data_moscow = {
-#         "unit_number": "3A",
-#         "street_number": "54",
-#         "address_line1": "Clements Rd",
-#         "address_line2": "North Shore",
-#         "city": "Moscow",
-#         "region": "MA",
-#         "postal_code": "12313",
-#         "country_id": country_id,
-#     }
-#
-#     response = await authenticated_ac.post(
-#         "/addresses",
-#         json=address_data_boston,
-#         headers={"Content-Type": "application/json"},
-#     )
-#     assert response.status_code == 200
-#
-#     response = await authenticated_ac.post(
-#         "/addresses",
-#         json=address_data_moscow,
-#         headers={"Content-Type": "application/json"},
-#     )
-#     assert response.status_code == 200
-#
-#
-# @pytest.mark.asyncio
-# async def test_set_default(authenticated_ac: AsyncClient):
-#     response = await authenticated_ac.get("/addresses")
-#     addresses = response.json()["addresses"]
-#     assert len(addresses) == 2
-#
-#     is_default1 = addresses[0]["is_default"]
-#     address_id_2, is_default2 = addresses[1]["id"], addresses[1]["is_default"]
-#     assert is_default1
-#     assert not is_default2
-#
-#     response = await authenticated_ac.post(
-#         f"/addresses/{address_id_2}/set_default"
-#     )
-#     assert response.status_code == 200
-#
-#     response = await authenticated_ac.get("/addresses")
-#     addresses = response.json()["addresses"]
-#     assert len(addresses) == 2
-#
-#     is_default1 = addresses[0]["is_default"]
-#     is_default2 = addresses[1]["is_default"]
-#
-#     assert not is_default1
-#     assert is_default2
+@pytest.mark.asyncio
+async def test_delete_user_payment_method(authenticated_ac: AsyncClient):
+    response = await authenticated_ac.get("/payment_methods")
+    assert response.status_code == 200
+
+    payment_method_id = response.json()["payment_methods"][0]["id"]
+
+    response = await authenticated_ac.get(
+        f"/payment_methods/{payment_method_id}"
+    )
+    assert response.status_code == 200
+
+    response = await authenticated_ac.delete(
+        f"/payment_methods/{payment_method_id}"
+    )
+    assert response.status_code == 204
+
+
+@pytest.mark.asyncio
+async def test_create_several_payment_methods(
+    authenticated_ac_with_payment_types, authenticated_ac
+):
+    authenticated_ac, payment_type_id = authenticated_ac_with_payment_types
+
+    payment_data_visa = {
+        "payment_type_id": payment_type_id,
+        "provider": "Visa",
+        "account_number": "1234567812345678",
+        "expiry_date": f"{date.today() + timedelta(days=1)}",
+        "is_default": "True",
+    }
+
+    payment_data_master_card = {
+        "payment_type_id": payment_type_id,
+        "provider": "MasterCard",
+        "account_number": "1234567812345679",
+        "expiry_date": f"{date.today() + timedelta(days=1)}",
+        "is_default": "False",
+    }
+
+    response = await authenticated_ac.post(
+        "/payment_methods",
+        json=payment_data_visa,
+        headers={"Content-Type": "application/json"},
+    )
+    assert response.status_code == 200
+
+    response = await authenticated_ac.post(
+        "/payment_methods",
+        json=payment_data_master_card,
+        headers={"Content-Type": "application/json"},
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_set_default_payment_method(authenticated_ac: AsyncClient):
+    response = await authenticated_ac.get("/payment_methods")
+    payment_methods = response.json()["payment_methods"]
+
+    assert len(payment_methods) == 2
+
+    is_default1 = payment_methods[0]["is_default"]
+    payment_method_id_2, is_default2 = (
+        payment_methods[1]["id"],
+        payment_methods[1]["is_default"],
+    )
+
+    assert is_default1
+    assert not is_default2
+
+    response = await authenticated_ac.post(
+        f"/payment_methods/{payment_method_id_2}/set_default"
+    )
+    assert response.status_code == 200
+
+    response = await authenticated_ac.get("/payment_methods")
+    payment_methods = response.json()["payment_methods"]
+    assert len(payment_methods) == 2
+
+    is_default1 = payment_methods[0]["is_default"]
+    is_default2 = payment_methods[1]["is_default"]
+
+    assert not is_default1
+    assert is_default2

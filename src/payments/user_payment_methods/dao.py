@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 
-from sqlalchemy import and_, desc, select, update
+from sqlalchemy import and_, delete, desc, select, update
 from sqlalchemy.orm import joinedload, load_only
 
 from src.dao import BaseDAO
@@ -310,8 +310,9 @@ class UserPaymentMethodDAO(BaseDAO):
     async def _get_existing_payment_method(
         cls, new_payment_method_data, session=None
     ):
-        get_existing_payment_method_query = select(cls.model).filter_by(
-            **new_payment_method_data
+        get_existing_payment_method_query = select(cls.model).where(
+            cls.model.account_number
+            == new_payment_method_data["account_number"]
         )
 
         existing_payment_method = (
@@ -377,3 +378,53 @@ class UserPaymentMethodDAO(BaseDAO):
         await session.commit()
 
         return updated_payment_method.scalars().one()
+
+    @classmethod
+    @manage_session
+    async def delete_payment_method(
+        cls, user, payment_method_id, session=None
+    ):
+        payment_method = await cls._find_by_id(payment_method_id)
+
+        if not payment_method:
+            raise_http_exception(PaymentMethodsNotFoundException)
+
+        if payment_method.user_id != user.id:
+            raise_http_exception(ForbiddenException)
+
+        if payment_method.is_default:
+            new_default_payment_method = await cls._get_payment_method(user)
+
+            await cls._switch_default_payment_method(
+                payment_method, new_default_payment_method.id
+            )
+
+        await cls._delete_certain_payment_method(payment_method_id)
+
+    @classmethod
+    @manage_session
+    async def _delete_certain_payment_method(
+        cls, payment_method_id, session=None
+    ):
+        delete_payment_method_query = delete(cls.model).where(
+            cls.model.id == payment_method_id
+        )
+
+        await session.execute(delete_payment_method_query)
+        await session.commit()
+
+        return None
+
+    @classmethod
+    @manage_session
+    async def _get_payment_method(cls, user, session=None):
+        get_payment_methods_query = select(UserPaymentMethod).where(
+            UserPaymentMethod.user_id == user.id
+        )
+        payment_method = (
+            (await session.execute(get_payment_methods_query))
+            .scalars()
+            .first()
+        )
+
+        return payment_method
