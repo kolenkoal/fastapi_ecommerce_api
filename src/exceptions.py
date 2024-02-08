@@ -20,6 +20,11 @@ class ForbiddenException(EcommerceException):
     detail = "Forbidden"
 
 
+class CardAlreadyConnectedWithOtherUserException(EcommerceException):
+    status_code = status.HTTP_403_FORBIDDEN
+    detail = "Card is already connected to other user."
+
+
 class UserHasNoAddressesException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "You do not have any addresses."
@@ -103,6 +108,11 @@ class WrongStreetNumberException(EcommerceException):
 class UserAlreadyHasThisAddress(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "You already have this address added."
+
+
+class PaymentMethodAlreadyExists(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "You already have this payment method added."
 
 
 class WrongPaymentTypeNameException(EcommerceException):

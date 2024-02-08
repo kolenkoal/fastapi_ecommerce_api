@@ -8,6 +8,7 @@ from httpx import AsyncClient
 from sqlalchemy import insert
 
 from src.countries.models import Country
+from src.payments.payment_types.models import PaymentType
 from src.users.models import Role, User
 
 
@@ -41,6 +42,7 @@ async def prepare_database():
         users = open_mock_json("users")
         roles = open_mock_json("roles")
         countries = open_mock_json("countries")
+        payment_types = open_mock_json("payment_types")
 
         async with async_session_factory() as session:
             add_roles = insert(Role).values(roles).returning(Role)
@@ -56,6 +58,12 @@ async def prepare_database():
             await session.execute(add_users)
             await session.execute(add_countries)
 
+            await session.commit()
+
+        async with async_session_factory() as session:
+            add_payment_types = insert(PaymentType).values(payment_types)
+
+            await session.execute(add_payment_types)
             await session.commit()
 
     except Exception as e:

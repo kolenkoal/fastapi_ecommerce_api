@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field, field_validator
@@ -78,4 +79,8 @@ class SPaymentMethodWithPaymentType(BaseModel):
 
 
 class SUserPaymentMethod(UserRead):
-    payment_methods: list[SPaymentMethodWithPaymentType]
+    payment_methods: List[SPaymentMethodWithPaymentType]
+
+
+class SUsersPaymentMethods(BaseModel):
+    Users: List[SUserPaymentMethod]

@@ -1,3 +1,5 @@
+from typing import Union
+
 from fastapi import APIRouter, Depends
 
 from src.auth.auth import current_user
@@ -11,6 +13,7 @@ from src.payments.user_payment_methods.schemas import (
     SPaymentMethod,
     SPaymentMethodCreate,
     SUserPaymentMethod,
+    SUsersPaymentMethods,
 )
 from src.responses import (
     UNAUTHORIZED_PAYMENT_METHODS_NOT_FOUND_RESPONSE,
@@ -45,7 +48,7 @@ async def create_payment_method(
 @router.get(
     "",
     name="Get all user payment methods.",
-    response_model=SUserPaymentMethod,
+    response_model=Union[SUserPaymentMethod, SUsersPaymentMethods],
     responses=UNAUTHORIZED_PAYMENT_METHODS_NOT_FOUND_RESPONSE,
 )
 async def get_payment_methods(user: User = Depends(current_user)):
