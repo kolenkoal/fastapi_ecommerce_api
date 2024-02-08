@@ -226,7 +226,9 @@ class AddressDAO(BaseDAO):
         session=None,
     ):
         address_data = address_data.model_dump(exclude_unset=True)
-        await cls._validate_new_country(address_data)
+
+        if "country_id" in address_data:
+            await cls._validate_country(address_data["country_id"])
 
         address_users_ids = await cls._get_address_users_ids(address_id)
         await cls._validate_existing_address(user, address_users_ids)
@@ -244,14 +246,6 @@ class AddressDAO(BaseDAO):
             new_address_data,
             address_users_ids,
         )
-
-    @classmethod
-    async def _validate_new_country(cls, address_data):
-        if "country_id" in address_data:
-            if not await CountryDAO.validate_country_by_id(
-                address_data["country_id"]
-            ):
-                raise_http_exception(CountryNotFoundException)
 
     @classmethod
     @manage_session

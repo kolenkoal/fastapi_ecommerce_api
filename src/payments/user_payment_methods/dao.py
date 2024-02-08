@@ -60,7 +60,7 @@ class UserPaymentMethodDAO(BaseDAO):
 
         # If user wants a new payment method to be default, make it default
         if user_payment_methods:
-            if data["is_default"] == True:  # noqa
+            if "is_default" in data and data["is_default"]:
                 await cls.set_default(user, payment_method.id)
 
         return payment_method
@@ -546,8 +546,8 @@ class UserPaymentMethodDAO(BaseDAO):
         Returns:
             UserPaymentMethod: The updated payment method.
 
-        Raises:
-            PaymentMethodNotFoundException: If the payment method with the given ID is not found.
+        Raises: PaymentMethodNotFoundException: If the payment method with
+        the given ID is not found.
         """
         update_payment_method_query = (
             update(cls.model)
