@@ -49,6 +49,24 @@ async def create_payment_method(
     return payment_method
 
 
+@router.post(
+    "/{payment_method_id}/set_default",
+    name="Set an payment_method to default.",
+    responses=UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE,
+)
+async def set_payment_method_to_default(
+    payment_method_id: UUID, user: User = Depends(current_user)
+):
+    payment_method = await UserPaymentMethodDAO.set_default(
+        user, payment_method_id
+    )
+
+    if not payment_method:
+        raise PaymentMethodNotFoundException
+
+    return payment_method
+
+
 @router.get(
     "",
     name="Get all user payment methods.",
@@ -121,21 +139,3 @@ async def delete_payment_method(
 
     if not payment_method:
         return {"detail": "The payment_method was deleted."}
-
-
-@router.post(
-    "/{payment_method_id}/set_default",
-    name="Set an payment_method to default.",
-    responses=UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE,
-)
-async def set_payment_method_to_default(
-    payment_method_id: UUID, user: User = Depends(current_user)
-):
-    payment_method = await UserPaymentMethodDAO.set_default(
-        user, payment_method_id
-    )
-
-    if not payment_method:
-        raise PaymentMethodNotFoundException
-
-    return payment_method
