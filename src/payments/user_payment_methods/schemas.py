@@ -51,7 +51,7 @@ class SPaymentMethodCreate(BaseModel):
 
         return expiry_date
 
-    class Config:
+    class ConfigDict:
         json_schema_extra = {
             "example": {
                 "payment_type_id": "cc4b156a-105c-4033-b28c-1d205c52610b",

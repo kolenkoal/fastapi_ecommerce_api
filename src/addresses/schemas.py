@@ -150,7 +150,7 @@ class SAddressCountry(BaseModel):
 class SAddress(SAddressCreate):
     id: uuid.UUID
 
-    class Config:
+    class ConfigDict:
         response_model_exclude_unset = True
 
 

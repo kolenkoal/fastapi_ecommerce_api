@@ -80,15 +80,15 @@ async def authenticated_ac():
             "client_id": "",
             "client_secret": "",
         }
-        headers = {
-            "accept": "application/json",
-            "Content-Type": "application/x-www-form-urlencoded",
-        }
 
-        response = await ac.post("/auth/login", data=data, headers=headers)
+        response = await ac.post("/auth/login", data=data)
 
         assert response.status_code == 204
 
         assert "ecommerce_token" in ac.cookies
+
+        ac.headers["Cookie"] = (
+            f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
+        )
 
         yield ac
