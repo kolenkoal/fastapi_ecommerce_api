@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-from typing import List
+from typing import List, Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field, field_validator
@@ -67,6 +67,43 @@ class SPaymentMethodCreate(BaseModel):
 class SPaymentMethod(SPaymentMethodCreate):
     id: UUID
     user_id: UUID
+
+
+class SPaymentMethodCreateOptional(BaseModel):
+    payment_type_id: Optional[UUID] = None
+    provider: Optional[str] = None
+    account_number: Optional[str] = None
+    expiry_date: Optional[date] = None
+
+    @field_validator("provider")
+    @classmethod
+    def validate_provider(cls, value: str):
+        if not LETTER_MATCH_PATTERN.match(value):
+            raise WrongProviderNameException
+
+        return value.title()
+
+    @field_validator("account_number")
+    @classmethod
+    def validate_account_number(cls, value: str):
+        if not NUMBER_PATTERN.match(value):
+            raise WrongAccountNumberException
+
+        if len(value) < 16:
+            raise InvalidCardException
+
+        return value
+
+    @field_validator("expiry_date")
+    @classmethod
+    def validate_expiry_date(cls, expiry_date: date):
+        current_date = date.today()
+        tomorrow_date = current_date + timedelta(days=1)
+
+        if expiry_date < tomorrow_date:
+            raise ExpiredCardException
+
+        return expiry_date
 
 
 class SPaymentMethodWithPaymentType(BaseModel):

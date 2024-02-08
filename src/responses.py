@@ -106,6 +106,21 @@ PAYMENT_METHODS_NOT_FOUND_RESPONSE = {
     },
 }
 
+PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Payment method not found.": {
+                        "summary": "Payment method not found.",
+                        "value": {"detail": "Payment method not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 COUNTRY_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -147,6 +162,12 @@ UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **ADDRESS_NOT_FOUND_RESPONSE,
+}
+
+UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **PAYMENT_METHOD_NOT_FOUND_RESPONSE,
 }
 
 DELETED_UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE = {

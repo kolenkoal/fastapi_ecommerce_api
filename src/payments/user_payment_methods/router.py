@@ -1,4 +1,5 @@
 from typing import Union
+from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
@@ -12,10 +13,12 @@ from src.payments.user_payment_methods.dao import UserPaymentMethodDAO
 from src.payments.user_payment_methods.schemas import (
     SPaymentMethod,
     SPaymentMethodCreate,
+    SPaymentMethodCreateOptional,
     SUserPaymentMethod,
     SUsersPaymentMethods,
 )
 from src.responses import (
+    UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_PAYMENT_METHODS_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_RESPONSE,
 )
@@ -58,3 +61,44 @@ async def get_payment_methods(user: User = Depends(current_user)):
         raise_http_exception(PaymentMethodsNotFoundException)
 
     return payment_methods
+
+
+@router.get(
+    "/{payment_method_id}",
+    response_model=SPaymentMethod,
+    name="Get certain payment method.",
+    responses=UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE,
+)
+async def get_payment_method(
+    payment_method_id: UUID, user: User = Depends(current_user)
+):
+    payment_method = await UserPaymentMethodDAO.find_payment_method(
+        user, payment_method_id
+    )
+
+    if not payment_method:
+        raise PaymentMethodNotFoundException
+
+    return payment_method
+
+
+@router.patch(
+    "/{payment_method_id}",
+    response_model=SPaymentMethod,
+    response_model_exclude_none=True,
+    name="Change certain payment method.",
+    responses=UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE,
+)
+async def change_user_payment_method(
+    payment_method_id: UUID,
+    payment_method_data: SPaymentMethodCreateOptional,
+    user: User = Depends(current_user),
+):
+    payment_method = await UserPaymentMethodDAO.change_payment_method(
+        payment_method_id, user, payment_method_data
+    )
+
+    if not payment_method:
+        raise PaymentMethodNotFoundException
+
+    return payment_method

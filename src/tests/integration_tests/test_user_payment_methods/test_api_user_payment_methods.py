@@ -125,35 +125,48 @@ async def test_get_user_payment_methods(authenticated_ac: AsyncClient):
     assert payment_methods[0]["account_number"] == "1111111111111111"
 
 
-#
-#
-# @pytest.mark.asyncio
-# async def test_get_address(authenticated_ac: AsyncClient):
-#     response = await authenticated_ac.get("/addresses")
-#     assert response.status_code == 200
-#
-#     address_id = response.json()["addresses"][0]["id"]
-#     response = await authenticated_ac.get(f"/addresses/{address_id}")
-#     assert response.status_code == 200
-#
-#
-# @pytest.mark.asyncio
-# async def test_change_user_address(authenticated_ac: AsyncClient):
-#     response = await authenticated_ac.get("/addresses")
-#     assert response.status_code == 200
-#
-#     address_id = response.json()["addresses"][0]["id"]
-#     response = await authenticated_ac.get(f"/addresses/{address_id}")
-#     assert response.status_code == 200
-#
-#     address_data = {"city": "New City", "postal_code": "11111"}
-#     response = await authenticated_ac.patch(
-#         f"/addresses/{address_id}", json=address_data
-#     )
-#     new_address_data = response.json()
-#     assert response.status_code == 200
-#     assert new_address_data["city"] == "New City"
-#     assert new_address_data["postal_code"] == "11111"
+@pytest.mark.asyncio
+async def test_get_payment_method(authenticated_ac: AsyncClient):
+    response = await authenticated_ac.get("/payment_methods")
+    assert response.status_code == 200
+
+    payment_method_id = response.json()["payment_methods"][0]["id"]
+    response = await authenticated_ac.get(
+        f"/payment_methods/{payment_method_id}"
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_change_user_payment_method(authenticated_ac: AsyncClient):
+    response = await authenticated_ac.get("/payment_methods")
+    assert response.status_code == 200
+
+    payment_method_id = response.json()["payment_methods"][0]["id"]
+
+    response = await authenticated_ac.get(
+        f"/payment_methods/{payment_method_id}"
+    )
+    assert response.status_code == 200
+
+    payment_method = response.json()
+    assert payment_method["provider"] != "Visa"
+    assert payment_method["account_number"] != "1234567812345678"
+
+    payment_method_data = {
+        "provider": "Visa",
+        "account_number": "1234567812345678",
+    }
+    response = await authenticated_ac.patch(
+        f"/payment_methods/{payment_method_id}", json=payment_method_data
+    )
+
+    new_payment_method_data = response.json()
+    assert response.status_code == 200
+    assert new_payment_method_data["provider"] == "Visa"
+    assert new_payment_method_data["account_number"] == "1234567812345678"
+
+
 #
 #
 # @pytest.mark.asyncio

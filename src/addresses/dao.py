@@ -257,7 +257,7 @@ class AddressDAO(BaseDAO):
     @manage_session
     async def _validate_existing_address(
         cls, user, address_users_ids, session=None
-    ):  # Fixed
+    ):
         if (
             user.id not in address_users_ids
             and user.role_id not in superior_roles_id
@@ -285,9 +285,7 @@ class AddressDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def _get_existing_address(
-        cls, new_address_data, session=None
-    ):  # Fixed
+    async def _get_existing_address(cls, new_address_data, session=None):
         get_existing_address_query = select(cls.model).filter_by(
             **new_address_data
         )
