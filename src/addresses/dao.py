@@ -45,15 +45,15 @@ class AddressDAO(BaseDAO):
     @classmethod
     async def _get_or_create_address(cls, session, **data):
         get_address_query = select(cls.model).filter_by(**data)
-        address = (
-            await session.execute(get_address_query)
-        ).scalar_one_or_none()
+        address = await session.execute(get_address_query)
+        address = address.scalar_one_or_none()
 
         if not address:
             insert_address_query = (
                 insert(cls.model).values(**data).returning(cls.model)
             )
-            address = (await session.execute(insert_address_query)).scalar()
+            address = await session.execute(insert_address_query)
+            address = address.scalar()
             await session.commit()
 
         return address
@@ -63,23 +63,22 @@ class AddressDAO(BaseDAO):
         user_address_ids_query = select(UserAddress.address_id).where(
             UserAddress.user_id == user.id
         )
-        user_address_ids = (
-            (await session.execute(user_address_ids_query)).scalars().all()
-        )
+        user_address_ids = await session.execute(user_address_ids_query)
+        user_address_ids = user_address_ids.scalars().all()
 
         if address.id in user_address_ids:
             raise_http_exception(UserAlreadyHasThisAddress)
 
+        is_default = not bool(user_address_ids)
         data = {
             "user_id": user.id,
             "address_id": address.id,
-            "is_default": not bool(user_address_ids),
+            "is_default": is_default,
         }
 
         insert_user_address_query = (
             insert(UserAddress).values(**data).returning(UserAddress)
         )
-
         await session.execute(insert_user_address_query)
         await session.commit()
 
@@ -323,7 +322,7 @@ class AddressDAO(BaseDAO):
             if await cls._check_existing_address(existing_address, user):
                 raise_http_exception(UserAlreadyHasThisAddress)
             return await cls._update_to_existing_address(
-                user, address_id, existing_address, session
+                user, address_id, existing_address
             )
 
         if len(address_users_ids) == 1:
@@ -332,7 +331,7 @@ class AddressDAO(BaseDAO):
             )
         else:
             return await cls._create_new_address(
-                new_address_data, address_id, user, session
+                new_address_data, address_id, user
             )
 
     @classmethod
@@ -411,7 +410,6 @@ class AddressDAO(BaseDAO):
         default_address_result = await session.execute(
             set_default_address_query
         )
-
         await session.commit()
 
         default_address = default_address_result.scalar()
@@ -480,7 +478,7 @@ class AddressDAO(BaseDAO):
         new_address = new_address.scalars().one()
 
         return await cls._update_to_existing_address(
-            user, address_id, new_address, session
+            user, address_id, new_address
         )
 
     @classmethod
@@ -493,7 +491,8 @@ class AddressDAO(BaseDAO):
             )
         )
 
-        address = (await session.execute(get_user_address_query)).scalar()
+        address = await session.execute(get_user_address_query)
+        address = address.scalar()
 
         if address.is_default:
             get_user_addresses_query = select(UserAddress).where(
