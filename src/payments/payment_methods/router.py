@@ -9,8 +9,8 @@ from src.exceptions import (
     PaymentMethodsNotFoundException,
     raise_http_exception,
 )
-from src.payments.user_payment_methods.dao import UserPaymentMethodDAO
-from src.payments.user_payment_methods.schemas import (
+from src.payments.payment_methods.dao import UserPaymentMethodDAO
+from src.payments.payment_methods.schemas import (
     SPaymentMethod,
     SPaymentMethodCreate,
     SPaymentMethodCreateOptional,

@@ -4,10 +4,10 @@ from starlette.middleware.cors import CORSMiddleware
 from src.addresses.router import router as router_addresses
 from src.auth.router import router as router_auth
 from src.countries.router import router as router_countries
-from src.payments.payment_types.router import router as router_payment_types
-from src.payments.user_payment_methods.router import (
+from src.payments.payment_methods.router import (
     router as router_payment_methods,
 )
+from src.payments.payment_types.router import router as router_payment_types
 from src.users.router import router as router_users
 
 

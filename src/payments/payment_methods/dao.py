@@ -14,9 +14,9 @@ from src.exceptions import (
     PaymentTypeNotFoundException,
     raise_http_exception,
 )
+from src.payments.payment_methods.models import UserPaymentMethod
+from src.payments.payment_methods.utils import get_new_payment_method_data
 from src.payments.payment_types.models import PaymentType
-from src.payments.user_payment_methods.models import UserPaymentMethod
-from src.payments.user_payment_methods.utils import get_new_payment_method_data
 from src.users.models import User
 from src.utils.session import manage_session
 
