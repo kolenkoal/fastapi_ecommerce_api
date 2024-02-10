@@ -20,7 +20,7 @@ from src.users.schemas import UserRead
 
 class SAddressCreate(BaseModel):
     unit_number: str = Field(max_length=20, min_length=1)
-    street_number: str = Field(max_length=256, min_length=2)
+    street_number: str = Field(max_length=256, min_length=1)
     address_line1: str = Field(max_length=256, min_length=2)
     address_line2: Optional[str] = ""
     city: str = Field(max_length=256, min_length=2)
@@ -138,7 +138,7 @@ class SAddressOptional(BaseModel):
 class SAddressCountry(BaseModel):
     id: uuid.UUID
     unit_number: str = Field(min_length=1, max_length=20)
-    street_number: str = Field(min_length=2, max_length=256)
+    street_number: str = Field(min_length=1, max_length=256)
     address_line1: str = Field(min_length=2, max_length=256)
     address_line2: Optional[str] = ""
     city: str = Field(min_length=2, max_length=256)

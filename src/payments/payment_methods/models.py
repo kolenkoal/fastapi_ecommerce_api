@@ -1,21 +1,22 @@
 from datetime import date
+from uuid import UUID
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
-from src.models import str256, uuidpk, uuidpk_not_unique
+from src.models import str256, uuidpk
 
 
 class UserPaymentMethod(Base):
     __tablename__ = "user_payment_methods"
 
     id: Mapped[uuidpk]
-    user_id: Mapped[uuidpk_not_unique] = mapped_column(
+    user_id: Mapped[UUID] = mapped_column(
         ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
 
-    payment_type_id: Mapped[uuidpk_not_unique] = mapped_column(
+    payment_type_id: Mapped[UUID] = mapped_column(
         ForeignKey("payment_types.id", ondelete="CASCADE"), nullable=False
     )
     provider: Mapped[str256]

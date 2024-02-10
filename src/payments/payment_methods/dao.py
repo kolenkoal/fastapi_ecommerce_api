@@ -482,7 +482,7 @@ class UserPaymentMethodDAO(BaseDAO):
         ):
             raise_http_exception(ForbiddenException)
 
-        # Chanage values with new parameters
+        # Change values with new parameters
         new_payment_method_data = get_new_payment_method_data(
             current_payment_method, payment_method_data
         )

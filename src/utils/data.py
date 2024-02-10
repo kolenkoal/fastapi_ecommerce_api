@@ -239,3 +239,51 @@ countries_data = [
 ]
 
 payment_types_data = [{"name": "Card"}]
+
+product_categories_data = [
+    {
+        "name": "Man",
+    },
+    {"name": "Woman"},
+    {"name": "Accessories"},
+]
+
+product_sub_categories_data = [
+    {"name": "Tops", "parent_category_id": 1},
+    {"name": "Bottoms", "parent_category_id": 1},
+    {"name": "Outerwear", "parent_category_id": 1},
+    {"name": "Tops", "parent_category_id": 2},
+    {"name": "Dresses", "parent_category_id": 2},
+    {"name": "Bottoms", "parent_category_id": 2},
+    {"name": "Hats", "parent_category_id": 3},
+    {"name": "Bags", "parent_category_id": 3},
+    {"name": "Belts", "parent_category_id": 3},
+]
+
+product_sub_sub_categories_data = [
+    {"name": "T-shirts", "parent_category_id": 4},
+    {"name": "Shorts", "parent_category_id": 4},
+    {"name": "Sweaters", "parent_category_id": 4},
+    {"name": "Jeans", "parent_category_id": 5},
+    {"name": "Pants", "parent_category_id": 5},
+    {"name": "Shorts", "parent_category_id": 5},
+    {"name": "Sweatpants", "parent_category_id": 5},
+    {"name": "Jackets", "parent_category_id": 6},
+    {"name": "Coats", "parent_category_id": 6},
+    {"name": "Blazers", "parent_category_id": 6},
+    {"name": "Blouses", "parent_category_id": 7},
+    {"name": "T-shirts", "parent_category_id": 7},
+    {"name": "Sweaters", "parent_category_id": 7},
+    {"name": "Casual", "parent_category_id": 8},
+    {"name": "Evening", "parent_category_id": 8},
+    {"name": "Jeans", "parent_category_id": 9},
+    {"name": "Pants", "parent_category_id": 9},
+    {"name": "Skirts", "parent_category_id": 9},
+    {"name": "Leggings", "parent_category_id": 9},
+    {"name": "Baseball Caps", "parent_category_id": 10},
+    {"name": "Beanines", "parent_category_id": 10},
+    {"name": "Sun hats", "parent_category_id": 10},
+    {"name": "Backpacks", "parent_category_id": 11},
+    {"name": "Handbacks", "parent_category_id": 11},
+    {"name": "Toge Bags", "parent_category_id": 11},
+]

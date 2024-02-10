@@ -44,7 +44,7 @@ def upgrade() -> None:
             ["payment_type_id"], ["payment_types.id"], ondelete="CASCADE"
         ),
         sa.ForeignKeyConstraint(["user_id"], ["users.id"], ondelete="CASCADE"),
-        sa.PrimaryKeyConstraint("id", "user_id", "payment_type_id"),
+        sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("id"),
     )
     op.create_unique_constraint(None, "payment_types", ["id"])

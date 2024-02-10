@@ -19,9 +19,17 @@ from src.config import settings  # noqa
 from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
 from src.payments.payment_types.models import PaymentType  # noqa
+from src.product_categories.models import ProductCategory  # noqa
 from src.users.models import Role, User  # noqa
-from src.utils.data import payment_types_data  # noqa
-from src.utils.data import admin_data, countries_data, roles_data  # noqa
+from src.utils.data import (  # noqa
+    admin_data,
+    countries_data,
+    payment_types_data,
+    product_categories_data,
+    product_sub_categories_data,
+    product_sub_sub_categories_data,
+    roles_data,
+)
 from src.utils.hasher import Hasher  # noqa
 
 
@@ -86,6 +94,29 @@ async def insert_initial_values():
                 session.add(payment_type)
 
             await session.commit()
+
+    async with async_session_factory() as session:
+        query = select(ProductCategory)
+
+        result = await session.execute(query)
+
+        product_categories = result.all()
+
+        if not product_categories:
+            for data in product_categories_data:
+                product_category = ProductCategory(**data)
+                session.add(product_category)
+                await session.commit()
+
+            for data in product_sub_categories_data:
+                product_category = ProductCategory(**data)
+                session.add(product_category)
+                await session.commit()
+
+            for data in product_sub_sub_categories_data:
+                product_category = ProductCategory(**data)
+                session.add(product_category)
+                await session.commit()
 
 
 loop = asyncio.get_event_loop()
