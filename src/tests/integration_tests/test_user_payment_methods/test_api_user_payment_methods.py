@@ -15,7 +15,7 @@ async def test_create_user_payment_method_not_authenticated(ac):
     }
 
     response = await ac.post(
-        "/payment_methods",
+        "/payments/payment_methods",
         json=payment_method_data,
         headers={"Content-Type": "application/json"},
     )
@@ -25,7 +25,7 @@ async def test_create_user_payment_method_not_authenticated(ac):
 
 @pytest.fixture
 async def authenticated_ac_with_payment_types(authenticated_ac):
-    response = await authenticated_ac.get("/payment_types")
+    response = await authenticated_ac.get("/payments/payment_types")
     assert response.status_code == 200
     return authenticated_ac, response.json()[0]["id"]
 
@@ -78,7 +78,7 @@ async def test_create_user_payment_method_with_bad_entities(
     }
 
     response = await authenticated_ac.post(
-        "/payment_methods",
+        "/payments/payment_methods",
         json=payment_method_data,
         headers={"Content-Type": "application/json"},
     )
@@ -100,14 +100,14 @@ async def test_create_payment_method(
     }
 
     response = await authenticated_ac.post(
-        "/payment_methods",
+        "/payments/payment_methods",
         json=payment_method_data,
         headers={"Content-Type": "application/json"},
     )
     assert response.status_code == 200
 
     response = await authenticated_ac.post(
-        "/payment_methods",
+        "/payments/payment_methods",
         json=payment_method_data,
         headers={"Content-Type": "application/json"},
     )
@@ -116,7 +116,7 @@ async def test_create_payment_method(
 
 @pytest.mark.asyncio
 async def test_get_user_payment_methods(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/payment_methods")
+    response = await authenticated_ac.get("/payments/payment_methods")
     assert response.status_code == 200
 
     payment_methods = response.json()["payment_methods"]
@@ -127,25 +127,25 @@ async def test_get_user_payment_methods(authenticated_ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_get_payment_method(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/payment_methods")
+    response = await authenticated_ac.get("/payments/payment_methods")
     assert response.status_code == 200
 
     payment_method_id = response.json()["payment_methods"][0]["id"]
     response = await authenticated_ac.get(
-        f"/payment_methods/{payment_method_id}"
+        f"/payments/payment_methods/{payment_method_id}"
     )
     assert response.status_code == 200
 
 
 @pytest.mark.asyncio
 async def test_change_user_payment_method(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/payment_methods")
+    response = await authenticated_ac.get("/payments/payment_methods")
     assert response.status_code == 200
 
     payment_method_id = response.json()["payment_methods"][0]["id"]
 
     response = await authenticated_ac.get(
-        f"/payment_methods/{payment_method_id}"
+        f"/payments/payment_methods/{payment_method_id}"
     )
     assert response.status_code == 200
 
@@ -158,7 +158,8 @@ async def test_change_user_payment_method(authenticated_ac: AsyncClient):
         "account_number": "1234567812345678",
     }
     response = await authenticated_ac.patch(
-        f"/payment_methods/{payment_method_id}", json=payment_method_data
+        f"/payments/payment_methods/{payment_method_id}",
+        json=payment_method_data,
     )
 
     new_payment_method_data = response.json()
@@ -169,18 +170,18 @@ async def test_change_user_payment_method(authenticated_ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_delete_user_payment_method(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/payment_methods")
+    response = await authenticated_ac.get("/payments/payment_methods")
     assert response.status_code == 200
 
     payment_method_id = response.json()["payment_methods"][0]["id"]
 
     response = await authenticated_ac.get(
-        f"/payment_methods/{payment_method_id}"
+        f"/payments/payment_methods/{payment_method_id}"
     )
     assert response.status_code == 200
 
     response = await authenticated_ac.delete(
-        f"/payment_methods/{payment_method_id}"
+        f"/payments/payment_methods/{payment_method_id}"
     )
     assert response.status_code == 204
 
@@ -208,14 +209,14 @@ async def test_create_several_payment_methods(
     }
 
     response = await authenticated_ac.post(
-        "/payment_methods",
+        "/payments/payment_methods",
         json=payment_data_visa,
         headers={"Content-Type": "application/json"},
     )
     assert response.status_code == 200
 
     response = await authenticated_ac.post(
-        "/payment_methods",
+        "/payments/payment_methods",
         json=payment_data_master_card,
         headers={"Content-Type": "application/json"},
     )
@@ -224,7 +225,7 @@ async def test_create_several_payment_methods(
 
 @pytest.mark.asyncio
 async def test_set_default_payment_method(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/payment_methods")
+    response = await authenticated_ac.get("/payments/payment_methods")
     payment_methods = response.json()["payment_methods"]
 
     assert len(payment_methods) == 2
@@ -239,11 +240,11 @@ async def test_set_default_payment_method(authenticated_ac: AsyncClient):
     assert not is_default2
 
     response = await authenticated_ac.post(
-        f"/payment_methods/{payment_method_id_2}/set_default"
+        f"/payments/payment_methods/{payment_method_id_2}/set_default"
     )
     assert response.status_code == 200
 
-    response = await authenticated_ac.get("/payment_methods")
+    response = await authenticated_ac.get("/payments/payment_methods")
     payment_methods = response.json()["payment_methods"]
     assert len(payment_methods) == 2
 
