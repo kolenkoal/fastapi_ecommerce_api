@@ -1,6 +1,7 @@
 from sqlalchemy import insert, select
 
 from src.database import async_session_factory
+from src.utils.session import manage_session
 
 
 class BaseDAO:
@@ -55,10 +56,11 @@ class BaseDAO:
             await session.commit()
 
     @classmethod
-    async def insert(cls, **data):
-        async with async_session_factory() as session:
-            query = insert(cls.model).values(**data).returning(cls.model)
-            result = await session.execute(query)
-            await session.commit()
+    @manage_session
+    async def _create(cls, session=None, **data):
+        create_query = insert(cls.model).values(**data).returning(cls.model)
 
-            return result.scalar_one_or_none()
+        result = await session.execute(create_query)
+        await session.commit()
+
+        return result.scalar_one()

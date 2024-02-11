@@ -35,6 +35,11 @@ class NoSuchAddressException(EcommerceException):
     detail = "There is no such address."
 
 
+class VariationNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Variation not found."
+
+
 class CountriesNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Countries not found."
@@ -135,14 +140,19 @@ class UserAlreadyHasThisAddress(EcommerceException):
     detail = "You already have this address added."
 
 
-class PaymentMethodAlreadyExists(EcommerceException):
+class PaymentMethodAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "You already have this payment method added."
 
 
-class ProductCategoryMethodAlreadyExists(EcommerceException):
+class ProductCategoryAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such product category already exists."
+
+
+class VariationAlreadyExistsException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Such variation already exists."
 
 
 class ProductCategoryParentNotAllowed(EcommerceException):
@@ -158,6 +168,11 @@ class WrongPaymentTypeNameException(EcommerceException):
 class WrongProviderNameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid Provider."
+
+
+class WrongVariationNameException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid Variation Name."
 
 
 class WrongAccountNumberException(EcommerceException):
@@ -183,3 +198,8 @@ class AddressNotImplementedException(EcommerceException):
 class ProductCategoryNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add product category."
+
+
+class VariationNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add variation."

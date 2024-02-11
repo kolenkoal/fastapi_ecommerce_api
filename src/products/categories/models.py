@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import str256
+from src.variations.models import Variation  # noqa
 
 
 class ProductCategory(Base):
@@ -15,3 +16,4 @@ class ProductCategory(Base):
     )
 
     children_categories = relationship("ProductCategory")
+    variations = relationship("Variation", back_populates="category")

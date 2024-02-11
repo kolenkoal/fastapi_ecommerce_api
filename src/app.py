@@ -7,6 +7,7 @@ from src.countries.router import router as router_countries
 from src.payments.router import router as router_payments
 from src.products.router import router as router_products
 from src.users.router import router as router_users
+from src.variations.router import router as router_variations
 
 
 app = FastAPI()
@@ -33,3 +34,4 @@ app.include_router(router_countries)
 app.include_router(router_addresses)
 app.include_router(router_payments)
 app.include_router(router_products)
+app.include_router(router_variations)

@@ -7,7 +7,7 @@ from src.dao import BaseDAO
 from src.exceptions import (
     ExpiredCardException,
     ForbiddenException,
-    PaymentMethodAlreadyExists,
+    PaymentMethodAlreadyExistsException,
     PaymentMethodNotFoundException,
     PaymentMethodsNotFoundException,
     PaymentTypeNotFoundException,
@@ -56,7 +56,7 @@ class UserPaymentMethodDAO(BaseDAO):
             data.update({"is_default": True})
 
         # Add payment method to the database.
-        payment_method = await cls.insert(**data)
+        payment_method = await cls._create(**data)
 
         # If user wants a new payment method to be default, make it default
         if user_payment_methods:
@@ -92,7 +92,7 @@ class UserPaymentMethodDAO(BaseDAO):
         if payment_method:
             if payment_method.user_id != user.id:
                 raise_http_exception(ForbiddenException)
-            raise_http_exception(PaymentMethodAlreadyExists)
+            raise_http_exception(PaymentMethodAlreadyExistsException)
 
     @classmethod
     @manage_session
@@ -524,7 +524,7 @@ class UserPaymentMethodDAO(BaseDAO):
         # Payment method exists
         if existing_payment_method:
             if existing_payment_method.user_id == user.id:
-                raise_http_exception(PaymentMethodAlreadyExists)
+                raise_http_exception(PaymentMethodAlreadyExistsException)
             raise_http_exception(ForbiddenException)
 
         # If is does not, we can update

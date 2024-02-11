@@ -8,8 +8,9 @@ from src.countries.models import Country  # noqa
 from src.database import DATABASE_URL, Base
 from src.payments.payment_methods.models import UserPaymentMethod  # noqa
 from src.payments.payment_types.models import PaymentType  # noqa
-from src.product_categories.models import ProductCategory  # noqa
+from src.products.categories.models import ProductCategory  # noqa
 from src.users.models import User  # noqa
+from src.variations.models import Variation  # noqa
 
 
 # this is the Alembic Config object, which provides

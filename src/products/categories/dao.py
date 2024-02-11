@@ -1,11 +1,11 @@
-from sqlalchemy import delete, insert, select, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.orm import joinedload
 
 from src.dao import BaseDAO
 from src.exceptions import (
     ForbiddenException,
     ParentCategoryNotFoundException,
-    ProductCategoryMethodAlreadyExists,
+    ProductCategoryAlreadyExistsException,
     ProductCategoryParentNotAllowed,
     raise_http_exception,
 )
@@ -36,9 +36,9 @@ class ProductCategoryDAO(BaseDAO):
         existing_category = await cls._find_product_category_by_data(data)
 
         if existing_category:
-            raise_http_exception(ProductCategoryMethodAlreadyExists)
+            raise_http_exception(ProductCategoryAlreadyExistsException)
 
-        return await cls._create_product_category(**data)
+        return await cls._create(**data)
 
     @classmethod
     @manage_session
@@ -55,20 +55,6 @@ class ProductCategoryDAO(BaseDAO):
 
         if not parent_category:
             raise_http_exception(ParentCategoryNotFoundException)
-
-    @classmethod
-    @manage_session
-    async def _create_product_category(cls, session=None, **data):
-        create_product_category_query = (
-            insert(cls.model).values(**data).returning(cls.model)
-        )
-
-        new_product_category_result = await session.execute(
-            create_product_category_query
-        )
-        await session.commit()
-
-        return new_product_category_result.scalar_one()
 
     @classmethod
     @manage_session
@@ -129,7 +115,7 @@ class ProductCategoryDAO(BaseDAO):
         )
 
         if existing_category:
-            raise_http_exception(ProductCategoryMethodAlreadyExists)
+            raise_http_exception(ProductCategoryAlreadyExistsException)
 
         return await cls._update_category(product_category_id, data)
 

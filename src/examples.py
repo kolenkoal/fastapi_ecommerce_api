@@ -13,3 +13,5 @@ example_product_category = {
     "name": "Trousers",
     "parent_category_id": "4",
 }
+
+example_variation = {"name": "Color", "category_id": 1}
