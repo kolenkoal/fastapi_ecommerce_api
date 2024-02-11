@@ -15,7 +15,7 @@ from src.responses import (
 )
 
 
-router = APIRouter(prefix="/payment_types")
+router = APIRouter(prefix="/types")
 
 
 @router.get(

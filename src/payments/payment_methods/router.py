@@ -26,7 +26,7 @@ from src.responses import (
 from src.users.models import User
 
 
-router = APIRouter(prefix="/payment_methods")
+router = APIRouter(prefix="/methods")
 
 
 @router.post(
