@@ -12,7 +12,6 @@ from src.addresses.utils import (
 from src.countries.dao import CountryDAO
 from src.countries.models import Country
 from src.dao import BaseDAO
-from src.database import superior_roles_id
 from src.exceptions import (
     AddressesNotFoundException,
     AddressNotFoundException,
@@ -22,6 +21,7 @@ from src.exceptions import (
     UserAlreadyHasThisAddress,
     raise_http_exception,
 )
+from src.permissions import has_permission
 from src.users.models import User
 from src.utils.session import manage_session
 
@@ -84,7 +84,7 @@ class AddressDAO(BaseDAO):
 
     @classmethod
     async def find_all(cls, user: User):
-        if user.role_id in superior_roles_id:
+        if await has_permission(user):
             return await cls._superior_user_find_all()
 
         return await cls._user_find_all(user)
@@ -190,13 +190,10 @@ class AddressDAO(BaseDAO):
         if not address_users_ids:
             raise_http_exception(AddressNotFoundException)
 
-        if (
-            user.id not in address_users_ids
-            and user.role_id not in superior_roles_id
-        ):
+        if user.id not in address_users_ids and not await has_permission(user):
             raise_http_exception(ForbiddenException)
 
-        if user.id in address_users_ids or user.role_id in superior_roles_id:
+        if user.id in address_users_ids or await has_permission(user):
             get_address_query = (
                 select(cls.model)
                 .options(
@@ -251,10 +248,7 @@ class AddressDAO(BaseDAO):
     async def _validate_existing_address(
         cls, user, address_users_ids, session=None
     ):
-        if (
-            user.id not in address_users_ids
-            and user.role_id not in superior_roles_id
-        ):
+        if user.id not in address_users_ids and not await has_permission(user):
             raise_http_exception(ForbiddenException)
 
     @classmethod
@@ -524,7 +518,7 @@ class AddressDAO(BaseDAO):
     @classmethod
     @manage_session
     async def _delete_certain_address(cls, user, address_id, session=None):
-        if user.id not in superior_roles_id:
+        if await has_permission(user):
             await cls._remove_user_address(user, address_id)
 
         delete_address_query = delete(Address).where(Address.id == address_id)
@@ -540,7 +534,7 @@ class AddressDAO(BaseDAO):
         address_users_ids = await cls._get_address_users_ids(address_id)
 
         if len(address_users_ids) < 1:
-            if user.id not in superior_roles_id:
+            if not await has_permission(user):
                 raise_http_exception(AddressNotFoundException)
             return await cls._delete_certain_address(user, address_id)
 

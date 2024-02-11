@@ -4,7 +4,6 @@ from sqlalchemy import and_, delete, desc, select, update
 from sqlalchemy.orm import joinedload, load_only
 
 from src.dao import BaseDAO
-from src.database import superior_roles_id
 from src.exceptions import (
     ExpiredCardException,
     ForbiddenException,
@@ -17,6 +16,7 @@ from src.exceptions import (
 from src.payments.payment_methods.models import UserPaymentMethod
 from src.payments.payment_methods.utils import get_new_payment_method_data
 from src.payments.payment_types.models import PaymentType
+from src.permissions import has_permission
 from src.users.models import User
 from src.utils.session import manage_session
 
@@ -165,7 +165,7 @@ class UserPaymentMethodDAO(BaseDAO):
             found for the user.
         """
 
-        if user.role_id in superior_roles_id:
+        if await has_permission(user):
             return await cls._superior_user_find_all(user)
 
         return await cls._user_find_all(user)
@@ -265,7 +265,7 @@ class UserPaymentMethodDAO(BaseDAO):
             .order_by(desc(cls.model.is_default))
         )
 
-        if user.role_id not in superior_roles_id:
+        if not await has_permission(user):
             get_user_payment_methods_data_query = (
                 get_user_payment_methods_data_query.where(User.id == user.id)
             )
@@ -411,9 +411,8 @@ class UserPaymentMethodDAO(BaseDAO):
         if not payment_method:
             raise_http_exception(PaymentMethodNotFoundException)
 
-        if (
-            payment_method.user_id != user.id
-            and user.id not in superior_roles_id
+        if payment_method.user_id != user.id and not await has_permission(
+            user
         ):
             raise_http_exception(ForbiddenException)
 
@@ -478,7 +477,7 @@ class UserPaymentMethodDAO(BaseDAO):
 
         if (
             current_payment_method.user_id != user.id
-            and user.id not in superior_roles_id
+            and not await has_permission(user)
         ):
             raise_http_exception(ForbiddenException)
 
