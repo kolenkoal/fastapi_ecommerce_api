@@ -231,6 +231,12 @@ class AddressDAO(BaseDAO):
 
         current_address = await cls._get_current_address(address_id)
 
+        if not current_address:
+            raise_http_exception(AddressNotFoundException)
+
+        if not address_data:
+            return current_address
+
         new_address_data = get_new_address_data(current_address, address_data)
 
         existing_address = await cls._get_existing_address(new_address_data)

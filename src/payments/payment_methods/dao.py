@@ -475,6 +475,9 @@ class UserPaymentMethodDAO(BaseDAO):
         if not current_payment_method:
             raise_http_exception(PaymentMethodNotFoundException)
 
+        if not payment_method_data:
+            return current_payment_method
+
         if (
             current_payment_method.user_id != user.id
             and not await has_permission(user)

@@ -121,6 +121,36 @@ PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
     },
 }
 
+PARENT_CATEGORY_NOT_FOUND = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Parent category not found.": {
+                        "summary": "Parent category not found.",
+                        "value": {"detail": "Parent category not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
+PRODUCT_CATEGORY_NOT_FOUND = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Product category not found.": {
+                        "summary": "Product category not found.",
+                        "value": {"detail": "Product category not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 COUNTRY_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -164,6 +194,12 @@ UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE = {
     **ADDRESS_NOT_FOUND_RESPONSE,
 }
 
+UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **PRODUCT_CATEGORY_NOT_FOUND,
+}
+
 UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
@@ -184,9 +220,22 @@ DELETED_UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
     **PAYMENT_METHOD_NOT_FOUND_RESPONSE,
 }
 
+DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE = {
+    **DELETED_RESPONSE,
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **PRODUCT_CATEGORY_NOT_FOUND,
+}
+
 UNAUTHORIZED_COUNTRY_NOT_FOUND_UNPROCESSABLE_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **COUNTRY_NOT_FOUND_RESPONSE,
+    **UNPROCESSABLE_ENTITY,
+}
+
+UNAUTHORIZED_PARENT_CATEGORY_NOT_FOUND_UNPROCESSABLE_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **PARENT_CATEGORY_NOT_FOUND,
     **UNPROCESSABLE_ENTITY,
 }
 

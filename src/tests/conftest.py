@@ -100,3 +100,28 @@ async def authenticated_ac():
         )
 
         yield ac
+
+
+@pytest.fixture(scope="session")
+async def admin_ac():
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        data = {
+            "grant_type": "",
+            "username": "admin@admin.com",
+            "password": "string",
+            "scope": "",
+            "client_id": "",
+            "client_secret": "",
+        }
+
+        response = await ac.post("/auth/login", data=data)
+
+        assert response.status_code == 204
+
+        assert "ecommerce_token" in ac.cookies
+
+        ac.headers["Cookie"] = (
+            f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
+        )
+
+        yield ac

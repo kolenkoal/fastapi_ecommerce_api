@@ -40,9 +40,19 @@ class CountriesNotFoundException(EcommerceException):
     detail = "Countries not found."
 
 
-class CategoriesNotFoundException(EcommerceException):
+class ProductCategoryNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
-    detail = "Categories not found."
+    detail = "Product categories not found."
+
+
+class ProductCategoriesNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Product categories not found."
+
+
+class ParentCategoryNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Parent category not found."
 
 
 class CountryNotFoundException(EcommerceException):
@@ -115,6 +125,11 @@ class WrongStreetNumberException(EcommerceException):
     detail = "Invalid street number."
 
 
+class WrongCategoryNameException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid category name."
+
+
 class UserAlreadyHasThisAddress(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "You already have this address added."
@@ -123,6 +138,16 @@ class UserAlreadyHasThisAddress(EcommerceException):
 class PaymentMethodAlreadyExists(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "You already have this payment method added."
+
+
+class ProductCategoryMethodAlreadyExists(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Such product category already exists."
+
+
+class ProductCategoryParentNotAllowed(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "A category can not be a parent of itself."
 
 
 class WrongPaymentTypeNameException(EcommerceException):
@@ -153,3 +178,8 @@ class InvalidCardException(EcommerceException):
 class AddressNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add address."
+
+
+class ProductCategoryNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add product category."
