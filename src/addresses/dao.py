@@ -39,7 +39,7 @@ class AddressDAO(BaseDAO):
 
     @classmethod
     async def _validate_country(cls, country_id):
-        if not await CountryDAO.validate_country_by_id(country_id):
+        if not await CountryDAO.validate_by_id(country_id):
             raise_http_exception(CountryNotFoundException)
 
     @classmethod

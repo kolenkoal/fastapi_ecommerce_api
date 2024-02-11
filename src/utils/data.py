@@ -241,9 +241,7 @@ countries_data = [
 payment_types_data = [{"name": "Card"}]
 
 product_categories_data = [
-    {
-        "name": "Man",
-    },
+    {"name": "Man"},
     {"name": "Woman"},
     {"name": "Accessories"},
 ]

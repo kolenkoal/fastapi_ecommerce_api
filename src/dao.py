@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from sqlalchemy import insert, select
 
 from src.database import async_session_factory
@@ -11,7 +9,7 @@ class BaseDAO:
     @classmethod
     async def find_by_id(
         cls,
-        model_id: UUID,
+        model_id,
     ) -> model:
         async with async_session_factory() as session:
             query = select(cls.model).filter_by(id=model_id)
@@ -30,13 +28,24 @@ class BaseDAO:
             return result.scalar_one_or_none()
 
     @classmethod
-    async def find_all(cls) -> model:
+    async def find_all(cls):
         async with async_session_factory() as session:
-            query = select(cls.model)
+            query = select(cls.model).order_by(cls.model.name)
 
             result = await session.execute(query)
 
-            return result.scalars().all()
+            values = result.scalars().all()
+
+            return values
+
+    @classmethod
+    async def validate_by_id(cls, value):
+        async with async_session_factory() as session:
+            query = select(cls.model).where(cls.model.id == value)
+
+            result = (await session.execute(query)).scalar_one_or_none()
+
+            return result
 
     @classmethod
     async def add(cls, **data):
@@ -53,15 +62,3 @@ class BaseDAO:
             await session.commit()
 
             return result.scalar_one_or_none()
-
-    @classmethod
-    async def validate_by_id(cls, value):
-        async with async_session_factory() as session:
-            query = select(cls.model).where(cls.model.id == value)
-
-            result = (await session.execute(query)).scalar()
-
-            if not result:
-                return False
-
-            return True

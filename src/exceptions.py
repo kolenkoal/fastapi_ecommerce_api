@@ -40,9 +40,19 @@ class CountriesNotFoundException(EcommerceException):
     detail = "Countries not found."
 
 
+class CategoriesNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Categories not found."
+
+
 class CountryNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Country not found."
+
+
+class CategoryNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Category not found."
 
 
 class AddressesNotFoundException(EcommerceException):
