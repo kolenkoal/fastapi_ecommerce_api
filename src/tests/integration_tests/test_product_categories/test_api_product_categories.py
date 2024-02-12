@@ -43,46 +43,30 @@ async def test_create_product_categories_with_bad_entities(
     assert response.status_code == status_code
 
 
-async def test_create_product_categories(admin_ac):
-    product_category_data1 = {
-        "name": "Tops",
+@pytest.mark.parametrize(
+    "name,parent_category_id,status_code",
+    [
+        ("Tops", None, 200),
+        ("Tops", None, 422),
+        ("Blazers", 1, 200),
+        ("Pants", 6, 404),
+    ],
+)
+@pytest.mark.asyncio
+async def test_create_product_categories(
+    admin_ac, name, parent_category_id, status_code
+):
+    product_category_data = {
+        "name": name,
+        "parent_category_id": parent_category_id,
     }
-
-    product_category_data2 = {"name": "Blazers", "parent_category_id": 1}
-
-    product_category_data3 = {"name": "Pants", "parent_category_id": 4}
-
     response = await admin_ac.post(
         "/products/categories",
-        json=product_category_data1,
+        json=product_category_data,
         headers={"Content-Type": "application/json"},
     )
 
-    assert response.status_code == 200
-
-    response = await admin_ac.post(
-        "/products/categories",
-        json=product_category_data1,
-        headers={"Content-Type": "application/json"},
-    )
-
-    assert response.status_code == 422
-
-    response = await admin_ac.post(
-        "/products/categories",
-        json=product_category_data2,
-        headers={"Content-Type": "application/json"},
-    )
-
-    assert response.status_code == 200
-
-    response = await admin_ac.post(
-        "/products/categories",
-        json=product_category_data3,
-        headers={"Content-Type": "application/json"},
-    )
-
-    assert response.status_code == 404
+    assert response.status_code == status_code
 
 
 @pytest.mark.asyncio
@@ -90,10 +74,10 @@ async def test_get_user_product_categories(ac: AsyncClient):
     response = await ac.get("/products/categories")
     assert response.status_code == 200
 
-    payment_methods = response.json()["product_categories"]
+    product_categories = response.json()["product_categories"]
 
-    assert len(payment_methods) == 2
-    assert payment_methods[0]["name"] == "Tops"
+    assert len(product_categories) == 2
+    assert product_categories[0]["name"] == "Tops"
 
 
 @pytest.mark.asyncio

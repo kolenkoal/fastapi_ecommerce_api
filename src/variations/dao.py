@@ -146,13 +146,13 @@ class VariationDAO(BaseDAO):
         if not variation:
             raise_http_exception(VariationNotFoundException)
 
-        # Delete the variation
-        await cls.delete_certain_item(variation_id)
-
         # Delete child variations recursively
         await cls._delete_child_variations(
             user, variation.category_id, variation.name
         )
+
+        # Delete the variation
+        await cls.delete_certain_item(variation_id)
 
     @classmethod
     @manage_session
@@ -168,6 +168,7 @@ class VariationDAO(BaseDAO):
         result = await session.execute(query)
         category = result.scalars().unique().one_or_none()
 
+        # Delete recursively every variation with given name
         if category and category.children_categories:
             for child_category in category.children_categories:
                 current_product_category = (
