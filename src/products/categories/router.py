@@ -7,6 +7,7 @@ from src.exceptions import (
     ProductCategoriesNotFoundException,
     ProductCategoryNotFoundException,
     ProductCategoryNotImplementedException,
+    VariationsNotFoundException,
     raise_http_exception,
 )
 from src.products.categories.dao import ProductCategoryDAO
@@ -24,6 +25,7 @@ from src.responses import (
     UNAUTHORIZED_PARENT_CATEGORY_NOT_FOUND_UNPROCESSABLE_RESPONSE,
 )
 from src.users.models import User
+from src.variations.schemas import SProductCategoryWithVariations
 
 
 router = APIRouter(prefix="/categories")
@@ -97,7 +99,9 @@ async def get_categories():
     responses=PRODUCT_CATEGORY_NOT_FOUND,
 )
 async def get_category(product_category_id: int):
-    category = await ProductCategoryDAO.find_by_id(product_category_id)
+    category = await ProductCategoryDAO.find_by_id_and_children(
+        product_category_id
+    )
 
     if not category:
         raise_http_exception(CategoryNotFoundException)
@@ -143,3 +147,23 @@ async def delete_user_address(
 
     if not product_category:
         return {"detail": "The product category was deleted."}
+
+
+@router.get(
+    "/{product_category_id}/variations",
+    name="Get product category's variations.",
+    response_model=SProductCategoryWithVariations,
+    responses=PRODUCT_CATEGORY_NOT_FOUND,
+)
+async def get_category_variations(product_category_id: int):
+    category = await ProductCategoryDAO.get_product_category_variations(
+        product_category_id
+    )
+
+    if not category:
+        raise_http_exception(CategoryNotFoundException)
+
+    if not category.__dict__["variations"]:
+        raise_http_exception(VariationsNotFoundException)
+
+    return category

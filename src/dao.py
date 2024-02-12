@@ -1,4 +1,4 @@
-from sqlalchemy import insert, select
+from sqlalchemy import delete, insert, select, update
 
 from src.database import async_session_factory
 from src.utils.session import manage_session
@@ -64,3 +64,28 @@ class BaseDAO:
         await session.commit()
 
         return result.scalar_one()
+
+    @classmethod
+    @manage_session
+    async def update_data(cls, model_id, data, session=None):
+        update_item_query = (
+            update(cls.model)
+            .where(cls.model.id == model_id)
+            .values(**data)
+            .returning(cls.model)
+        )
+
+        updated_item = await session.execute(update_item_query)
+        await session.commit()
+
+        return updated_item.scalars().one()
+
+    @classmethod
+    @manage_session
+    async def delete_certain_item(cls, model_id, session=None):
+        delete_item_query = delete(cls.model).where(cls.model.id == model_id)
+
+        await session.execute(delete_item_query)
+        await session.commit()
+
+        return None

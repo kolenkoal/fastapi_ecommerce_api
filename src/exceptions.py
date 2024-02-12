@@ -40,6 +40,11 @@ class VariationNotFoundException(EcommerceException):
     detail = "Variation not found."
 
 
+class VariationsNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Variations not found."
+
+
 class CountriesNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Countries not found."
@@ -47,7 +52,7 @@ class CountriesNotFoundException(EcommerceException):
 
 class ProductCategoryNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
-    detail = "Product categories not found."
+    detail = "Product category not found."
 
 
 class ProductCategoriesNotFoundException(EcommerceException):

@@ -1,4 +1,4 @@
-from sqlalchemy import delete, select, update
+from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 from src.dao import BaseDAO
@@ -33,7 +33,7 @@ class ProductCategoryDAO(BaseDAO):
                     data["parent_category_id"]
                 )
 
-        existing_category = await cls._find_product_category_by_data(data)
+        existing_category = await cls.find_one_or_none(**data)
 
         if existing_category:
             raise_http_exception(ProductCategoryAlreadyExistsException)
@@ -69,7 +69,7 @@ class ProductCategoryDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def find_by_id(cls, model_id, session=None) -> model:
+    async def find_by_id_and_children(cls, model_id, session=None) -> model:
         query = (
             select(cls.model)
             .options(joinedload(cls.model.children_categories))
@@ -110,14 +110,14 @@ class ProductCategoryDAO(BaseDAO):
             current_category, data
         )
 
-        existing_category = await cls._find_product_category_by_data(
-            new_product_category_data
+        existing_category = await cls.find_one_or_none(
+            **new_product_category_data
         )
 
         if existing_category:
             raise_http_exception(ProductCategoryAlreadyExistsException)
 
-        return await cls._update_category(product_category_id, data)
+        return await cls.update_data(product_category_id, data)
 
     @classmethod
     @manage_session
@@ -135,33 +135,6 @@ class ProductCategoryDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def _find_product_category_by_data(cls, data, session=None):
-        get_product_category_query = select(cls.model).filter_by(**data)
-        product_category = (
-            await session.execute(get_product_category_query)
-        ).scalar_one_or_none()
-
-        return product_category
-
-    @classmethod
-    @manage_session
-    async def _update_category(cls, product_category_id, data, session=None):
-        update_payment_method_query = (
-            update(cls.model)
-            .where(cls.model.id == product_category_id)
-            .values(**data)
-            .returning(cls.model)
-        )
-
-        updated_product_category = await session.execute(
-            update_payment_method_query
-        )
-        await session.commit()
-
-        return updated_product_category.scalars().one()
-
-    @classmethod
-    @manage_session
     async def delete(cls, user, product_category_id, session=None):
         if not await has_permission(user):
             raise_http_exception(ForbiddenException)
@@ -175,18 +148,23 @@ class ProductCategoryDAO(BaseDAO):
             return None
 
         # Delete the product category
-        await cls._delete_certain_product_category(product_category_id)
+        await cls.delete_certain_item(product_category_id)
 
     @classmethod
     @manage_session
-    async def _delete_certain_product_category(
+    async def get_product_category_variations(
         cls, product_category_id, session=None
     ):
-        delete_product_category_query = delete(cls.model).where(
-            cls.model.id == product_category_id
+        query = (
+            select(cls.model)
+            .options(joinedload(cls.model.variations))
+            .filter_by(id=product_category_id)
         )
 
-        await session.execute(delete_product_category_query)
-        await session.commit()
+        result = await session.execute(query)
 
-        return None
+        product_category = (
+            result.unique().mappings().one_or_none()["ProductCategory"]
+        )
+
+        return product_category
