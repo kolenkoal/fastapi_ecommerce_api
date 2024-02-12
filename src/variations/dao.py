@@ -6,6 +6,7 @@ from src.exceptions import (
     ForbiddenException,
     ProductCategoryNotFoundException,
     VariationAlreadyExistsException,
+    VariationNotFoundException,
     raise_http_exception,
 )
 from src.permissions import has_permission
@@ -143,7 +144,42 @@ class VariationDAO(BaseDAO):
         variation = await cls.validate_by_id(variation_id)
 
         if not variation:
-            return None
+            raise_http_exception(VariationNotFoundException)
 
         # Delete the variation
         await cls.delete_certain_item(variation_id)
+
+        # Delete child variations recursively
+        await cls._delete_child_variations(
+            user, variation.category_id, variation.name
+        )
+
+    @classmethod
+    @manage_session
+    async def _delete_child_variations(
+        cls, user, category_id, variation_name, session=None
+    ):
+        # Get child categories
+        query = (
+            select(ProductCategory)
+            .options(joinedload(ProductCategory.children_categories))
+            .filter_by(id=category_id)
+        )
+        result = await session.execute(query)
+        category = result.scalars().unique().one_or_none()
+
+        if category and category.children_categories:
+            for child_category in category.children_categories:
+                current_product_category = (
+                    await ProductCategoryDAO.get_product_category_variations(
+                        child_category.id
+                    )
+                )
+
+                if (
+                    current_product_category
+                    and current_product_category.variations
+                ):
+                    for variation in current_product_category.variations:
+                        if variation.name == variation_name:
+                            await cls.delete(user, variation.id)
