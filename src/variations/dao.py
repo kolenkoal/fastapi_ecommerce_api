@@ -10,6 +10,7 @@ from src.exceptions import (
 )
 from src.permissions import has_permission
 from src.products.categories.dao import ProductCategoryDAO
+from src.products.categories.models import ProductCategory
 from src.utils.session import manage_session
 from src.variations.models import Variation
 from src.variations.utils import get_new_variation_data
@@ -33,7 +34,12 @@ class VariationDAO(BaseDAO):
         if existing_variation:
             raise_http_exception(VariationAlreadyExistsException)
 
-        return await cls._create(**variation_data)
+        new_variation = await cls._create(**variation_data)
+
+        await cls._add_to_children_categories(
+            variation_data["category_id"], new_variation
+        )
+        return new_variation
 
     @classmethod
     @manage_session
@@ -42,6 +48,46 @@ class VariationDAO(BaseDAO):
 
         if not product_category:
             raise_http_exception(ProductCategoryNotFoundException)
+
+    @classmethod
+    @manage_session
+    async def _add_to_children_categories(
+        cls, category_id, variation, session=None
+    ):
+        query = (
+            select(ProductCategory)
+            .options(joinedload(ProductCategory.children_categories))
+            .filter_by(id=category_id)
+        )
+        result = await session.execute(query)
+        category = result.scalars().unique().one_or_none()
+
+        if category and category.children_categories:
+            for child_category in category.children_categories:
+                child_variation_data = {
+                    "name": variation.name,
+                    "category_id": child_category.id,
+                }
+                child_variation = Variation(**child_variation_data)
+                existing_variation = await cls.find_one_or_none(
+                    **child_variation_data
+                )
+                if not existing_variation:
+                    await cls._create(**child_variation_data)
+                    await cls._add_to_children_categories(
+                        child_category.id, child_variation
+                    )
+
+    @classmethod
+    @manage_session
+    async def find_all(cls, session=None):
+        query = select(cls.model).order_by(cls.model.category_id)
+
+        result = await session.execute(query)
+
+        values = result.scalars().all()
+
+        return values
 
     @classmethod
     @manage_session

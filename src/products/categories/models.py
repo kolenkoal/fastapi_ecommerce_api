@@ -15,5 +15,5 @@ class ProductCategory(Base):
         ForeignKey("product_categories.id", ondelete="CASCADE"), nullable=True
     )
 
-    children_categories = relationship("ProductCategory")
+    children_categories = relationship("ProductCategory", lazy="subquery")
     variations = relationship("Variation", back_populates="category")
