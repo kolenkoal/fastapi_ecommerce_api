@@ -1,9 +1,11 @@
 from fastapi import FastAPI
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from src.addresses.router import router as router_addresses
 from src.auth.router import router as router_auth
 from src.countries.router import router as router_countries
+from src.images.router import router as router_images
 from src.payments.router import router as router_payments
 from src.products.router import router as router_products
 from src.users.router import router as router_users
@@ -29,11 +31,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="src/static"), "static")
+
 app.include_router(router_auth)
 app.include_router(router_users)
 app.include_router(router_countries)
 app.include_router(router_addresses)
 app.include_router(router_payments)
+app.include_router(router_images)
 app.include_router(router_products)
 app.include_router(router_variations)
 app.include_router(router_variation_options)

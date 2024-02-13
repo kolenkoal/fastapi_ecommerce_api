@@ -175,6 +175,11 @@ class VariationOptionAlreadyExistsException(EcommerceException):
     detail = "Such variation option already exists."
 
 
+class ProductAlreadyExistsException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Such product already exists."
+
+
 class ProductCategoryParentNotAllowed(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "A category can not be a parent of itself."
