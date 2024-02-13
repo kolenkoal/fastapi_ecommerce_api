@@ -7,6 +7,7 @@ from src.countries.router import router as router_countries
 from src.payments.router import router as router_payments
 from src.products.router import router as router_products
 from src.users.router import router as router_users
+from src.variation_options.router import router as router_variation_options
 from src.variations.router import router as router_variations
 
 
@@ -35,3 +36,4 @@ app.include_router(router_addresses)
 app.include_router(router_payments)
 app.include_router(router_products)
 app.include_router(router_variations)
+app.include_router(router_variation_options)

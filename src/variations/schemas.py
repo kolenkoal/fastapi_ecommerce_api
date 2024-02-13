@@ -6,6 +6,7 @@ from pydantic import BaseModel, field_validator
 from src.exceptions import WrongVariationNameException
 from src.patterns import LETTER_MATCH_PATTERN, REMOVE_WHITESPACES
 from src.products.categories.schemas import SProductCategory
+from src.variation_options.schemas import SVariationOption
 
 
 class SVariationCreate(BaseModel):
@@ -44,10 +45,11 @@ class SVariationCreateOptional(BaseModel):
         return value.title()
 
 
-class SVariationWithCategory(BaseModel):
+class SVariationWithCategoryAndOptions(BaseModel):
     id: UUID
     name: str
     category: SProductCategory
+    options: list[SVariationOption]
 
 
 class SProductCategoryWithVariations(SProductCategory):

@@ -100,13 +100,14 @@ async def test_get_variations(ac: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_get_product_category(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/variations")
+async def test_get_variation(admin_ac: AsyncClient):
+    response = await admin_ac.get("/variations")
+    assert len(response.json()) == 1
     assert response.status_code == 200
 
     variation_id = response.json()["variations"][0]["id"]
 
-    response = await authenticated_ac.get(f"/variations/{variation_id}")
+    response = await admin_ac.get(f"/variations/{variation_id}")
     assert response.status_code == 200
 
 

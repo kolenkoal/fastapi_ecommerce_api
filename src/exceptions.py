@@ -45,6 +45,16 @@ class VariationsNotFoundException(EcommerceException):
     detail = "Variations not found."
 
 
+class VariationOptionNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Variation Option not found."
+
+
+class VariationOptionsNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Variation Options not found."
+
+
 class CountriesNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Countries not found."
@@ -160,6 +170,11 @@ class VariationAlreadyExistsException(EcommerceException):
     detail = "Such variation already exists."
 
 
+class VariationOptionAlreadyExistsException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Such variation option already exists."
+
+
 class ProductCategoryParentNotAllowed(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "A category can not be a parent of itself."
@@ -178,6 +193,11 @@ class WrongProviderNameException(EcommerceException):
 class WrongVariationNameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid Variation Name."
+
+
+class WrongVariationOptionNameException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid Variation Option Name."
 
 
 class WrongAccountNumberException(EcommerceException):
@@ -208,3 +228,8 @@ class ProductCategoryNotImplementedException(EcommerceException):
 class VariationNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add variation."
+
+
+class VariationOptionNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add variation option."

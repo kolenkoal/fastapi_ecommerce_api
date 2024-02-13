@@ -10,6 +10,7 @@ from src.payments.payment_methods.models import UserPaymentMethod  # noqa
 from src.payments.payment_types.models import PaymentType  # noqa
 from src.products.categories.models import ProductCategory  # noqa
 from src.users.models import User  # noqa
+from src.variation_options.models import VariationOption  # noqa
 from src.variations.models import Variation  # noqa
 
 

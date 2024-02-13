@@ -166,6 +166,21 @@ VARIATION_NOT_FOUND = {
     },
 }
 
+VARIATION_OPTION_NOT_FOUND = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Variation option not found.": {
+                        "summary": "Variation option not found.",
+                        "value": {"detail": "Variation option not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 VARIATIONS_NOT_FOUND = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -174,6 +189,21 @@ VARIATIONS_NOT_FOUND = {
                     "Variations not found.": {
                         "summary": "Variations not found.",
                         "value": {"detail": "Variations not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
+VARIATION_OPTIONS_NOT_FOUND = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Variation options not found.": {
+                        "summary": "Variation options not found.",
+                        "value": {"detail": "Variation options not found."},
                     },
                 }
             }
@@ -264,6 +294,13 @@ DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE = {
     **VARIATION_NOT_FOUND,
 }
 
+DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_OPTION_NOT_FOUND_RESPONSE = {
+    **DELETED_RESPONSE,
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **VARIATION_OPTION_NOT_FOUND,
+}
+
 UNAUTHORIZED_COUNTRY_NOT_FOUND_UNPROCESSABLE_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **COUNTRY_NOT_FOUND_RESPONSE,
@@ -283,10 +320,25 @@ UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY 
     **UNPROCESSABLE_ENTITY,
 }
 
+UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **VARIATION_NOT_FOUND,
+    **UNPROCESSABLE_ENTITY,
+}
+
 UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **PRODUCT_CATEGORY_NOT_FOUND,
+    **VARIATION_NOT_FOUND,
+    **UNPROCESSABLE_ENTITY,
+}
+
+UNAUTHORIZED_FORBIDDEN_VARIATION_OR_OPTION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **VARIATION_OPTION_NOT_FOUND,
     **VARIATION_NOT_FOUND,
     **UNPROCESSABLE_ENTITY,
 }

@@ -15,3 +15,7 @@ example_product_category = {
 }
 
 example_variation = {"name": "Color", "category_id": 1}
+example_variation_option = {
+    "value": "XS",
+    "variation_id": "300f1712-a311-40da-94e1-acc569588fe9",
+}

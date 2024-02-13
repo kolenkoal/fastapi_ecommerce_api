@@ -24,7 +24,7 @@ from src.variations.schemas import (
     SVariationCreate,
     SVariationCreateOptional,
     SVariations,
-    SVariationWithCategory,
+    SVariationWithCategoryAndOptions,
 )
 
 
@@ -67,7 +67,7 @@ async def get_variations():
 @router.get(
     "/{variation_id}",
     name="Get certain variation.",
-    response_model=SVariationWithCategory,
+    response_model=SVariationWithCategoryAndOptions,
     responses=VARIATION_NOT_FOUND,
 )
 async def get_variation(variation_id: UUID):
@@ -86,7 +86,7 @@ async def get_variation(variation_id: UUID):
     name="Change certain variation.",
     responses=UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
 )
-async def change_user_address(
+async def change_variation(
     variation_id: UUID,
     data: SVariationCreateOptional,
     user: User = Depends(current_user),
@@ -105,7 +105,7 @@ async def change_user_address(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE,
 )
-async def delete_user_address(
+async def delete_variation(
     variation_id: UUID,
     user: User = Depends(current_user),
 ):

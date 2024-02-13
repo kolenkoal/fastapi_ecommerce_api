@@ -95,13 +95,20 @@ class VariationDAO(BaseDAO):
     async def find_by_id(cls, model_id, session=None) -> model:
         query = (
             select(cls.model)
-            .options(joinedload(cls.model.category))
+            .options(
+                joinedload(cls.model.category), joinedload(cls.model.options)
+            )
             .filter_by(id=model_id)
         )
 
         result = await session.execute(query)
 
-        return result.unique().mappings().one_or_none()["Variation"]
+        variation = result.unique().mappings().one_or_none()
+
+        if not variation:
+            raise_http_exception(VariationNotFoundException)
+
+        return variation["Variation"]
 
     @classmethod
     @manage_session
@@ -184,3 +191,18 @@ class VariationDAO(BaseDAO):
                     for variation in current_product_category.variations:
                         if variation.name == variation_name:
                             await cls.delete(user, variation.id)
+
+    @classmethod
+    @manage_session
+    async def find_all_with_options(cls, session=None):
+        query = (
+            select(cls.model)
+            .options(joinedload(cls.model.options))
+            .order_by(cls.model.category_id)
+        )
+
+        result = await session.execute(query)
+
+        values = result.scalars().all()
+
+        return values

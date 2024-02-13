@@ -10,6 +10,8 @@ ALPHA_NUMERIC_PATTERN = compile(r"^(?=.*\d)[а-яА-ЯA-Za-z\d]+$")
 
 STREET_NUMBER_PATTERN = compile(r"^[0-9_-]*$")
 
+ALPHA_NUMBERS_PATTERN = compile(r"^[a-zA-Z0-9]+$")
+
 NUMBER_PATTERN = compile(r"^\d+$")
 
 
