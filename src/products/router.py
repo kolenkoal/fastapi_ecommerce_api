@@ -1,16 +1,42 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, File, Form, UploadFile
+from starlette import status
 
 from src.auth.auth import current_user
+from src.exceptions import (
+    ProductNotFoundException,
+    ProductsNotFoundException,
+    raise_http_exception,
+)
 from src.products.categories.router import router as categories_router
 from src.products.dao import ProductDAO
-from src.products.schemas import SProduct, SProductCreate
+from src.products.schemas import (
+    SProduct,
+    SProductCreate,
+    SProductCreateOptional,
+    SProducts,
+    SProductWithCategory,
+)
+from src.responses import (
+    DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE,
+    PRODUCT_NOT_FOUND,
+    PRODUCTS_NOT_FOUND,
+    UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_PRODUCT_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+    UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+)
 from src.users.models import User
 
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
 
-@router.post("", response_model=SProduct)
+@router.post(
+    "",
+    response_model=SProduct,
+    name="Add product to the category.",
+    responses=UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+)
 async def create_product(
     file: UploadFile = File(...),
     name: str = Form(...),
@@ -27,4 +53,70 @@ async def create_product(
     return product
 
 
+@router.get(
+    "",
+    name="Get all products.",
+    response_model=SProducts,
+    responses=PRODUCTS_NOT_FOUND,
+)
+async def get_products():
+    products = await ProductDAO.find_all()
+
+    if not products:
+        raise_http_exception(ProductsNotFoundException)
+
+    return {"products": products}
+
+
 router.include_router(categories_router)
+
+
+@router.get(
+    "/{product_id}",
+    name="Get certain product.",
+    response_model=SProductWithCategory,
+    responses=PRODUCT_NOT_FOUND,
+)
+async def get_product(product_id: UUID):
+    product = await ProductDAO.find_by_id(product_id)
+
+    if not product:
+        raise_http_exception(ProductNotFoundException)
+
+    return product
+
+
+@router.patch(
+    "/{product_id}",
+    response_model=SProduct,
+    response_model_exclude_none=True,
+    name="Change certain product.",
+    responses=UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_PRODUCT_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+)
+async def change_product(
+    product_id: UUID,
+    data: SProductCreateOptional,
+    user: User = Depends(current_user),
+):
+    product = await ProductDAO.change(product_id, user, data)
+
+    if not product:
+        raise ProductNotFoundException
+
+    return product
+
+
+@router.delete(
+    "/{product_id}",
+    name="Delete certain product.",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses=DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE,
+)
+async def delete_variation(
+    product_id: UUID,
+    user: User = Depends(current_user),
+):
+    product = await ProductDAO.delete(user, product_id)
+
+    if not product:
+        return {"detail": "The product was deleted."}

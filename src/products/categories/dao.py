@@ -168,3 +168,22 @@ class ProductCategoryDAO(BaseDAO):
         )
 
         return product_category
+
+    @classmethod
+    @manage_session
+    async def get_product_category_products(
+        cls, product_category_id, session=None
+    ):
+        query = (
+            select(cls.model)
+            .options(joinedload(cls.model.products))
+            .filter_by(id=product_category_id)
+        )
+
+        result = await session.execute(query)
+
+        product_category = (
+            result.unique().mappings().one_or_none()["ProductCategory"]
+        )
+
+        return product_category

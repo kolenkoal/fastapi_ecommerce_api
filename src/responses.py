@@ -226,6 +226,36 @@ COUNTRY_NOT_FOUND_RESPONSE = {
     }
 }
 
+PRODUCT_NOT_FOUND = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Product not found.": {
+                        "summary": "Product not found.",
+                        "value": {"detail": "Product not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
+PRODUCTS_NOT_FOUND = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Products not found.": {
+                        "summary": "Products not found.",
+                        "value": {"detail": "Products not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 UNPROCESSABLE_ENTITY = {
     status.HTTP_422_UNPROCESSABLE_ENTITY: {
         "content": {
@@ -294,6 +324,13 @@ DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE = {
     **VARIATION_NOT_FOUND,
 }
 
+DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE = {
+    **DELETED_RESPONSE,
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **PRODUCTS_NOT_FOUND,
+}
+
 DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_OPTION_NOT_FOUND_RESPONSE = {
     **DELETED_RESPONSE,
     **UNAUTHORIZED_RESPONSE,
@@ -332,6 +369,14 @@ UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_EN
     **FORBIDDEN_RESPONSE,
     **PRODUCT_CATEGORY_NOT_FOUND,
     **VARIATION_NOT_FOUND,
+    **UNPROCESSABLE_ENTITY,
+}
+
+UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_PRODUCT_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **PRODUCT_CATEGORY_NOT_FOUND,
+    **PRODUCT_NOT_FOUND,
     **UNPROCESSABLE_ENTITY,
 }
 
