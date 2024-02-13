@@ -120,10 +120,13 @@ class ProductDAO(BaseDAO):
         if existing_product:
             raise_http_exception(ProductAlreadyExistsException)
 
+        current_product_name = current_product.name.lower().replace(" ", "_")
+        new_product_name = new_product_data["name"].lower().replace(" ", "_")
+
         new_file = await rename_file(
-            old_name=current_product.name,
+            old_name=current_product_name,
             old_category=current_product.category_id,
-            new_name=new_product_data["name"],
+            new_name=new_product_name,
             new_category=new_product_data["category_id"],
         )
 
@@ -143,8 +146,10 @@ class ProductDAO(BaseDAO):
         if not product:
             raise_http_exception(ProductNotFoundException)
 
+        product_name = product.name.lower().replace(" ", "_")
+
         is_deleted = await delete_products_file(
-            product.name, product.category_id
+            product_name, product.category_id
         )
 
         if not is_deleted:

@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import tempfile
 import traceback
 
 import pytest
@@ -125,3 +126,24 @@ async def admin_ac():
         )
 
         yield ac
+
+
+@pytest.fixture(scope="session")
+def temp_file(request):
+    relative_directory = "./src/static/images"
+    directory = os.path.abspath(os.path.join(os.getcwd(), relative_directory))
+    os.makedirs(directory, exist_ok=True)
+
+    file_prefix = "test_product"
+    tmp_file = tempfile.NamedTemporaryFile(
+        suffix=".webp", prefix=file_prefix, dir=directory, delete=False
+    )
+    tmp_file.write(b"test_data")
+    tmp_file.close()
+
+    file_path = tmp_file.name
+
+    yield file_path
+
+    if os.path.exists(file_path):
+        os.remove(file_path)

@@ -1,6 +1,3 @@
-import os
-import tempfile
-
 import pytest
 from httpx import AsyncClient
 
@@ -42,38 +39,25 @@ async def test_create_product_category(
 
 
 @pytest.mark.asyncio
-async def test_create_product(admin_ac):
+async def test_create_product(admin_ac, temp_file):
     test_name = "Test Product"
     test_description = "Test Description"
     test_category_id = 3
 
-    with tempfile.NamedTemporaryFile(
-        suffix=".jpg", prefix="test_product", delete=False
-    ) as tmp_file:
-        tmp_file.write(b"test_data")
-        tmp_file.close()
+    form_data = {
+        "name": test_name,
+        "description": test_description,
+        "category_id": test_category_id,
+    }
 
-        form_data = {
-            "name": test_name,
-            "description": test_description,
-            "category_id": test_category_id,
-        }
-
-        files = {"file": open(tmp_file.name, "rb")}
-
+    with open(temp_file, "rb") as file:
+        files = {"file": file}
         response = await admin_ac.post(
-            "/products",
-            files=files,
-            data=form_data,
+            "/products", files=files, data=form_data
         )
-
         assert response.status_code == 200
 
-    if tmp_file:
-        os.unlink(tmp_file.name)
 
-
-#
 @pytest.mark.asyncio
 async def test_get_products(ac: AsyncClient):
     response = await ac.get("/products")
@@ -94,3 +78,39 @@ async def test_get_product(admin_ac: AsyncClient):
 
     response = await admin_ac.get(f"/products/{product_id}")
     assert response.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_change_product(admin_ac: AsyncClient, temp_file):
+    response = await admin_ac.get("/products")
+    assert response.status_code == 200
+
+    product_id = response.json()["products"][0]["id"]
+
+    new_product_data = {"name": "Adidas Joggers"}
+
+    response = await admin_ac.patch(
+        f"/products/{product_id}",
+        json=new_product_data,
+    )
+
+    assert response.status_code == 200
+
+    assert response.json()["name"] == "Adidas Joggers"
+
+
+@pytest.mark.asyncio
+async def test_delete_product(admin_ac: AsyncClient):
+    response = await admin_ac.get("/products")
+    assert response.status_code == 200
+    assert len(response.json()["products"]) == 1
+
+    product_id = response.json()["products"][0]["id"]
+
+    response = await admin_ac.delete(
+        f"/products/{product_id}",
+    )
+    assert response.status_code == 204
+
+    response = await admin_ac.get("/products")
+    assert response.status_code == 404
