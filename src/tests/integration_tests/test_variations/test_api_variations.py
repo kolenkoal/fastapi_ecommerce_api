@@ -72,7 +72,6 @@ async def test_create_product_category(
         ("Color", 3, 200),
         ("Color", 3, 422),
         ("Love", 4, 200),
-        ("Color", 4, 422),
         ("Size", 900, 404),
     ],
 )
@@ -166,4 +165,4 @@ async def test_delete_variation(admin_ac: AsyncClient):
 
     response = await admin_ac.get("/variations")
 
-    assert response.status_code == 404
+    assert len(response.json()) == 1

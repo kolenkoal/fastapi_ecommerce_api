@@ -9,3 +9,4 @@ fastapi-users-db-sqlalchemy==6.0.1
 bcrypt==4.0.1
 pycountry==23.12.11
 SQLAlchemy-Utils==0.41.1
+mock==5.1.0

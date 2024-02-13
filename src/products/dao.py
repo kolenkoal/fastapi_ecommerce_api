@@ -127,8 +127,6 @@ class ProductDAO(BaseDAO):
             new_category=new_product_data["category_id"],
         )
 
-        print("Newfile:", new_file)
-
         if new_file:
             data.update({"product_image": new_file})
             return await cls.update_data(product_id, data)
