@@ -6,7 +6,7 @@ from fastapi_users_db_sqlalchemy import GUID, UUID_ID
 from sqlalchemy import text
 from sqlalchemy.orm import mapped_column
 
-from src.database import str_256
+from src.database import str_20, str_256
 
 
 created_at = Annotated[
@@ -31,3 +31,4 @@ uuidpk_not_unique = Annotated[
 ]
 
 str256 = Annotated[str_256, mapped_column(nullable=False)]
+str20 = Annotated[str_20, mapped_column(nullable=False)]

@@ -17,3 +17,4 @@ class Product(Base):
     )
 
     category = relationship("ProductCategory", back_populates="products")
+    product_items = relationship("ProductItem", back_populates="product")

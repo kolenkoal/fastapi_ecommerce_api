@@ -39,7 +39,7 @@ async def test_create_product_category(
 
 
 @pytest.mark.asyncio
-async def test_create_product(admin_ac, temp_file):
+async def test_create_product(admin_ac, temp_products_file):
     test_name = "Test Product"
     test_description = "Test Description"
     test_category_id = 3
@@ -50,7 +50,7 @@ async def test_create_product(admin_ac, temp_file):
         "category_id": test_category_id,
     }
 
-    with open(temp_file, "rb") as file:
+    with open(temp_products_file, "rb") as file:
         files = {"file": file}
         response = await admin_ac.post(
             "/products", files=files, data=form_data
@@ -81,7 +81,7 @@ async def test_get_product(admin_ac: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_change_product(admin_ac: AsyncClient, temp_file):
+async def test_change_product(admin_ac: AsyncClient, temp_products_file):
     response = await admin_ac.get("/products")
     assert response.status_code == 200
 

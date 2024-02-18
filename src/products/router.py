@@ -11,6 +11,7 @@ from src.exceptions import (
 )
 from src.products.categories.router import router as categories_router
 from src.products.dao import ProductDAO
+from src.products.items.router import router as items_router
 from src.products.schemas import (
     SProduct,
     SProductCreate,
@@ -29,6 +30,9 @@ from src.users.models import User
 
 
 router = APIRouter(prefix="/products", tags=["Products"])
+
+router.include_router(categories_router)
+router.include_router(items_router)
 
 
 @router.post(
@@ -66,9 +70,6 @@ async def get_products():
         raise_http_exception(ProductsNotFoundException)
 
     return {"products": products}
-
-
-router.include_router(categories_router)
 
 
 @router.get(

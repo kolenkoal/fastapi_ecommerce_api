@@ -130,6 +130,11 @@ class PaymentMethodsNotFoundException(EcommerceException):
     detail = "Payment Methods not found."
 
 
+class ProductItemNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Product Item not found."
+
+
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."
@@ -175,6 +180,11 @@ class ProductCategoryAlreadyExistsException(EcommerceException):
     detail = "Such product category already exists."
 
 
+class ProductItemAlreadyExistsException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Such product item already exists."
+
+
 class VariationAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such variation already exists."
@@ -203,6 +213,26 @@ class WrongPaymentTypeNameException(EcommerceException):
 class WrongProviderNameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid Provider."
+
+
+class WrongPriceException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid format of price."
+
+
+class WrongQuantityException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid format of quantity."
+
+
+class PriceLessOrEqualZeroException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Price should be more than zero."
+
+
+class QuantityLessThanZeroException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Quantity should be more than zero."
 
 
 class WrongVariationNameException(EcommerceException):
@@ -248,3 +278,8 @@ class VariationNotImplementedException(EcommerceException):
 class VariationOptionNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add variation option."
+
+
+class ProductItemNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add product item."

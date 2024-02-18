@@ -129,8 +129,8 @@ async def admin_ac():
 
 
 @pytest.fixture(scope="session")
-def temp_file(request):
-    relative_directory = "./src/static/images"
+def temp_products_file(request):
+    relative_directory = "./src/static/images/products"
     directory = os.path.abspath(os.path.join(os.getcwd(), relative_directory))
     os.makedirs(directory, exist_ok=True)
 

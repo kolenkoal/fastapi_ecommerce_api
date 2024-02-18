@@ -72,6 +72,7 @@ async def test_create_product_categories(
 @pytest.mark.asyncio
 async def test_get_user_product_categories(ac: AsyncClient):
     response = await ac.get("/products/categories")
+
     assert response.status_code == 200
 
     product_categories = response.json()["product_categories"]

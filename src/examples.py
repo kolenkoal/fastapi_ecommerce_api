@@ -19,3 +19,9 @@ example_variation_option = {
     "value": "XS",
     "variation_id": "300f1712-a311-40da-94e1-acc569588fe9",
 }
+
+example_product_item = {
+    "price": 1.99,
+    "quantity_in_stock": 3,
+    "product_id": "300f1712-a311-40da-94e1-acc569588fe9",
+}

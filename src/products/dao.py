@@ -12,7 +12,7 @@ from src.exceptions import (
 from src.images.router import (
     add_product_image,
     delete_products_file,
-    rename_file,
+    rename_product_image_file,
 )
 from src.permissions import has_permission
 from src.products.categories.dao import ProductCategoryDAO
@@ -123,7 +123,7 @@ class ProductDAO(BaseDAO):
         current_product_name = current_product.name.lower().replace(" ", "_")
         new_product_name = new_product_data["name"].lower().replace(" ", "_")
 
-        new_file = await rename_file(
+        new_file = await rename_product_image_file(
             old_name=current_product_name,
             old_category=current_product.category_id,
             new_name=new_product_name,
