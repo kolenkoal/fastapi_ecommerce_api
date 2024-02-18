@@ -11,8 +11,8 @@ from src.exceptions import (
 )
 from src.permissions import has_permission
 from src.products.categories.models import ProductCategory
-from src.products.categories.utils import get_new_product_category_data
 from src.users.models import User
+from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
 
 
@@ -106,9 +106,7 @@ class ProductCategoryDAO(BaseDAO):
                 if current_category.id == data["parent_category_id"]:
                     raise_http_exception(ProductCategoryParentNotAllowed)
 
-        new_product_category_data = get_new_product_category_data(
-            current_category, data
-        )
+        new_product_category_data = get_new_data(current_category, data)
 
         existing_category = await cls.find_one_or_none(
             **new_product_category_data

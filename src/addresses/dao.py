@@ -5,10 +5,7 @@ from sqlalchemy.orm import joinedload, load_only
 
 from src.addresses.models import Address, UserAddress
 from src.addresses.schemas import SAddressOptional
-from src.addresses.utils import (
-    add_is_default_to_every_user_address,
-    get_new_address_data,
-)
+from src.addresses.utils import add_is_default_to_every_user_address
 from src.countries.dao import CountryDAO
 from src.countries.models import Country
 from src.dao import BaseDAO
@@ -23,6 +20,7 @@ from src.exceptions import (
 )
 from src.permissions import has_permission
 from src.users.models import User
+from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
 
 
@@ -237,7 +235,7 @@ class AddressDAO(BaseDAO):
         if not address_data:
             return current_address
 
-        new_address_data = get_new_address_data(current_address, address_data)
+        new_address_data = get_new_data(current_address, address_data)
 
         existing_address = await cls._get_existing_address(new_address_data)
 

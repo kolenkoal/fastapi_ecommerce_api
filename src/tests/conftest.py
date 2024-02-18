@@ -147,3 +147,24 @@ def temp_products_file(request):
 
     if os.path.exists(file_path):
         os.remove(file_path)
+
+
+@pytest.fixture(scope="session")
+def temp_product_items_file(request):
+    relative_directory = "./src/static/images/products/items"
+    directory = os.path.abspath(os.path.join(os.getcwd(), relative_directory))
+    os.makedirs(directory, exist_ok=True)
+
+    file_prefix = "test_product_item"
+    tmp_file = tempfile.NamedTemporaryFile(
+        suffix=".webp", prefix=file_prefix, dir=directory, delete=False
+    )
+    tmp_file.write(b"test_data")
+    tmp_file.close()
+
+    file_path = tmp_file.name
+
+    yield file_path
+
+    if os.path.exists(file_path):
+        os.remove(file_path)

@@ -11,9 +11,9 @@ from src.exceptions import (
 )
 from src.permissions import has_permission
 from src.products.categories.models import ProductCategory
+from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
 from src.variation_options.models import VariationOption
-from src.variation_options.utils import get_new_variation_option_data
 from src.variations.dao import VariationDAO
 from src.variations.models import Variation
 
@@ -152,7 +152,7 @@ class VariationOptionDAO(BaseDAO):
             if not await VariationDAO.validate_by_id(data["variation_id"]):
                 raise_http_exception(VariationNotFoundException)
 
-        new_variation_option_data = get_new_variation_option_data(
+        new_variation_option_data = get_new_data(
             current_variation_option, data
         )
 

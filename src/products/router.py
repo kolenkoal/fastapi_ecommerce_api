@@ -5,6 +5,7 @@ from starlette import status
 
 from src.auth.auth import current_user
 from src.exceptions import (
+    ProductItemsNotFoundException,
     ProductNotFoundException,
     ProductsNotFoundException,
     raise_http_exception,
@@ -12,6 +13,7 @@ from src.exceptions import (
 from src.products.categories.router import router as categories_router
 from src.products.dao import ProductDAO
 from src.products.items.router import router as items_router
+from src.products.items.schemas import SProductWithItems
 from src.products.schemas import (
     SProduct,
     SProductCreate,
@@ -20,7 +22,7 @@ from src.products.schemas import (
     SProductWithCategory,
 )
 from src.responses import (
-    DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE,
+    DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_RESPONSE,
     PRODUCT_NOT_FOUND,
     PRODUCTS_NOT_FOUND,
     UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_PRODUCT_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
@@ -87,6 +89,24 @@ async def get_product(product_id: UUID):
     return product
 
 
+@router.get(
+    "/{product_id}/product_items",
+    name="Get all product items of product.",
+    response_model=SProductWithItems,
+    responses=PRODUCT_NOT_FOUND,
+)
+async def get_product_product_items(product_id: UUID):
+    product = await ProductDAO.get_product_product_items(product_id)
+
+    if not product:
+        raise_http_exception(ProductNotFoundException)
+
+    if not product.__dict__["product_items"]:
+        raise_http_exception(ProductItemsNotFoundException)
+
+    return product
+
+
 @router.patch(
     "/{product_id}",
     response_model=SProduct,
@@ -111,7 +131,7 @@ async def change_product(
     "/{product_id}",
     name="Delete certain product.",
     status_code=status.HTTP_204_NO_CONTENT,
-    responses=DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE,
+    responses=DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_RESPONSE,
 )
 async def delete_variation(
     product_id: UUID,

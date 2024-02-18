@@ -40,16 +40,3 @@ def add_is_default_to_every_user_address(user_data, subquery_result):
     user_data_dict["addresses"] = address_data_with_is_default
 
     return user_data_dict
-
-
-def get_new_address_data(current_address, address_data):
-    current_address_data = {
-        x.name: getattr(current_address, x.name)
-        for x in current_address.__table__.columns
-    }
-
-    new_address_data = {**current_address_data, **address_data}
-
-    new_address_data.pop("id")
-
-    return new_address_data

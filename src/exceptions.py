@@ -135,6 +135,11 @@ class ProductItemNotFoundException(EcommerceException):
     detail = "Product Item not found."
 
 
+class ProductItemsNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Product Items not found."
+
+
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."

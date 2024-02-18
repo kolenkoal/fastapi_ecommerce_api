@@ -12,9 +12,9 @@ from src.exceptions import (
 from src.permissions import has_permission
 from src.products.categories.dao import ProductCategoryDAO
 from src.products.categories.models import ProductCategory
+from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
 from src.variations.models import Variation
-from src.variations.utils import get_new_variation_data
 
 
 class VariationDAO(BaseDAO):
@@ -132,7 +132,7 @@ class VariationDAO(BaseDAO):
             ):
                 raise_http_exception(ProductCategoryNotFoundException)
 
-        new_variation_data = get_new_variation_data(current_variation, data)
+        new_variation_data = get_new_data(current_variation, data)
 
         existing_variation = await cls.find_one_or_none(**new_variation_data)
 

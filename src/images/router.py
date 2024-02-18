@@ -49,3 +49,29 @@ async def add_product_item_image(SKU, product_id: UUID, file: UploadFile):
         shutil.copyfileobj(file.file, file_object)
 
     return f"{SKU}_{product_id}.webp"
+
+
+@router.patch("/products/items")
+async def rename_product_item_image_file(
+    old_SKU: str,
+    old_product: UUID,
+    new_SKU: str,
+    new_product: UUID,
+):
+    old_path = f"src/static/images/products/items/{old_SKU}_{old_product}.webp"
+    new_path = f"src/static/images/products/items/{new_SKU}_{new_product}.webp"
+
+    if os.path.exists(old_path):
+        os.rename(old_path, new_path)
+        return f"{new_SKU}_{new_product}.webp"
+    return None
+
+
+@router.delete("/products/items")
+async def delete_product_item_file(SKU: str, product_id: UUID):
+    im_path = f"src/static/images/products/items/{SKU}_{product_id}.webp"
+
+    if os.path.exists(im_path):
+        os.remove(im_path)
+        return True
+    return False

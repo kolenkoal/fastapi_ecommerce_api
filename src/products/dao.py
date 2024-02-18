@@ -17,7 +17,7 @@ from src.images.router import (
 from src.permissions import has_permission
 from src.products.categories.dao import ProductCategoryDAO
 from src.products.models import Product
-from src.products.utils import get_new_product_data
+from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
 
 
@@ -58,9 +58,7 @@ class ProductDAO(BaseDAO):
         product_data.update({"product_image": uploaded_image_name})
 
         # Create the product
-        new_product = await cls._create(**product_data)
-
-        return new_product
+        return await cls._create(**product_data)
 
     @classmethod
     @manage_session
@@ -110,7 +108,7 @@ class ProductDAO(BaseDAO):
             ):
                 raise_http_exception(ProductCategoryNotFoundException)
 
-        new_product_data = get_new_product_data(current_product, data)
+        new_product_data = get_new_data(current_product, data)
 
         existing_product = await cls.find_one_or_none(
             name=new_product_data["name"],
@@ -132,7 +130,8 @@ class ProductDAO(BaseDAO):
 
         if new_file:
             data.update({"product_image": new_file})
-            return await cls.update_data(product_id, data)
+
+        return await cls.update_data(product_id, data)
 
     @classmethod
     @manage_session
@@ -157,3 +156,18 @@ class ProductDAO(BaseDAO):
 
         # Delete the product
         await cls.delete_certain_item(product_id)
+
+    @classmethod
+    @manage_session
+    async def get_product_product_items(cls, product_id, session=None):
+        query = (
+            select(cls.model)
+            .options(joinedload(cls.model.product_items))
+            .filter_by(id=product_id)
+        )
+
+        result = await session.execute(query)
+
+        product_category = result.unique().mappings().one_or_none()["Product"]
+
+        return product_category

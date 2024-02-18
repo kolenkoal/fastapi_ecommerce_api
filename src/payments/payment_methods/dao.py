@@ -14,10 +14,10 @@ from src.exceptions import (
     raise_http_exception,
 )
 from src.payments.payment_methods.models import UserPaymentMethod
-from src.payments.payment_methods.utils import get_new_payment_method_data
 from src.payments.payment_types.models import PaymentType
 from src.permissions import has_permission
 from src.users.models import User
+from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
 
 
@@ -485,7 +485,7 @@ class UserPaymentMethodDAO(BaseDAO):
             raise_http_exception(ForbiddenException)
 
         # Change values with new parameters
-        new_payment_method_data = get_new_payment_method_data(
+        new_payment_method_data = get_new_data(
             current_payment_method, payment_method_data
         )
 
