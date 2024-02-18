@@ -11,6 +11,7 @@ from src.exceptions import (
     WrongQuantityException,
 )
 from src.products.schemas import SProduct
+from src.variation_options.schemas import SVariationOption
 
 
 class SProductItemCreate(BaseModel):
@@ -97,6 +98,10 @@ class SProductItemWithProduct(BaseModel):
 
 class SProductWithItems(SProduct):
     product_items: list[SProductItem]
+
+
+class SProductItemWithVariations(SProductItem):
+    variations: list[SVariationOption]
 
 
 class SProductItems(BaseModel):

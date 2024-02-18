@@ -6,6 +6,7 @@ from starlette import status
 
 from src.auth.auth import current_user
 from src.exceptions import (
+    ProductConfigurationsNotFoundException,
     ProductItemNotFoundException,
     ProductItemsNotFoundException,
     raise_http_exception,
@@ -17,6 +18,7 @@ from src.products.items.schemas import (
     SProductItemCreateOptional,
     SProductItems,
     SProductItemWithProduct,
+    SProductItemWithVariations,
 )
 from src.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_NOT_FOUND_RESPONSE,
@@ -78,6 +80,26 @@ async def get_product_item(product_item_id: UUID):
 
     if not product_item:
         raise_http_exception(ProductItemNotFoundException)
+
+    return product_item
+
+
+@router.get(
+    "/{product_item_id}/configurations",
+    name="Get all product item configurations.",
+    response_model=SProductItemWithVariations,
+    responses=PRODUCT_ITEM_NOT_FOUND,
+)
+async def get_product_item_configurations(product_item_id: UUID):
+    product_item = await ProductItemDAO.get_product_item_configurations(
+        product_item_id
+    )
+
+    if not product_item:
+        raise_http_exception(ProductItemNotFoundException)
+
+    if not product_item.__dict__["variations"]:
+        raise_http_exception(ProductConfigurationsNotFoundException)
 
     return product_item
 

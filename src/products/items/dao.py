@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
@@ -143,3 +145,22 @@ class ProductItemDAO(BaseDAO):
 
         # Delete the product item
         await cls.delete_certain_item(product_item_id)
+
+    @classmethod
+    @manage_session
+    async def get_product_item_configurations(
+        cls, product_item_id: UUID, session=None
+    ):
+        query = (
+            select(cls.model)
+            .options(joinedload(cls.model.variations))
+            .filter_by(id=product_item_id)
+        )
+
+        result = await session.execute(query)
+
+        product_item_configurations = (
+            result.unique().mappings().one_or_none()["ProductItem"]
+        )
+
+        return product_item_configurations
