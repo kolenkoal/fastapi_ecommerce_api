@@ -9,6 +9,7 @@ from src.database import DATABASE_URL, Base
 from src.payments.payment_methods.models import UserPaymentMethod  # noqa
 from src.payments.payment_types.models import PaymentType  # noqa
 from src.products.categories.models import ProductCategory  # noqa
+from src.products.configurations.models import ProductConfiguration  # noqa
 from src.products.items.models import ProductItem  # noqa
 from src.products.models import Product  # noqa
 from src.users.models import User  # noqa

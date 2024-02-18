@@ -7,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database import Base
 from src.models import str20, uuidpk
 from src.products.items.utils import pick
+from src.variation_options.models import VariationOption
 
 
 class ProductItem(Base):
@@ -23,3 +24,8 @@ class ProductItem(Base):
     )
 
     product = relationship("Product", back_populates="product_items")
+
+    variations: Mapped[list["VariationOption"]] = relationship(  # noqa
+        back_populates="product_items",
+        secondary="product_configurations",
+    )

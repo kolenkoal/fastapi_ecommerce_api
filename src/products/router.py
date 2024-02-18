@@ -11,6 +11,7 @@ from src.exceptions import (
     raise_http_exception,
 )
 from src.products.categories.router import router as categories_router
+from src.products.configurations.router import router as configurations_router
 from src.products.dao import ProductDAO
 from src.products.items.router import router as items_router
 from src.products.items.schemas import SProductWithItems
@@ -35,6 +36,7 @@ router = APIRouter(prefix="/products", tags=["Products"])
 
 router.include_router(categories_router)
 router.include_router(items_router)
+router.include_router(configurations_router)
 
 
 @router.post(
