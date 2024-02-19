@@ -8,6 +8,7 @@ from src.countries.router import router as router_countries
 from src.images.router import router as router_images
 from src.payments.router import router as router_payments
 from src.products.router import router as router_products
+from src.shopping_carts.router import router as router_shopping_carts
 from src.users.router import router as router_users
 from src.variation_options.router import router as router_variation_options
 from src.variations.router import router as router_variations
@@ -42,3 +43,4 @@ app.include_router(router_variations)
 app.include_router(router_variation_options)
 app.include_router(router_products)
 app.include_router(router_images)
+app.include_router(router_shopping_carts)

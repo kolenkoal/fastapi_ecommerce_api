@@ -190,6 +190,11 @@ class PaymentMethodAlreadyExistsException(EcommerceException):
     detail = "You already have this payment method added."
 
 
+class UserAlreadyHasCartException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "User already has a cart."
+
+
 class ProductCategoryAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such product category already exists."
@@ -308,3 +313,8 @@ class ProductItemNotImplementedException(EcommerceException):
 class ProductConfigurationNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add product configuration."
+
+
+class ShoppingCartNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add shopping cart."

@@ -25,3 +25,5 @@ example_product_item = {
     "quantity_in_stock": 3,
     "product_id": "300f1712-a311-40da-94e1-acc569588fe9",
 }
+
+example_shopping_cart = {"user_id": "300f1712-a311-40da-94e1-acc569588fe9"}
