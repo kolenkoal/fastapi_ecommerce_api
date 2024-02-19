@@ -10,3 +10,7 @@ class SShoppingCartCreate(BaseModel):
 class SShoppingCart(BaseModel):
     id: UUID
     user_id: UUID
+
+
+class SShoppingCarts(BaseModel):
+    shopping_carts: list[SShoppingCart]

@@ -150,6 +150,16 @@ class ProductItemsNotFoundException(EcommerceException):
     detail = "Product Items not found."
 
 
+class ShoppingCartNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Shopping Cart not found."
+
+
+class ShoppingCartsNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Shopping Carts not found."
+
+
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."
@@ -223,6 +233,11 @@ class VariationOptionAlreadyExistsException(EcommerceException):
 class ProductAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such product already exists."
+
+
+class ShoppingCartAlreadyExistsException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Such shopping cart already exists."
 
 
 class ProductCategoryParentNotAllowed(EcommerceException):

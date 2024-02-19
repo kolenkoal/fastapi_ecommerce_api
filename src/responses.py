@@ -286,6 +286,36 @@ PRODUCT_ITEMS_NOT_FOUND = {
     },
 }
 
+CART_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Shopping cart not found.": {
+                        "summary": "Shopping cart not found.",
+                        "value": {"detail": "Shopping cart not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
+CARTS_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Shopping carts not found.": {
+                        "summary": "Shopping carts not found.",
+                        "value": {"detail": "Shopping carts not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 UNPROCESSABLE_ENTITY = {
     status.HTTP_422_UNPROCESSABLE_ENTITY: {
         "content": {
@@ -315,6 +345,12 @@ PAYMENT_TYPES_SUCCESS_NOT_FOUND_RESPONSE = {
 UNAUTHORIZED_FORBIDDEN_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
+}
+
+UNAUTHORIZED_FORBIDDEN_CARTS_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **CARTS_NOT_FOUND_RESPONSE,
 }
 
 UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE = {
@@ -376,6 +412,13 @@ DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_RESPONSE = {
     **PRODUCT_NOT_FOUND,
 }
 
+DELETED_UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE = {
+    **DELETED_RESPONSE,
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **CART_NOT_FOUND_RESPONSE,
+}
+
 DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CONFIGURATION_NOT_FOUND_RESPONSE = {
     **DELETED_RESPONSE,
     **UNAUTHORIZED_RESPONSE,
@@ -414,6 +457,13 @@ UNAUTHORIZED_FORBIDDEN_PARENT_CATEGORY_NOT_FOUND_UNPROCESSABLE_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **PARENT_CATEGORY_NOT_FOUND,
+    **UNPROCESSABLE_ENTITY,
+}
+
+UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **CART_NOT_FOUND_RESPONSE,
     **UNPROCESSABLE_ENTITY,
 }
 
