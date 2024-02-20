@@ -1,9 +1,11 @@
 from src.dao import BaseDAO
 from src.exceptions import (
+    ForbiddenException,
     ProductItemNotFoundException,
     ShoppingCartNotFoundException,
     raise_http_exception,
 )
+from src.permissions import has_permission
 from src.products.items.dao import ProductItemDAO
 from src.shopping_carts.dao import ShoppingCartDAO
 from src.shopping_carts.items.models import ShoppingCartItem
@@ -15,17 +17,25 @@ class ShoppingCartItemDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def add(cls, shopping_cart_item_data, user, session=None):
+    async def add(
+        cls, shopping_cart_id, shopping_cart_item_data, user, session=None
+    ):
         shopping_cart_item_data = shopping_cart_item_data.model_dump()
 
         # Get user's shopping cart
         user_shopping_cart = await ShoppingCartDAO.find_one_or_none(
-            user_id=user.id
+            id=shopping_cart_id
         )
 
         # if shopping cart does not exist
         if not user_shopping_cart:
             raise_http_exception(ShoppingCartNotFoundException)
+
+        if (
+            not await has_permission(user)
+            and user.id != user_shopping_cart.user_id
+        ):
+            raise_http_exception(ForbiddenException)
 
         # Check if product item exists
         await cls._check_product_item_exists(
