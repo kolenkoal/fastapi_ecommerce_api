@@ -35,11 +35,7 @@ class SProductItemCreate(BaseModel):
     @classmethod
     def validate_quantity_in_stock(
         cls, value
-    ) -> Union[
-        Decimal,
-        Type[QuantityLessThanZeroException],
-        Type[WrongQuantityException],
-    ]:
+    ) -> Union[int, Type[QuantityLessThanZeroException],]:
         if int(value) < 0:
             raise QuantityLessThanZeroException
 

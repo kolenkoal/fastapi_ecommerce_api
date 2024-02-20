@@ -18,3 +18,5 @@ class ShoppingCart(Base):
     )
 
     user = relationship("User", back_populates="shopping_cart")
+
+    cart_items = relationship("ShoppingCartItem", back_populates="cart")

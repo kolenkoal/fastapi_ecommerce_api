@@ -21,6 +21,9 @@ from src.responses import (
     UNAUTHORIZED_FORBIDDEN_RESPONSE,
 )
 from src.shopping_carts.dao import ShoppingCartDAO
+from src.shopping_carts.items.router import (
+    router as router_shopping_cart_items,
+)
 from src.shopping_carts.schemas import (
     SShoppingCart,
     SShoppingCartCreate,
@@ -119,3 +122,6 @@ async def delete_variation(
 
     if not shopping_cart:
         return {"detail": "The shopping_cart was deleted."}
+
+
+router.include_router(router_shopping_cart_items)

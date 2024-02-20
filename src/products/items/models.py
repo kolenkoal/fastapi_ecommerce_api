@@ -29,3 +29,5 @@ class ProductItem(Base):
         back_populates="product_items",
         secondary="product_configurations",
     )
+
+    cart_items = relationship("ShoppingCartItem", back_populates="item")

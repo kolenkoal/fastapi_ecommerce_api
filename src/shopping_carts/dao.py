@@ -22,6 +22,9 @@ class ShoppingCartDAO(BaseDAO):
     @classmethod
     @manage_session
     async def add(cls, shopping_cart_data, user, session=None):
+        if not await has_permission(user):
+            raise_http_exception(ForbiddenException)
+
         shopping_cart_data = shopping_cart_data.model_dump()
 
         await cls._check_cart_exists(user)

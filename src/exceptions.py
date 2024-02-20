@@ -333,3 +333,8 @@ class ProductConfigurationNotImplementedException(EcommerceException):
 class ShoppingCartNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add shopping cart."
+
+
+class ShoppingCartItemNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add shopping cart item."
