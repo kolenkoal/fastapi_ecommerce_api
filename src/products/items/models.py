@@ -7,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database import Base
 from src.models import str20, uuidpk
 from src.products.items.utils import pick
+from src.shopping_carts.models import ShoppingCart  # noqa
 from src.variation_options.models import VariationOption
 
 
@@ -30,4 +31,7 @@ class ProductItem(Base):
         secondary="product_configurations",
     )
 
-    cart_items = relationship("ShoppingCartItem", back_populates="item")
+    # carts: Mapped[list["ShoppingCart"]] = relationship(  # noqa
+    #     back_populates="items",
+    #     secondary="shopping_cart_items",
+    # )

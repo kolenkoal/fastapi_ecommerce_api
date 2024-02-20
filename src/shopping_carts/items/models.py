@@ -20,4 +20,3 @@ class ShoppingCartItem(Base):
     quantity: Mapped[int] = mapped_column(default=1)
 
     cart = relationship("ShoppingCart", back_populates="cart_items")
-    item = relationship("ProductItem", back_populates="cart_items")

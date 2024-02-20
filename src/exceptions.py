@@ -160,6 +160,11 @@ class ShoppingCartsNotFoundException(EcommerceException):
     detail = "Shopping Carts not found."
 
 
+class ShoppingCartItemsNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Shopping Cart Items not found."
+
+
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."
@@ -275,6 +280,11 @@ class QuantityLessThanZeroException(EcommerceException):
     detail = "Quantity should be more than zero."
 
 
+class QuantityLessThanOneException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Quantity should be at least one."
+
+
 class WrongVariationNameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid Variation Name."
@@ -298,6 +308,11 @@ class ExpiredCardException(EcommerceException):
 class InvalidCardException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Card number should have 16 digits."
+
+
+class QuantityOfProductItemIsMoreThanInStockException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Quantity Of the Product Item is More Than In Stock"
 
 
 class AddressNotImplementedException(EcommerceException):
