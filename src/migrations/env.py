@@ -12,6 +12,7 @@ from src.products.categories.models import ProductCategory  # noqa
 from src.products.configurations.models import ProductConfiguration  # noqa
 from src.products.items.models import ProductItem  # noqa
 from src.products.models import Product  # noqa
+from src.shipping_methods.models import ShippingMethod  # noqa
 from src.shopping_carts.items.models import ShoppingCartItem  # noqa
 from src.shopping_carts.models import ShoppingCart  # noqa
 from src.users.models import User  # noqa

@@ -31,3 +31,5 @@ example_shopping_cart = {"user_id": "300f1712-a311-40da-94e1-acc569588fe9"}
 example_shopping_cart_item = {
     "product_item_id": "300f1712-a311-40da-94e1-acc569588fe9",
 }
+
+example_shipping_method = {"name": "Standard", "price": 5.99}

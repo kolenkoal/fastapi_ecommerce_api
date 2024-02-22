@@ -30,8 +30,3 @@ class ProductItem(Base):
         back_populates="product_items",
         secondary="product_configurations",
     )
-
-    # carts: Mapped[list["ShoppingCart"]] = relationship(  # noqa
-    #     back_populates="items",
-    #     secondary="shopping_cart_items",
-    # )

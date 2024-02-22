@@ -135,6 +135,16 @@ class PaymentMethodNotFoundException(EcommerceException):
     detail = "Payment Method not found."
 
 
+class ShippingMethodsNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Shipping Methods not found."
+
+
+class ShippingMethodNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Shipping Method not found."
+
+
 class PaymentMethodsNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Payment Methods not found."
@@ -208,6 +218,16 @@ class UserAlreadyHasThisAddress(EcommerceException):
 class PaymentMethodAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "You already have this payment method added."
+
+
+class ShippingMethodAlreadyExistsException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Such shipping method already exists."
+
+
+class ShippingMethodWithNameAlreadyExistsException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Shipping method with new name already exists."
 
 
 class UserAlreadyHasCartException(EcommerceException):
@@ -358,3 +378,8 @@ class ShoppingCartNotImplementedException(EcommerceException):
 class ShoppingCartItemNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add shopping cart item."
+
+
+class ShippingMethodNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add shipping method."

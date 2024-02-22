@@ -121,6 +121,36 @@ PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
     },
 }
 
+SHIPPING_METHOD_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Shipping method not found.": {
+                        "summary": "Shipping method not found.",
+                        "value": {"detail": "Shipping method not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
+SHIPPING_METHODS_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Shipping methods not found.": {
+                        "summary": "Shipping methods not found.",
+                        "value": {"detail": "Shipping methods not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 PARENT_CATEGORY_NOT_FOUND = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -362,6 +392,12 @@ UNAUTHORIZED_FORBIDDEN_RESPONSE = {
     **FORBIDDEN_RESPONSE,
 }
 
+UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **SHIPPING_METHOD_NOT_FOUND_RESPONSE,
+}
+
 UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_OR_CART_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
@@ -400,6 +436,12 @@ UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **PRODUCT_CATEGORY_NOT_FOUND,
+}
+
+UNAUTHORIZED_FORBIDDEN_UNPROCESSABLE_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **UNPROCESSABLE_ENTITY,
 }
 
 UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
@@ -469,6 +511,13 @@ DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CONFIGURATION_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **PRODUCT_ITEM_OR_VARIATION_OPTION_NOT_FOUND_RESPONSE,
+}
+
+DELETED_UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE = {
+    **DELETED_RESPONSE,
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **SHIPPING_METHOD_NOT_FOUND_RESPONSE,
 }
 
 DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCTS_NOT_FOUND_RESPONSE = {

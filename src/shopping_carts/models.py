@@ -20,9 +20,4 @@ class ShoppingCart(Base):
 
     user = relationship("User", back_populates="shopping_cart")
 
-    # items: Mapped[list["ProductItem"]] = relationship(  # noqa
-    #     back_populates="carts",
-    #     secondary="shopping_cart_items",
-    # )
-
     cart_items = relationship("ShoppingCartItem", back_populates="cart")
