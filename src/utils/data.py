@@ -285,3 +285,17 @@ product_sub_sub_categories_data = [
     {"name": "Handbacks", "parent_category_id": 11},
     {"name": "Toge Bags", "parent_category_id": 11},
 ]
+
+shipping_methods_data = [
+    {"name": "Standard", "price": 5.99},
+    {"name": "Express", "price": 12.99},
+    {"name": "Same-Day", "price": 19.99},
+]
+
+order_statuses_data = [
+    {"status": "Pending"},
+    {"status": "Processing"},
+    {"status": "Shipped"},
+    {"status": "Delivered"},
+    {"status": "Cancelled"},
+]

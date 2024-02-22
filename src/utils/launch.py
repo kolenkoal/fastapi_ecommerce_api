@@ -4,6 +4,9 @@ import sys
 
 from sqlalchemy import select
 
+from src.orders.statuses.models import OrderStatus
+from src.shipping_methods.models import ShippingMethod
+
 
 current_file_path = os.path.abspath(__file__)
 
@@ -24,11 +27,13 @@ from src.users.models import Role, User  # noqa
 from src.utils.data import (  # noqa
     admin_data,
     countries_data,
+    order_statuses_data,
     payment_types_data,
     product_categories_data,
     product_sub_categories_data,
     product_sub_sub_categories_data,
     roles_data,
+    shipping_methods_data,
 )
 from src.utils.hasher import Hasher  # noqa
 
@@ -116,6 +121,34 @@ async def insert_initial_values():
             for data in product_sub_sub_categories_data:
                 product_category = ProductCategory(**data)
                 session.add(product_category)
+                await session.commit()
+
+        async with async_session_factory() as session:
+            query = select(ShippingMethod).filter_by(name="Standard")
+
+            result = await session.execute(query)
+
+            shipping_method = result.one_or_none()
+
+            if not shipping_method:
+                for data in shipping_methods_data:
+                    shipping_method = ShippingMethod(**data)
+                    session.add(shipping_method)
+
+                await session.commit()
+
+        async with async_session_factory() as session:
+            query = select(OrderStatus).filter_by(name="Pending")
+
+            result = await session.execute(query)
+
+            order_status = result.one_or_none()
+
+            if not order_status:
+                for data in order_statuses_data:
+                    order_status = OrderStatus(**data)
+                    session.add(order_status)
+
                 await session.commit()
 
 

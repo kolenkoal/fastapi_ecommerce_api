@@ -151,6 +151,36 @@ SHIPPING_METHODS_NOT_FOUND_RESPONSE = {
     },
 }
 
+ORDER_STATUS_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Order status not found.": {
+                        "summary": "Order status not found.",
+                        "value": {"detail": "Order status not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
+ORDER_STATUSES_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Order statuses not found.": {
+                        "summary": "Order statuses not found.",
+                        "value": {"detail": "Order statuses not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 PARENT_CATEGORY_NOT_FOUND = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -398,6 +428,12 @@ UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE = {
     **SHIPPING_METHOD_NOT_FOUND_RESPONSE,
 }
 
+UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **ORDER_STATUS_NOT_FOUND_RESPONSE,
+}
+
 UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_OR_CART_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
@@ -475,6 +511,13 @@ DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **PRODUCT_CATEGORY_NOT_FOUND,
+}
+
+DELETED_UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE = {
+    **DELETED_RESPONSE,
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **ORDER_STATUS_NOT_FOUND_RESPONSE,
 }
 
 DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE = {

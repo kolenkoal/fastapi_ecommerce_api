@@ -6,6 +6,7 @@ from src.addresses.router import router as router_addresses
 from src.auth.router import router as router_auth
 from src.countries.router import router as router_countries
 from src.images.router import router as router_images
+from src.orders.router import router as router_orders
 from src.payments.router import router as router_payments
 from src.products.router import router as router_products
 from src.shipping_methods.router import router as router_shipping_methods
@@ -46,3 +47,4 @@ app.include_router(router_products)
 app.include_router(router_images)
 app.include_router(router_shopping_carts)
 app.include_router(router_shipping_methods)
+app.include_router(router_orders)

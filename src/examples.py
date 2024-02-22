@@ -33,3 +33,5 @@ example_shopping_cart_item = {
 }
 
 example_shipping_method = {"name": "Standard", "price": 5.99}
+
+example_order_status = {"status": "Pending"}
