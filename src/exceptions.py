@@ -160,6 +160,11 @@ class ShoppingCartsNotFoundException(EcommerceException):
     detail = "Shopping Carts not found."
 
 
+class ShoppingCartItemNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Shopping Cart Item not found."
+
+
 class ShoppingCartItemsNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Shopping Cart Items not found."

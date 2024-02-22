@@ -316,6 +316,21 @@ CARTS_NOT_FOUND_RESPONSE = {
     },
 }
 
+SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Shopping cart item not found.": {
+                        "summary": "Shopping cart item not found.",
+                        "value": {"detail": "Shopping cart item not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 UNPROCESSABLE_ENTITY = {
     status.HTTP_422_UNPROCESSABLE_ENTITY: {
         "content": {
@@ -359,6 +374,14 @@ UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEMS_OR_CART_NOT_FOUND_RESPONSE = {
     **FORBIDDEN_RESPONSE,
     **PRODUCT_ITEMS_NOT_FOUND,
     **CART_NOT_FOUND_RESPONSE,
+}
+
+UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEMS_OR_CART_OR_SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **PRODUCT_ITEMS_NOT_FOUND,
+    **CART_NOT_FOUND_RESPONSE,
+    **SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE,
 }
 
 UNAUTHORIZED_FORBIDDEN_CARTS_NOT_FOUND_RESPONSE = {
@@ -430,6 +453,14 @@ DELETED_UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE = {
     **DELETED_RESPONSE,
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
+    **CART_NOT_FOUND_RESPONSE,
+}
+
+DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEMS_OR_CART_NOT_FOUND_RESPONSE = {
+    **DELETED_RESPONSE,
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE,
     **CART_NOT_FOUND_RESPONSE,
 }
 

@@ -95,7 +95,7 @@ async def get_shopping_cart(
     name="Change certain shopping cart.",
     responses=UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
 )
-async def change_variation(
+async def change_shopping_cart_item(
     shopping_cart_id: UUID,
     data: SShoppingCartCreate,
     user: User = Depends(current_user),
@@ -114,14 +114,14 @@ async def change_variation(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE,
 )
-async def delete_variation(
+async def delete_shopping_cart(
     shopping_cart_id: UUID,
     user: User = Depends(current_user),
 ):
     shopping_cart = await ShoppingCartDAO.delete(user, shopping_cart_id)
 
     if not shopping_cart:
-        return {"detail": "The shopping_cart was deleted."}
+        return {"detail": "The shopping cart was deleted."}
 
 
 router.include_router(router_shopping_cart_items)

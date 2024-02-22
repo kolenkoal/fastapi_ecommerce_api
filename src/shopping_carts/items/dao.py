@@ -6,6 +6,7 @@ from src.exceptions import (
     ForbiddenException,
     ProductItemNotFoundException,
     QuantityOfProductItemIsMoreThanInStockException,
+    ShoppingCartItemNotFoundException,
     ShoppingCartNotFoundException,
     raise_http_exception,
 )
@@ -140,3 +141,44 @@ class ShoppingCartItemDAO(BaseDAO):
         )
 
         return shopping_cart_items[0]["ShoppingCart"]
+
+    @classmethod
+    @manage_session
+    async def change(
+        cls, shopping_cart_id, shopping_cart_item_id, user, data, session=None
+    ):
+        data = data.model_dump(exclude_unset=True)
+
+        await cls._check_and_get_shopping_cart(shopping_cart_id, user)
+
+        current_shopping_cart_item = await cls.find_one_or_none(
+            id=shopping_cart_item_id
+        )
+
+        if not current_shopping_cart_item:
+            raise_http_exception(ShoppingCartItemNotFoundException)
+
+        await cls._check_quantity(
+            current_shopping_cart_item.product_item_id, data["quantity"]
+        )
+
+        return await cls.update_data(
+            current_shopping_cart_item.id,
+            {"quantity": data["quantity"]},
+        )
+
+    @classmethod
+    @manage_session
+    async def delete(
+        cls, user, shopping_cart_id, shopping_cart_item_id, session=None
+    ):
+        await cls._check_and_get_shopping_cart(shopping_cart_id, user)
+
+        # Get current shopping cart item
+        shopping_cart_item = await cls.validate_by_id(shopping_cart_item_id)
+
+        if not shopping_cart_item:
+            raise_http_exception(ShoppingCartItemNotFoundException)
+
+        # Delete the shopping cart item
+        await cls.delete_certain_item(shopping_cart_item.id)
