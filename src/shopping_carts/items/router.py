@@ -66,6 +66,9 @@ async def get_all_shopping_cart_items(
     if not shopping_cart_items:
         raise_http_exception(ShoppingCartItemsNotFoundException)
 
+    if not shopping_cart_items.__dict__["cart_items"]:
+        raise_http_exception(ShoppingCartItemsNotFoundException)
+
     return shopping_cart_items
 
 
