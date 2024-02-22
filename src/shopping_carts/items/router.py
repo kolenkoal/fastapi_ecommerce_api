@@ -96,7 +96,7 @@ async def change_shopping_cart_item(
 
 @router.delete(
     "/{shopping_cart_item_id}",
-    name="Delete certain shopping cart.",
+    name="Delete certain shopping cart item.",
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEMS_OR_CART_NOT_FOUND_RESPONSE,
 )

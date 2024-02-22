@@ -67,8 +67,6 @@ async def test_create_product_configuration(admin_ac):
         json=product_configuration_data,
     )
 
-    print(response.json())
-
     assert response.status_code == 200
 
 
