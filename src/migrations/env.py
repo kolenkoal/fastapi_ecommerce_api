@@ -6,6 +6,8 @@ from sqlalchemy import engine_from_config, pool
 from src.addresses.models import Address  # noqa
 from src.countries.models import Country  # noqa
 from src.database import DATABASE_URL, Base
+from src.orders.lines.models import OrderLine  # noqa
+from src.orders.models import ShopOrder  # noqa
 from src.orders.statuses.models import OrderStatus  # noqa
 from src.payments.payment_methods.models import UserPaymentMethod  # noqa
 from src.payments.payment_types.models import PaymentType  # noqa

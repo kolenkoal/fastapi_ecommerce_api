@@ -49,3 +49,4 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
 
     payment_methods = relationship("UserPaymentMethod", back_populates="user")
     shopping_cart = relationship("ShoppingCart", back_populates="user")
+    orders = relationship("ShopOrder", back_populates="user")

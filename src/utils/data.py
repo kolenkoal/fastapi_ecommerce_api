@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from src.config import settings
 
 
@@ -287,9 +289,9 @@ product_sub_sub_categories_data = [
 ]
 
 shipping_methods_data = [
-    {"name": "Standard", "price": 5.99},
-    {"name": "Express", "price": 12.99},
-    {"name": "Same-Day", "price": 19.99},
+    {"name": "Standard", "price": Decimal("5.99")},
+    {"name": "Express", "price": Decimal("12.99")},
+    {"name": "Same-Day", "price": Decimal("19.99")},
 ]
 
 order_statuses_data = [

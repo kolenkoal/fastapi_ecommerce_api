@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import str256, uuidpk
+from src.products.items.models import ProductItem  # noqa
 
 
 class Product(Base):

@@ -4,9 +4,6 @@ import sys
 
 from sqlalchemy import select
 
-from src.orders.statuses.models import OrderStatus
-from src.shipping_methods.models import ShippingMethod
-
 
 current_file_path = os.path.abspath(__file__)
 
@@ -21,8 +18,10 @@ sys.path.insert(1, os.path.dirname(grandparent_dir))
 from src.config import settings  # noqa
 from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
+from src.orders.statuses.models import OrderStatus  # noqa
 from src.payments.payment_types.models import PaymentType  # noqa
-from src.product_categories.models import ProductCategory  # noqa
+from src.products.categories.models import ProductCategory  # noqa
+from src.shipping_methods.models import ShippingMethod  # noqa
 from src.users.models import Role, User  # noqa
 from src.utils.data import (  # noqa
     admin_data,
@@ -138,7 +137,7 @@ async def insert_initial_values():
                 await session.commit()
 
         async with async_session_factory() as session:
-            query = select(OrderStatus).filter_by(name="Pending")
+            query = select(OrderStatus).filter_by(status="Pending")
 
             result = await session.execute(query)
 
