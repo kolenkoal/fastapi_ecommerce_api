@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from src.auth.auth import current_user
-from src.exceptions import ShopOrderNotFoundException
+from src.exceptions import ShopOrderNotImplementedException
 from src.orders.dao import ShopOrderDAO
 from src.orders.lines.router import router as router_lines
 from src.orders.schemas import SShopOrder, SShopOrderCreate
@@ -30,6 +30,6 @@ async def create_shop_order(
     shop_order = await ShopOrderDAO.add(user, shop_order_data)
 
     if not shop_order:
-        raise ShopOrderNotFoundException
+        raise ShopOrderNotImplementedException
 
     return shop_order

@@ -270,6 +270,11 @@ class UserAlreadyHasCartException(EcommerceException):
     detail = "User already has a cart."
 
 
+class UserDoesNotHaveCartException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "User does not have a cart."
+
+
 class ProductCategoryAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such product category already exists."
@@ -423,3 +428,8 @@ class ShippingMethodNotImplementedException(EcommerceException):
 class OrderStatusNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add order status."
+
+
+class ShopOrderNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add shop order."

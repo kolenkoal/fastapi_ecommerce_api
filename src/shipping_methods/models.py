@@ -13,4 +13,4 @@ class ShippingMethod(Base):
     name: Mapped[str256]
     price: Mapped[Decimal] = mapped_column(nullable=False)
 
-    orders = relationship("ShippingMethod", back_populates="shipping_method")
+    orders = relationship("ShopOrder", back_populates="shipping_method")

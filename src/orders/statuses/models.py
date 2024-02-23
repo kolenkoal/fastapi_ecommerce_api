@@ -10,4 +10,4 @@ class OrderStatus(Base):
     id: Mapped[int] = mapped_column(primary_key=True, unique=False)
     status: Mapped[str20]
 
-    orders = relationship("OrderStatus", back_populates="order_status")
+    orders = relationship("ShopOrder", back_populates="order_status")

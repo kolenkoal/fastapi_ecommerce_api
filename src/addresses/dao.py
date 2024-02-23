@@ -224,8 +224,8 @@ class AddressDAO(BaseDAO):
         if "country_id" in address_data:
             await cls._validate_country(address_data["country_id"])
 
-        address_users_ids = await cls._get_address_users_ids(address_id)
-        await cls._validate_existing_address(user, address_users_ids)
+        address_users_ids = await cls.get_address_users_ids(address_id)
+        await cls.validate_existing_address(user, address_users_ids)
 
         current_address = await cls._get_current_address(address_id)
 
@@ -249,7 +249,7 @@ class AddressDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def _validate_existing_address(
+    async def validate_existing_address(
         cls, user, address_users_ids, session=None
     ):
         if user.id not in address_users_ids and not await has_permission(user):
@@ -289,7 +289,7 @@ class AddressDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def _get_address_users_ids(cls, address_id: UUID, session=None):
+    async def get_address_users_ids(cls, address_id: UUID, session=None):
         get_address_users_ids_query = (
             select(UserAddress.user_id)
             .select_from(UserAddress)
@@ -535,7 +535,7 @@ class AddressDAO(BaseDAO):
     @classmethod
     @manage_session
     async def delete_address(cls, user, address_id: UUID, session=None):
-        address_users_ids = await cls._get_address_users_ids(address_id)
+        address_users_ids = await cls.get_address_users_ids(address_id)
 
         if len(address_users_ids) < 1:
             if not await has_permission(user):

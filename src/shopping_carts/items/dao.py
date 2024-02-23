@@ -50,7 +50,7 @@ class ShoppingCartItemDAO(BaseDAO):
         if not existing_shopping_cart_item:
             quantity = 1
 
-            await cls._check_quantity(
+            await cls.check_quantity(
                 shopping_cart_item_data["product_item_id"], quantity
             )
 
@@ -63,7 +63,7 @@ class ShoppingCartItemDAO(BaseDAO):
         # If it exists, just add quantity
         new_quantity = existing_shopping_cart_item.quantity + 1
 
-        await cls._check_quantity(
+        await cls.check_quantity(
             shopping_cart_item_data["product_item_id"], new_quantity
         )
 
@@ -74,7 +74,7 @@ class ShoppingCartItemDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def _check_quantity(cls, product_item_id, quantity, session=None):
+    async def check_quantity(cls, product_item_id, quantity, session=None):
         get_product_item_quantity_query = select(
             ProductItem.quantity_in_stock
         ).where(ProductItem.id == product_item_id)
@@ -158,7 +158,7 @@ class ShoppingCartItemDAO(BaseDAO):
         if not current_shopping_cart_item:
             raise_http_exception(ShoppingCartItemNotFoundException)
 
-        await cls._check_quantity(
+        await cls.check_quantity(
             current_shopping_cart_item.product_item_id, data["quantity"]
         )
 
