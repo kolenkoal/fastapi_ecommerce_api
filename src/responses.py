@@ -391,6 +391,21 @@ SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE = {
     },
 }
 
+ORDER_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Shop Order not found.": {
+                        "summary": "Shop Order not found.",
+                        "value": {"detail": "Shop Order not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 UNPROCESSABLE_ENTITY = {
     status.HTTP_422_UNPROCESSABLE_ENTITY: {
         "content": {
@@ -670,4 +685,19 @@ UNAUTHORIZED_ADDRESS_NOT_FOUND_RESPONSE = {
 UNAUTHORIZED_PAYMENT_METHODS_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **PAYMENT_METHODS_NOT_FOUND_RESPONSE,
+}
+
+UNAUTHORIZED_PAYMENT_OR_SHIPPING_METHOD_ADDRESS_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **PAYMENT_METHOD_NOT_FOUND_RESPONSE,
+    **SHIPPING_METHOD_NOT_FOUND_RESPONSE,
+    **ADDRESS_NOT_FOUND_RESPONSE,
+    **UNPROCESSABLE_ENTITY,
+}
+
+UNAUTHORIZED_PRODUCT_ITEM_ADDRESS_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **PRODUCT_ITEM_NOT_FOUND,
+    **ORDER_NOT_FOUND_RESPONSE,
+    **UNPROCESSABLE_ENTITY,
 }

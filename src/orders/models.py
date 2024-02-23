@@ -17,7 +17,7 @@ class ShopOrder(Base):
         ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
     order_date: Mapped[date] = mapped_column(nullable=False)
-    payment_method_id: Mapped[int] = mapped_column(
+    payment_method_id: Mapped[UUID] = mapped_column(
         ForeignKey("user_payment_methods.id", ondelete="CASCADE"),
         nullable=False,
     )
@@ -37,4 +37,4 @@ class ShopOrder(Base):
     shipping_address = relationship("Address", back_populates="orders")
     shipping_method = relationship("ShippingMethod", back_populates="orders")
     order_status = relationship("OrderStatus", back_populates="orders")
-    lines_in_order = relationship("OrderLine", back_populates="order")
+    products_in_order = relationship("OrderLine", back_populates="order")

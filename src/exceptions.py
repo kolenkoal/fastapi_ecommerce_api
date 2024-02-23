@@ -190,6 +190,26 @@ class ShoppingCartItemsNotFoundException(EcommerceException):
     detail = "Shopping Cart Items not found."
 
 
+class ShopOrderNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Shop Order not found."
+
+
+class ShopOrdersNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Shop Orders not found."
+
+
+class OrderLineNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Order Line not found."
+
+
+class OrderLinesNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Order Lines not found."
+
+
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."

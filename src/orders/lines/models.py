@@ -21,5 +21,7 @@ class OrderLine(Base):
     quantity: Mapped[int] = mapped_column(default=1)
     price: Mapped[Decimal] = mapped_column(nullable=False)
 
-    product_item = relationship("ProductItem", back_populates="lines_in_order")
-    order = relationship("ShopOrder", back_populates="lines_in_order")
+    product_item = relationship(
+        "ProductItem", back_populates="products_in_order"
+    )
+    order = relationship("ShopOrder", back_populates="products_in_order")
