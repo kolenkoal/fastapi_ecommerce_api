@@ -151,6 +151,36 @@ SHIPPING_METHODS_NOT_FOUND_RESPONSE = {
     },
 }
 
+SHOP_ORDERS_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Shop orders not found.": {
+                        "summary": "Shop orders not found.",
+                        "value": {"detail": "Shop orders not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
+SHOP_ORDER_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Shop order not found.": {
+                        "summary": "Shop order not found.",
+                        "value": {"detail": "Shop order not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 ORDER_STATUS_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -437,6 +467,23 @@ UNAUTHORIZED_FORBIDDEN_RESPONSE = {
     **FORBIDDEN_RESPONSE,
 }
 
+UNAUTHORIZED_SHOP_ORDERS_NOT_FOUND = {
+    **UNAUTHORIZED_RESPONSE,
+    **SHOP_ORDERS_NOT_FOUND_RESPONSE,
+}
+
+UNAUTHORIZED_FORBIDDEN_SHOP_ORDERS_NOT_FOUND = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **SHOP_ORDERS_NOT_FOUND_RESPONSE,
+}
+
+UNAUTHORIZED_FORBIDDEN_SHOP_ORDER_NOT_FOUND = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **SHOP_ORDER_NOT_FOUND_RESPONSE,
+}
+
 UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
@@ -569,6 +616,12 @@ DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CONFIGURATION_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **PRODUCT_ITEM_OR_VARIATION_OPTION_NOT_FOUND_RESPONSE,
+}
+
+DELETED_UNAUTHORIZED_SHOP_ORDER_NOT_FOUND = {
+    **DELETED_RESPONSE,
+    **UNAUTHORIZED_RESPONSE,
+    **SHOP_ORDER_NOT_FOUND_RESPONSE,
 }
 
 DELETED_UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE = {

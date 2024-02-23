@@ -1,23 +1,29 @@
 from datetime import date, timedelta
 
-from sqlalchemy import delete
+from sqlalchemy import delete, select
 
 from src.addresses.dao import AddressDAO
 from src.dao import BaseDAO
 from src.exceptions import (
     AddressNotFoundException,
     ExpiredCardException,
+    ForbiddenException,
+    OrderStatusNotFoundException,
     ProductItemNotFoundException,
     ShippingMethodNotFoundException,
+    ShopOrderAlreadyExistsException,
+    ShopOrderNotFoundException,
     ShoppingCartItemsNotFoundException,
     UserDoesNotHaveCartException,
     raise_http_exception,
 )
+from src.orders.lines.models import OrderLine
 from src.orders.lines.router import create_order_line
 from src.orders.lines.schemas import SOrderLineCreate
 from src.orders.models import ShopOrder
 from src.orders.statuses.dao import OrderStatusDAO
 from src.payments.payment_methods.dao import UserPaymentMethodDAO
+from src.permissions import has_permission
 from src.products.items.dao import ProductItemDAO
 from src.shipping_methods.dao import ShippingMethodDAO
 from src.shopping_carts.dao import ShoppingCartDAO
@@ -25,6 +31,7 @@ from src.shopping_carts.items.dao import ShoppingCartItemDAO
 from src.shopping_carts.items.models import ShoppingCartItem
 from src.shopping_carts.items.router import get_all_shopping_cart_items
 from src.users.models import User
+from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
 
 
@@ -183,6 +190,83 @@ class ShopOrderDAO(BaseDAO):
         )
 
         await session.execute(delete_query)
+        await session.commit()
+
+        return None
+
+    @classmethod
+    @manage_session
+    async def find_all(cls, user, session=None):
+        query = (
+            select(cls.model)
+            .where(cls.model.user_id == user.id)
+            .order_by(cls.model.order_total)
+        )
+
+        result = await session.execute(query)
+
+        values = result.scalars().all()
+
+        return values
+
+    @classmethod
+    @manage_session
+    async def change(cls, shop_order_id, user, data, session=None):
+        data = data.model_dump(exclude_unset=True)
+
+        if not await has_permission(user):
+            raise_http_exception(ForbiddenException)
+
+        current_shop_order = await cls.find_one_or_none(id=shop_order_id)
+
+        if not current_shop_order:
+            return None
+
+        if not data:
+            return current_shop_order
+
+        if "order_status_id" in data:
+            order_status = await OrderStatusDAO.find_one_or_none(
+                id=data["order_status_id"]
+            )
+
+            if not order_status:
+                raise_http_exception(OrderStatusNotFoundException)
+
+        new_shop_order = get_new_data(current_shop_order, data)
+
+        existing_shop_order = await cls.find_one_or_none(**new_shop_order)
+
+        if existing_shop_order and existing_shop_order.id != shop_order_id:
+            raise_http_exception(ShopOrderAlreadyExistsException)
+
+        return await cls.update_data(shop_order_id, data)
+
+    @classmethod
+    @manage_session
+    async def delete(cls, user, shop_order_id, session=None):
+        # Get current order status
+        shop_order = await cls.find_one_or_none(id=shop_order_id)
+
+        if not shop_order:
+            raise_http_exception(ShopOrderNotFoundException)
+
+        if shop_order.user_id != user.id and not await has_permission(user):
+            raise_http_exception(ForbiddenException)
+
+        await cls._delete_order_lines(shop_order_id)
+
+        # Delete the order
+        await cls.delete_certain_item(shop_order_id)
+
+    @classmethod
+    @manage_session
+    async def _delete_order_lines(cls, shop_order_id, session=None):
+        delete_order_line_query = delete(OrderLine).where(
+            OrderLine.order_id == shop_order_id
+        )
+
+        await session.execute(delete_order_line_query)
         await session.commit()
 
         return None

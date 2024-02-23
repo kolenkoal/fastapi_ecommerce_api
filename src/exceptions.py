@@ -255,6 +255,11 @@ class ShippingMethodAlreadyExistsException(EcommerceException):
     detail = "Such shipping method already exists."
 
 
+class ShopOrderAlreadyExistsException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Such shop order already exists."
+
+
 class OrderStatusAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such order status already exists."
