@@ -17,8 +17,8 @@ async def test_create_order_status_not_authenticated(ac):
     [
         ("", 422),
         ("47", 422),
-        ("Pending", 200),
-        ("Pending", 422),
+        ("Okay", 200),
+        ("Okay", 422),
     ],
 )
 async def test_create_order_statuses(
@@ -45,13 +45,13 @@ async def test_get_order_statuses(ac: AsyncClient):
 
     product_categories = response.json()["order_statuses"]
 
-    assert len(product_categories) == 1
-    assert product_categories[0]["status"] == "Pending"
+    assert len(product_categories) == 6
+    assert product_categories[5]["status"] == "Okay"
 
 
 @pytest.mark.asyncio
 async def test_get_order_status(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/orders/statuses/1")
+    response = await authenticated_ac.get("/orders/statuses/6")
     assert response.status_code == 200
 
 
@@ -59,10 +59,10 @@ async def test_get_order_status(authenticated_ac: AsyncClient):
 @pytest.mark.parametrize(
     "status,status_code",
     [
-        ("Pending", 200),
+        ("Okay", 200),
         ("", 422),
         ("4", 422),
-        ("Cancelled", 200),
+        ("Yooo", 200),
     ],
 )
 async def test_change_product_order_status(
@@ -73,7 +73,7 @@ async def test_change_product_order_status(
     }
 
     response = await admin_ac.patch(
-        "/orders/statuses/1",
+        "/orders/statuses/6",
         json=new_order_status_data,
     )
 
@@ -86,12 +86,13 @@ async def test_change_product_order_status(
 @pytest.mark.asyncio
 async def test_delete_product_order_status(admin_ac: AsyncClient):
     response = await admin_ac.get("/orders/statuses")
-    assert len(response.json()["order_statuses"]) == 1
+    assert len(response.json()["order_statuses"]) == 6
 
     response = await admin_ac.delete(
-        "/orders/statuses/1",
+        "/orders/statuses/6",
     )
     assert response.status_code == 204
 
     response = await admin_ac.get("/orders/statuses")
-    assert response.status_code == 404
+    assert response.status_code == 200
+    assert len(response.json()["order_statuses"]) == 5

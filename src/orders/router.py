@@ -7,6 +7,7 @@ from src.exceptions import (
     ShopOrderNotFoundException,
     ShopOrderNotImplementedException,
     ShopOrdersNotFoundException,
+    raise_http_exception,
 )
 from src.orders.dao import ShopOrderDAO
 from src.orders.lines.router import router as router_lines
@@ -21,6 +22,7 @@ from src.responses import (
     DELETED_UNAUTHORIZED_SHOP_ORDER_NOT_FOUND,
     UNAUTHORIZED_FORBIDDEN_SHOP_ORDER_NOT_FOUND,
     UNAUTHORIZED_PAYMENT_OR_SHIPPING_METHOD_ADDRESS_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE,
+    UNAUTHORIZED_SHOP_ORDER_NOT_FOUND,
     UNAUTHORIZED_SHOP_ORDERS_NOT_FOUND,
 )
 from src.users.models import User
@@ -62,6 +64,21 @@ async def get_user_shop_orders(user: User = Depends(current_user)):
         raise ShopOrdersNotFoundException
 
     return {"shop_orders": shop_orders}
+
+
+@router.get(
+    "/{shop_order_id}",
+    name="Get certain product order status.",
+    response_model=SShopOrder,
+    responses=UNAUTHORIZED_SHOP_ORDER_NOT_FOUND,
+)
+async def get_shop_order(shop_order_id: UUID):
+    shop_order = await ShopOrderDAO.find_one_or_none(id=shop_order_id)
+
+    if not shop_order:
+        raise_http_exception(ShopOrderNotFoundException)
+
+    return shop_order
 
 
 @router.patch(
