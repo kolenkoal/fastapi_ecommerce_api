@@ -19,6 +19,7 @@ from src.shipping_methods.models import ShippingMethod  # noqa
 from src.shopping_carts.items.models import ShoppingCartItem  # noqa
 from src.shopping_carts.models import ShoppingCart  # noqa
 from src.users.models import User  # noqa
+from src.users.profiles.models import UserProfile  # noqa
 from src.users.reviews.models import UserReview  # noqa
 from src.variation_options.models import VariationOption  # noqa
 from src.variations.models import Variation  # noqa

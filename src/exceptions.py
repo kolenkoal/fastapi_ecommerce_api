@@ -30,6 +30,11 @@ class UserHasNoAddressesException(EcommerceException):
     detail = "You do not have any addresses."
 
 
+class UserProfileNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "User profile not found."
+
+
 class NoSuchAddressException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "There is no such address."
@@ -295,6 +300,11 @@ class UserAlreadyHasCartException(EcommerceException):
     detail = "User already has a cart."
 
 
+class UserAlreadyHasProfileException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "User already has a profile."
+
+
 class UserDoesNotHaveCartException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "User does not have a cart."
@@ -438,6 +448,11 @@ class ProductConfigurationNotImplementedException(EcommerceException):
 class ShoppingCartNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add shopping cart."
+
+
+class UserProfileNotImplementedException(EcommerceException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail = "Failed to add user profile."
 
 
 class ShoppingCartItemNotImplementedException(EcommerceException):

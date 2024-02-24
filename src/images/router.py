@@ -75,3 +75,13 @@ async def delete_product_item_file(SKU: str, product_id: UUID):
         os.remove(im_path)
         return True
     return False
+
+
+@router.post("/profiles")
+async def add_profile_image(name: str, file: UploadFile):
+    im_path = f"src/static/images/user_profiles/{name}"
+
+    with open(im_path, "wb+") as file_object:
+        shutil.copyfileobj(file.file, file_object)
+
+    return name

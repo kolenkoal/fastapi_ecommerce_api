@@ -51,3 +51,4 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     shopping_cart = relationship("ShoppingCart", back_populates="user")
     orders = relationship("ShopOrder", back_populates="user")
     reviews = relationship("UserReview", back_populates="user")
+    profile = relationship("UserProfile", back_populates="user")

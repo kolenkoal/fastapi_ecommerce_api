@@ -91,7 +91,7 @@ class ShoppingCartDAO(BaseDAO):
         if existing_shopping_cart.id != shopping_cart_id:
             raise_http_exception(ShoppingCartAlreadyExistsException)
 
-        return await cls.update_data(shopping_cart_id, data)
+        return await cls.update_data(shopping_cart_id, new_shopping_cart_data)
 
     @classmethod
     @manage_session

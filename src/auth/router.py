@@ -6,6 +6,7 @@ from src.auth.auth import auth_backend, fastapi_users
 from src.auth.manager import UserManager, get_user_manager
 from src.shopping_carts.router import create_shopping_cart
 from src.shopping_carts.schemas import SShoppingCartCreate
+from src.users.profiles.router import create_user_profile
 from src.users.schemas import UserCreate, UserRead
 
 
@@ -71,6 +72,7 @@ async def register(
         )
     shopping_cart_data = SShoppingCartCreate(user_id=created_user.id)
     await create_shopping_cart(shopping_cart_data, created_user)
+    await create_user_profile(created_user)
     return created_user
 
 
