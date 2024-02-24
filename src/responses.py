@@ -286,6 +286,36 @@ VARIATION_NOT_FOUND = {
     },
 }
 
+USER_REVIEW_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "User review not found.": {
+                        "summary": "User review not found.",
+                        "value": {"detail": "User review not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
+USER_REVIEWS_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "User reviews not found.": {
+                        "summary": "User reviews not found.",
+                        "value": {"detail": "User reviews not found."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 VARIATION_OPTION_NOT_FOUND = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -497,6 +527,18 @@ UNAUTHORIZED_FORBIDDEN_RESPONSE = {
     **FORBIDDEN_RESPONSE,
 }
 
+UNAUTHORIZED_FORBIDDEN_USER_REVIEWS_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **USER_REVIEWS_NOT_FOUND_RESPONSE,
+}
+
+UNAUTHORIZED_FORBIDDEN_USER_REVIEW_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **USER_REVIEW_NOT_FOUND_RESPONSE,
+}
+
 UNAUTHORIZED_SHOP_ORDERS_NOT_FOUND = {
     **UNAUTHORIZED_RESPONSE,
     **SHOP_ORDERS_NOT_FOUND_RESPONSE,
@@ -634,6 +676,13 @@ DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **VARIATION_NOT_FOUND,
+}
+
+DELETED_UNAUTHORIZED_FORBIDDEN_USER_REVIEW_NOT_FOUND_RESPONSE = {
+    **DELETED_RESPONSE,
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **USER_REVIEW_NOT_FOUND_RESPONSE,
 }
 
 DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_RESPONSE = {

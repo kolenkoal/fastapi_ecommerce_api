@@ -115,6 +115,16 @@ class AddressNotFoundException(EcommerceException):
     detail = "Address not found."
 
 
+class UserReviewNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "User Review not found."
+
+
+class UserReviewsNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "User Reviews not found."
+
+
 class DefaultAddressNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "You do not have default address."
@@ -253,6 +263,11 @@ class UserAlreadyHasThisAddress(EcommerceException):
 class PaymentMethodAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "You already have this payment method added."
+
+
+class UserReviewAlreadyExistsException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "You already have this product reviewed."
 
 
 class ShippingMethodAlreadyExistsException(EcommerceException):

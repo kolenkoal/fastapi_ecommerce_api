@@ -15,11 +15,13 @@ from src.images.router import (
     delete_product_item_file,
     rename_product_item_image_file,
 )
+from src.orders.lines.models import OrderLine
 from src.permissions import has_permission
 from src.products.dao import ProductDAO
 from src.products.items.models import ProductItem
 from src.products.items.utils import pick
 from src.users.models import User
+from src.users.reviews.models import UserReview
 from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
 
@@ -164,3 +166,37 @@ class ProductItemDAO(BaseDAO):
         )
 
         return product_item_configurations
+
+    @classmethod
+    @manage_session
+    async def get_product_item_reviews(
+        cls, product_item_id: UUID, session=None
+    ):
+        # query = (
+        #     select(ProductItem).join(
+        #         ProductItem.products_in_order).options(
+        #         joinedload(ProductItem.products_in_order).joinedload(
+        #             OrderLine.reviews))
+        # )
+
+        query = (
+            select(UserReview)
+            .join(OrderLine)
+            .options(
+                joinedload(UserReview.ordered_product).joinedload(
+                    OrderLine.product_item
+                )
+            )
+            .where(OrderLine.product_item_id == product_item_id)
+        )
+
+        result = await session.execute(query)
+
+        product_item_configurations = result.unique().mappings().all()
+
+        result = []
+
+        for item in product_item_configurations:
+            result.append(item["UserReview"])
+
+        return result

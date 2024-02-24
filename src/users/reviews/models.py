@@ -1,4 +1,3 @@
-from typing import Literal
 from uuid import UUID
 
 from sqlalchemy import CheckConstraint, ForeignKey
@@ -6,9 +5,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import str2000, uuidpk
-
-
-RatingValues = Literal[1, 2, 3, 4, 5]
 
 
 class UserReview(Base):

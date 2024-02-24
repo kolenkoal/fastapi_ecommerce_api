@@ -9,6 +9,7 @@ from src.exceptions import (
     ProductConfigurationsNotFoundException,
     ProductItemNotFoundException,
     ProductItemsNotFoundException,
+    UserReviewsNotFoundException,
     raise_http_exception,
 )
 from src.products.items.dao import ProductItemDAO
@@ -27,6 +28,7 @@ from src.responses import (
     UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE,
 )
 from src.users.models import User
+from src.users.reviews.schemas import SUserReviews
 
 
 router = APIRouter(prefix="/items")
@@ -102,6 +104,23 @@ async def get_product_item_configurations(product_item_id: UUID):
         raise_http_exception(ProductConfigurationsNotFoundException)
 
     return product_item
+
+
+@router.get(
+    "/{product_item_id}/reviews",
+    name="Get all product item reviews.",
+    response_model=SUserReviews,
+    responses=PRODUCT_ITEM_NOT_FOUND,
+)
+async def get_product_item_reviews(product_item_id: UUID):
+    user_reviews = await ProductItemDAO.get_product_item_reviews(
+        product_item_id
+    )
+
+    if not user_reviews:
+        raise_http_exception(UserReviewsNotFoundException)
+
+    return {"user_reviews": user_reviews}
 
 
 @router.patch(
