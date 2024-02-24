@@ -1,5 +1,3 @@
-from datetime import date, timedelta
-
 import pytest
 from httpx import AsyncClient
 
@@ -11,122 +9,6 @@ async def test_create_order_status_not_authenticated(ac):
     )
 
     assert response.status_code == 401
-
-
-@pytest.mark.asyncio
-async def test_create_shipping_method(admin_ac):
-    shipping_method_data = {
-        "name": "Standard",
-        "price": "5.99",
-    }
-
-    response = await admin_ac.post(
-        "/shipping_methods",
-        json=shipping_method_data,
-        headers={"Content-Type": "application/json"},
-    )
-
-    assert response.status_code == 200
-
-
-@pytest.fixture
-async def ac_with_payment_types(ac):
-    response = await ac.get("/payments/types")
-    assert response.status_code == 200
-    return ac, response.json()[0]["id"]
-
-
-@pytest.mark.asyncio
-async def test_create_payment_method(ac_with_payment_types, ac):
-    response = await ac.post(
-        "/auth/login",
-        data={
-            "username": "user12345@example.com",
-            "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
-        },
-    )
-
-    assert response.status_code == 204
-
-    ac.headers["Cookie"] = (
-        f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
-    )
-
-    ac, payment_type_id = ac_with_payment_types
-
-    payment_method_data = {
-        "payment_type_id": payment_type_id,
-        "provider": "Master Card",
-        "account_number": "1111111111111111",
-        "expiry_date": f"{date.today() + timedelta(days=1)}",
-        "is_default": True,
-    }
-
-    response = await ac.post(
-        "/payments/methods",
-        json=payment_method_data,
-        headers={"Content-Type": "application/json"},
-    )
-    assert response.status_code == 200
-
-    response = await ac.post(
-        "/payments/methods",
-        json=payment_method_data,
-        headers={"Content-Type": "application/json"},
-    )
-    assert response.status_code == 422
-
-
-@pytest.fixture
-async def ac_with_countries(ac):
-    response = await ac.get("/countries")
-    assert response.status_code == 200
-    return ac, response.json()[0]["id"]
-
-
-@pytest.mark.asyncio
-async def test_create_address(ac_with_countries, ac):
-    ac, country_id = ac_with_countries
-
-    response = await ac.post(
-        "/auth/login",
-        data={
-            "username": "user12345@example.com",
-            "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
-        },
-    )
-
-    assert response.status_code == 204
-
-    ac.headers["Cookie"] = (
-        f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
-    )
-
-    address_data = {
-        "unit_number": "3A",
-        "street_number": "54",
-        "address_line1": "Clements Rd",
-        "address_line2": "North Shore",
-        "city": "Boston",
-        "region": "MA",
-        "postal_code": "12313",
-        "country_id": country_id,
-    }
-
-    response = await ac.post(
-        "/addresses",
-        json=address_data,
-        headers={"Content-Type": "application/json"},
-    )
-    assert response.status_code == 200
 
 
 @pytest.mark.asyncio
@@ -230,7 +112,7 @@ async def test_create_order(ac: AsyncClient):
 
 
 @pytest.mark.asyncio
-async def test_get_order(ac: AsyncClient):
+async def test_get_order_(ac: AsyncClient):
     response = await ac.post(
         "/auth/login",
         data={
@@ -259,6 +141,63 @@ async def test_get_order(ac: AsyncClient):
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "rating_value,comment,status_code",
+    [
+        (-9, "", 422),
+        (10, "", 422),
+        (3, "", 200),
+        (3, "Wow!", 422),
+    ],
+)
+async def test_create_review(
+    ac: AsyncClient, rating_value, comment, status_code
+):
+    response = await ac.post(
+        "/auth/login",
+        data={
+            "username": "user12345@example.com",
+            "password": "string",
+            "grant_type": "",
+            "scope": "",
+            "client_id": "",
+            "client_secret": "",
+        },
+    )
+
+    assert response.status_code == 204
+
+    ac.headers["Cookie"] = (
+        f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
+    )
+
+    response = await ac.get("/orders")
+
+    assert response.status_code == 200
+
+    order_id = response.json()["shop_orders"][0]["id"]
+
+    response = await ac.get(f"/orders/{order_id}/lines")
+    assert response.status_code == 200
+
+    order_line_id = response.json()["products_in_order"][0]["id"]
+
+    user_review_data = {
+        "ordered_product_id": order_line_id,
+        "rating_value": rating_value,
+        "comment": comment,
+    }
+
+    response = await ac.post(
+        "/users/reviews",
+        json=user_review_data,
+        headers={"Content-Type": "application/json"},
+    )
+
+    assert response.status_code == status_code
+
+
+@pytest.mark.asyncio
 async def test_get_order_status(ac: AsyncClient):
     response = await ac.post(
         "/auth/login",
@@ -278,46 +217,12 @@ async def test_get_order_status(ac: AsyncClient):
         f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
     )
 
-    response = await ac.get("/orders")
+    response = await ac.get("/users/reviews")
     assert response.status_code == 200
 
-    order_id = response.json()["shop_orders"][0]["id"]
-
-    response = await ac.get(f"/orders/{order_id}")
-    assert response.status_code == 200
-
-
-@pytest.mark.asyncio
-async def test_get_order_lines(ac: AsyncClient):
-    response = await ac.post(
-        "/auth/login",
-        data={
-            "username": "user12345@example.com",
-            "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
-        },
-    )
-
-    assert response.status_code == 204
-
-    ac.headers["Cookie"] = (
-        f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
-    )
-
-    response = await ac.get("/orders")
-    assert response.status_code == 200
-
-    order_id = response.json()["shop_orders"][0]["id"]
-
-    response = await ac.get(f"/orders/{order_id}/lines")
-
-    products_in_order = response.json()["products_in_order"]
-
-    assert response.status_code == 200
-    assert len(products_in_order) == 1
+    user_reviews = response.json()["user_reviews"]
+    assert len(user_reviews) == 1
+    assert user_reviews[0]["rating_value"] == 3
 
 
 @pytest.mark.asyncio
@@ -340,22 +245,21 @@ async def test_change_order(admin_ac: AsyncClient, ac: AsyncClient):
         f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
     )
 
-    response = await ac.get("/orders")
+    response = await ac.get("/users/reviews")
     assert response.status_code == 200
 
-    order_id = response.json()["shop_orders"][0]["id"]
+    user_review_id = response.json()["user_reviews"][0]["id"]
 
-    new_order_data = {
-        "order_status_id": 2,
-    }
+    new_order_data = {"comment": "Amazing!", "rating_value": 4}
 
-    response = await admin_ac.patch(
-        f"/orders/{order_id}",
+    response = await ac.patch(
+        f"/users/reviews/{user_review_id}",
         json=new_order_data,
     )
 
     assert response.status_code == 200
-    assert response.json()["order_status_id"] == 2
+    assert response.json()["rating_value"] == 4
+    assert response.json()["comment"] == "Amazing!"
 
 
 @pytest.mark.asyncio
@@ -378,18 +282,15 @@ async def test_delete_product_order_status(ac: AsyncClient):
         f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
     )
 
-    response = await ac.get("/orders")
-    assert len(response.json()["shop_orders"]) == 1
+    response = await ac.get("/users/reviews")
+    assert len(response.json()["user_reviews"]) == 1
 
-    order_id = response.json()["shop_orders"][0]["id"]
+    user_review_id = response.json()["user_reviews"][0]["id"]
 
     response = await ac.delete(
-        f"/orders/{order_id}",
+        f"/users/reviews/{user_review_id}",
     )
     assert response.status_code == 204
 
-    response = await ac.get("/orders")
-    assert response.status_code == 404
-
-    response = await ac.get(f"/orders/{order_id}/lines")
+    response = await ac.get("/users/reviews")
     assert response.status_code == 404
