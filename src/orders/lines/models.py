@@ -25,3 +25,4 @@ class OrderLine(Base):
         "ProductItem", back_populates="products_in_order"
     )
     order = relationship("ShopOrder", back_populates="products_in_order")
+    reviews = relationship("OrderLine", back_populates="ordered_product")

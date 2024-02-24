@@ -32,6 +32,7 @@ async def get_async_session() -> AsyncSession:
         yield session
 
 
+str_2000 = Annotated[str, 2000]
 str_256 = Annotated[str, 256]
 str_20 = Annotated[str, 20]
 
