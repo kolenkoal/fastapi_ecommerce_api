@@ -10,7 +10,7 @@ class OrderLineDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def add(cls, user, order_line_data, session=None):
+    async def add(cls, user, order_id, order_line_data, session=None):
         order_line_data = order_line_data.model_dump(exclude_unset=True)
 
         # Validate product item
@@ -20,5 +20,7 @@ class OrderLineDAO(BaseDAO):
 
         if not product_item:
             raise_http_exception(ProductItemNotFoundException)
+
+        order_line_data.update({"order_id": order_id})
 
         return await cls._create(**order_line_data)

@@ -288,6 +288,39 @@ async def test_get_order_status(ac: AsyncClient):
 
 
 @pytest.mark.asyncio
+async def test_get_order_lines(ac: AsyncClient):
+    response = await ac.post(
+        "/auth/login",
+        data={
+            "username": "user12345@example.com",
+            "password": "string",
+            "grant_type": "",
+            "scope": "",
+            "client_id": "",
+            "client_secret": "",
+        },
+    )
+
+    assert response.status_code == 204
+
+    ac.headers["Cookie"] = (
+        f"ecommerce_token=" f"{ac.cookies['ecommerce_token']}"
+    )
+
+    response = await ac.get("/orders")
+    assert response.status_code == 200
+
+    order_id = response.json()["shop_orders"][0]["id"]
+
+    response = await ac.get(f"/orders/{order_id}/lines")
+
+    products_in_order = response.json()["products_in_order"]
+
+    assert response.status_code == 200
+    assert len(products_in_order) == 1
+
+
+@pytest.mark.asyncio
 async def test_change_order(admin_ac: AsyncClient, ac: AsyncClient):
     response = await ac.post(
         "/auth/login",
@@ -356,4 +389,7 @@ async def test_delete_product_order_status(ac: AsyncClient):
     assert response.status_code == 204
 
     response = await ac.get("/orders")
+    assert response.status_code == 404
+
+    response = await ac.get(f"/orders/{order_id}/lines")
     assert response.status_code == 404

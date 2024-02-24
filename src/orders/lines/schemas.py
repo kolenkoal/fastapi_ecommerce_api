@@ -13,7 +13,6 @@ from src.exceptions import (
 
 class SOrderLineCreate(BaseModel):
     product_item_id: UUID
-    order_id: UUID
     quantity: int
     price: Decimal
 
@@ -44,5 +43,12 @@ class SOrderLine(BaseModel):
     id: UUID
     product_item_id: UUID
     order_id: UUID
+    quantity: int
+    price: Decimal
+
+
+class SOrderLineWithoutOrder(BaseModel):
+    id: UUID
+    product_item_id: UUID
     quantity: int
     price: Decimal

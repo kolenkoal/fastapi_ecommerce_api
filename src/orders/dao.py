@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from sqlalchemy import delete, select
+from sqlalchemy.orm import joinedload
 
 from src.addresses.dao import AddressDAO
 from src.dao import BaseDAO
@@ -86,8 +87,7 @@ class ShopOrderDAO(BaseDAO):
             return None
 
         await cls._add_every_product_to_order_line(
-            user_cart_items,
-            shop_order.id,
+            user_cart_items, shop_order.id, user
         )
 
         await cls._clear_shopping_cart_item(user_cart.id)
@@ -154,7 +154,7 @@ class ShopOrderDAO(BaseDAO):
     @classmethod
     @manage_session
     async def _add_every_product_to_order_line(
-        cls, user_cart_items, shop_order_id, session=None
+        cls, user_cart_items, shop_order_id, user, session=None
     ):
         for item in user_cart_items.cart_items:
             product_item = await ProductItemDAO.find_one_or_none(
@@ -175,7 +175,7 @@ class ShopOrderDAO(BaseDAO):
                 product_item.quantity_in_stock - item.quantity
             )
 
-            await create_order_line(order_line_data)
+            await create_order_line(shop_order_id, order_line_data, user)
 
             await ProductItemDAO.update_data(
                 item.product_item_id,
@@ -270,3 +270,24 @@ class ShopOrderDAO(BaseDAO):
         await session.commit()
 
         return None
+
+    @classmethod
+    @manage_session
+    async def find_shop_order_lines(cls, order_id, user, session=None):
+        query = (
+            select(ShopOrder)
+            .options(joinedload(ShopOrder.products_in_order))
+            .where(ShopOrder.id == order_id)
+        )
+
+        result = await session.execute(query)
+
+        order = result.unique().scalars().one_or_none()
+
+        if not order:
+            raise_http_exception(ShopOrderNotFoundException)
+
+        if order.user_id != user.id and not await has_permission(user):
+            raise_http_exception(ForbiddenException)
+
+        return order

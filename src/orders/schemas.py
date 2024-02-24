@@ -5,6 +5,8 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from src.orders.lines.schemas import SOrderLineWithoutOrder
+
 
 class SShopOrderCreate(BaseModel):
     payment_method_id: UUID
@@ -29,3 +31,7 @@ class SShopOrder(BaseModel):
 
 class SShopOrders(BaseModel):
     shop_orders: list[SShopOrder]
+
+
+class SShopOrderWithLines(SShopOrder):
+    products_in_order: list[SOrderLineWithoutOrder]

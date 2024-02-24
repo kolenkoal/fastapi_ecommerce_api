@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
 from src.exceptions import (
+    OrderLinesNotFoundException,
     ShopOrderNotFoundException,
     ShopOrderNotImplementedException,
     ShopOrdersNotFoundException,
@@ -16,10 +17,12 @@ from src.orders.schemas import (
     SShopOrderChangeOptional,
     SShopOrderCreate,
     SShopOrders,
+    SShopOrderWithLines,
 )
 from src.orders.statuses.router import router as router_statuses
 from src.responses import (
     DELETED_UNAUTHORIZED_SHOP_ORDER_NOT_FOUND,
+    UNAUTHORIZED_FORBIDDEN_ORDER_LINES_NOT_FOUND,
     UNAUTHORIZED_FORBIDDEN_SHOP_ORDER_NOT_FOUND,
     UNAUTHORIZED_PAYMENT_OR_SHIPPING_METHOD_ADDRESS_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE,
     UNAUTHORIZED_SHOP_ORDER_NOT_FOUND,
@@ -64,6 +67,23 @@ async def get_user_shop_orders(user: User = Depends(current_user)):
         raise ShopOrdersNotFoundException
 
     return {"shop_orders": shop_orders}
+
+
+@router.get(
+    "/{order_id}/lines",
+    name="Get user order lines.",
+    response_model=SShopOrderWithLines,
+    responses=UNAUTHORIZED_FORBIDDEN_ORDER_LINES_NOT_FOUND,
+)
+async def get_user_order_lines(
+    order_id: UUID, user: User = Depends(current_user)
+):
+    order_with_lines = await ShopOrderDAO.find_shop_order_lines(order_id, user)
+
+    if not order_with_lines:
+        raise OrderLinesNotFoundException
+
+    return order_with_lines
 
 
 @router.get(
