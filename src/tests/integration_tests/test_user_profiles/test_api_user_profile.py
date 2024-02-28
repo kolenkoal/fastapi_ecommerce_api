@@ -38,12 +38,8 @@ async def test_creating_profile_with_user(ac):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12347890@example.com",
+            "email": "user12347890@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -70,12 +66,8 @@ async def test_change_profile_bio(ac: AsyncClient):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12347890@example.com",
+            "email": "user12347890@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -103,12 +95,8 @@ async def test_change_profile_image(ac: AsyncClient, temp_products_file):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12347890@example.com",
+            "email": "user12347890@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 

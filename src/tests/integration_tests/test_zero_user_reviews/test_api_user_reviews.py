@@ -16,12 +16,8 @@ async def test_creating_shopping_cart_items_with_user(ac):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -61,12 +57,8 @@ async def test_create_order(ac: AsyncClient):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -116,12 +108,8 @@ async def test_get_order_(ac: AsyncClient):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -156,12 +144,8 @@ async def test_create_review(
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -202,12 +186,8 @@ async def test_get_order_status(ac: AsyncClient):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -230,12 +210,8 @@ async def test_change_order(admin_ac: AsyncClient, ac: AsyncClient):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -267,12 +243,8 @@ async def test_delete_product_order_status(ac: AsyncClient):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 

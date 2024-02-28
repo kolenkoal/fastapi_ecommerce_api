@@ -44,12 +44,8 @@ async def test_login_user(username, password, status_code, ac: AsyncClient):
     response = await ac.post(
         "api/auth/login",
         data={
-            "username": username,
+            "email": username,
             "password": password,
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 

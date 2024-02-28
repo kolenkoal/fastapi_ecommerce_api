@@ -37,12 +37,8 @@ async def test_creating_shopping_cart_items_with_user(ac):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -82,12 +78,8 @@ async def test_get_shopping_cart_items(ac: AsyncClient):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -128,12 +120,8 @@ async def test_change_shopping_cart(quantity, status_code, ac: AsyncClient):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 
@@ -190,12 +178,8 @@ async def test_delete_shopping_cart_item(ac: AsyncClient):
     response = await ac.post(
         "/api/auth/login",
         data={
-            "username": "user12345@example.com",
+            "email": "user12345@example.com",
             "password": "string",
-            "grant_type": "",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         },
     )
 

@@ -90,12 +90,8 @@ async def ac():
 async def authenticated_ac():
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
         data = {
-            "grant_type": "",
-            "username": "testing@test.com",
+            "email": "testing@test.com",
             "password": "string",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         }
 
         response = await ac.post("/api/auth/login", data=data)
@@ -115,12 +111,8 @@ async def authenticated_ac():
 async def admin_ac():
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
         data = {
-            "grant_type": "",
-            "username": "admin@admin.com",
+            "email": "admin@admin.com",
             "password": "string",
-            "scope": "",
-            "client_id": "",
-            "client_secret": "",
         }
 
         response = await ac.post("/api/auth/login", data=data)
