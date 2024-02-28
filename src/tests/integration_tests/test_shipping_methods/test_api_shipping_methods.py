@@ -5,7 +5,7 @@ from httpx import AsyncClient
 @pytest.mark.asyncio
 async def test_create_shipping_method_not_authenticated(ac):
     response = await ac.post(
-        "/shipping_methods",
+        "/api/shipping_methods",
     )
 
     assert response.status_code == 401
@@ -30,7 +30,7 @@ async def test_create_shipping_methods(
     }
 
     response = await admin_ac.post(
-        "/shipping_methods",
+        "/api/shipping_methods",
         json=shipping_method_data,
         headers={"Content-Type": "application/json"},
     )
@@ -40,7 +40,7 @@ async def test_create_shipping_methods(
 
 @pytest.mark.asyncio
 async def test_get_shipping_methods(ac: AsyncClient):
-    response = await ac.get("/shipping_methods")
+    response = await ac.get("/api/shipping_methods")
 
     assert response.status_code == 200
 
@@ -52,7 +52,7 @@ async def test_get_shipping_methods(ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_get_shipping_method(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/shipping_methods/1")
+    response = await authenticated_ac.get("/api/shipping_methods/1")
     assert response.status_code == 200
 
 
@@ -73,7 +73,7 @@ async def test_change_product_shipping_method(
     }
 
     response = await admin_ac.patch(
-        "/shipping_methods/1",
+        "/api/shipping_methods/1",
         json=new_shipping_method_data,
     )
 
@@ -85,13 +85,13 @@ async def test_change_product_shipping_method(
 
 @pytest.mark.asyncio
 async def test_delete_product_shipping_method(admin_ac: AsyncClient):
-    response = await admin_ac.get("/shipping_methods")
+    response = await admin_ac.get("/api/shipping_methods")
     assert len(response.json()["shipping_methods"]) == 1
 
     response = await admin_ac.delete(
-        "/shipping_methods/1",
+        "/api/shipping_methods/1",
     )
     assert response.status_code == 204
 
-    response = await admin_ac.get("/shipping_methods")
+    response = await admin_ac.get("/api/shipping_methods")
     assert response.status_code == 404

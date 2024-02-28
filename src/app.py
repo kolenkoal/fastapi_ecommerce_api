@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
@@ -16,7 +16,9 @@ from src.variation_options.router import router as router_variation_options
 from src.variations.router import router as router_variations
 
 
-app = FastAPI()
+app = FastAPI(title="Ecommerce API")
+
+router = APIRouter(prefix="/api")
 
 origins = [
     "http://localhost:3000",
@@ -36,15 +38,17 @@ app.add_middleware(
 
 app.mount("/static", StaticFiles(directory="src/static"), "static")
 
-app.include_router(router_auth)
-app.include_router(router_users)
-app.include_router(router_countries)
-app.include_router(router_addresses)
-app.include_router(router_payments)
-app.include_router(router_variations)
-app.include_router(router_variation_options)
-app.include_router(router_products)
-app.include_router(router_images)
-app.include_router(router_shopping_carts)
-app.include_router(router_shipping_methods)
-app.include_router(router_orders)
+router.include_router(router_auth)
+router.include_router(router_users)
+router.include_router(router_countries)
+router.include_router(router_addresses)
+router.include_router(router_payments)
+router.include_router(router_variations)
+router.include_router(router_variation_options)
+router.include_router(router_products)
+router.include_router(router_images)
+router.include_router(router_shopping_carts)
+router.include_router(router_shipping_methods)
+router.include_router(router_orders)
+
+app.include_router(router)

@@ -7,7 +7,7 @@ async def test_create_variation(ac):
     variation_data = {"name": "Hello", "category_id": 1}
 
     response = await ac.post(
-        "/variations",
+        "/api/variations",
         json=variation_data,
         headers={"Content-Type": "application/json"},
     )
@@ -33,7 +33,7 @@ async def test_create_variations_with_bad_entities(
     }
 
     response = await admin_ac.post(
-        "/variations",
+        "/api/variations",
         json=variation_data,
         headers={"Content-Type": "application/json"},
     )
@@ -57,7 +57,7 @@ async def test_create_product_category(
         "parent_category_id": parent_category_id,
     }
     response = await admin_ac.post(
-        "/products/categories",
+        "/api/products/categories",
         json=product_category_data,
         headers={"Content-Type": "application/json"},
     )
@@ -79,7 +79,7 @@ async def test_create_variations(admin_ac, name, category_id, status_code):
     variation_data = {"name": name, "category_id": category_id}
 
     response = await admin_ac.post(
-        "/variations",
+        "/api/variations",
         json=variation_data,
         headers={"Content-Type": "application/json"},
     )
@@ -89,7 +89,7 @@ async def test_create_variations(admin_ac, name, category_id, status_code):
 
 @pytest.mark.asyncio
 async def test_get_variations(ac: AsyncClient):
-    response = await ac.get("/variations")
+    response = await ac.get("/api/variations")
     assert response.status_code == 200
 
     variations = response.json()["variations"]
@@ -100,19 +100,19 @@ async def test_get_variations(ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_get_variation(admin_ac: AsyncClient):
-    response = await admin_ac.get("/variations")
+    response = await admin_ac.get("/api/variations")
     assert len(response.json()) == 1
     assert response.status_code == 200
 
     variation_id = response.json()["variations"][0]["id"]
 
-    response = await admin_ac.get(f"/variations/{variation_id}")
+    response = await admin_ac.get(f"/api/variations/{variation_id}")
     assert response.status_code == 200
 
 
 @pytest.mark.asyncio
 async def test_change_variation(admin_ac: AsyncClient):
-    response = await admin_ac.get("/variations")
+    response = await admin_ac.get("/api/variations")
     assert response.status_code == 200
 
     variation_id = response.json()["variations"][2]["id"]
@@ -121,7 +121,7 @@ async def test_change_variation(admin_ac: AsyncClient):
         "name": "9",
     }
     response = await admin_ac.patch(
-        f"/variations/{variation_id}",
+        f"/api/variations/{variation_id}",
         json=new_variation_data,
     )
 
@@ -130,7 +130,7 @@ async def test_change_variation(admin_ac: AsyncClient):
     new_variation_data = {"name": "BOTTTOMS"}
 
     response = await admin_ac.patch(
-        f"/variations/{variation_id}",
+        f"/api/variations/{variation_id}",
         json=new_variation_data,
     )
     assert response.status_code == 200
@@ -140,29 +140,29 @@ async def test_change_variation(admin_ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_delete_variation(admin_ac: AsyncClient):
-    response = await admin_ac.get("/variations")
+    response = await admin_ac.get("/api/variations")
     assert len(response.json()["variations"]) == 3
 
-    response = await admin_ac.get("/variations")
+    response = await admin_ac.get("/api/variations")
     assert response.status_code == 200
 
     variation_id = response.json()["variations"][0]["id"]
 
     response = await admin_ac.delete(
-        f"/variations/{variation_id}",
+        f"/api/variations/{variation_id}",
     )
     assert response.status_code == 204
 
-    response = await admin_ac.get("/variations")
+    response = await admin_ac.get("/api/variations")
     assert response.status_code == 200
 
     variation_id = response.json()["variations"][0]["id"]
 
     response = await admin_ac.delete(
-        f"/variations/{variation_id}",
+        f"/api/variations/{variation_id}",
     )
     assert response.status_code == 204
 
-    response = await admin_ac.get("/variations")
+    response = await admin_ac.get("/api/variations")
 
     assert len(response.json()) == 1

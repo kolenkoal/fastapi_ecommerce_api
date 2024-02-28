@@ -5,7 +5,7 @@ from httpx import AsyncClient
 @pytest.mark.asyncio
 async def test_create_shopping_cart_item_not_authenticated(ac):
     response = await ac.post(
-        "/shopping_carts/3/items",
+        "/api/shopping_carts/3/items",
     )
 
     assert response.status_code == 401
@@ -13,7 +13,7 @@ async def test_create_shopping_cart_item_not_authenticated(ac):
 
 @pytest.mark.asyncio
 async def test_create_product_item(admin_ac, temp_product_items_file):
-    response = await admin_ac.get("/products")
+    response = await admin_ac.get("/api/products")
     assert response.status_code == 200
 
     product_id = response.json()["products"][0]["id"]
@@ -27,7 +27,7 @@ async def test_create_product_item(admin_ac, temp_product_items_file):
     with open(temp_product_items_file, "rb") as file:
         files = {"file": file}
         response = await admin_ac.post(
-            "/products/items", files=files, data=form_data
+            "/api/products/items", files=files, data=form_data
         )
         assert response.status_code == 200
 
@@ -35,7 +35,7 @@ async def test_create_product_item(admin_ac, temp_product_items_file):
 @pytest.mark.asyncio
 async def test_creating_shopping_cart_items_with_user(ac):
     response = await ac.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": "user12345@example.com",
             "password": "string",
@@ -53,7 +53,7 @@ async def test_creating_shopping_cart_items_with_user(ac):
     )
 
     response = await ac.get(
-        "/shopping_carts",
+        "/api/shopping_carts",
     )
 
     assert response.status_code == 200
@@ -61,7 +61,7 @@ async def test_creating_shopping_cart_items_with_user(ac):
     shopping_cart_id = response.json()["id"]
 
     response = await ac.get(
-        "/products/items",
+        "/api/products/items",
     )
 
     product_item_id = response.json()["product_items"][0]["id"]
@@ -69,7 +69,7 @@ async def test_creating_shopping_cart_items_with_user(ac):
     assert response.status_code == 200
 
     response = await ac.post(
-        f"/shopping_carts/{shopping_cart_id}/items",
+        f"/api/shopping_carts/{shopping_cart_id}/items",
         json={"product_item_id": product_item_id},
         headers={"Content-Type": "application/json"},
     )
@@ -80,7 +80,7 @@ async def test_creating_shopping_cart_items_with_user(ac):
 @pytest.mark.asyncio
 async def test_get_shopping_cart_items(ac: AsyncClient):
     response = await ac.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": "user12345@example.com",
             "password": "string",
@@ -98,7 +98,7 @@ async def test_get_shopping_cart_items(ac: AsyncClient):
     )
 
     response = await ac.get(
-        "/shopping_carts",
+        "/api/shopping_carts",
     )
 
     assert response.status_code == 200
@@ -106,7 +106,7 @@ async def test_get_shopping_cart_items(ac: AsyncClient):
     shopping_cart_id = response.json()["id"]
 
     response = await ac.get(
-        f"/shopping_carts/{shopping_cart_id}/items",
+        f"/api/shopping_carts/{shopping_cart_id}/items",
     )
 
     assert response.status_code == 200
@@ -126,7 +126,7 @@ async def test_get_shopping_cart_items(ac: AsyncClient):
 @pytest.mark.asyncio
 async def test_change_shopping_cart(quantity, status_code, ac: AsyncClient):
     response = await ac.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": "user12345@example.com",
             "password": "string",
@@ -144,7 +144,7 @@ async def test_change_shopping_cart(quantity, status_code, ac: AsyncClient):
     )
 
     response = await ac.get(
-        "/shopping_carts",
+        "/api/shopping_carts",
     )
 
     assert response.status_code == 200
@@ -152,7 +152,7 @@ async def test_change_shopping_cart(quantity, status_code, ac: AsyncClient):
     shopping_cart_id = response.json()["id"]
 
     response = await ac.get(
-        f"/shopping_carts/{shopping_cart_id}/items",
+        f"/api/shopping_carts/{shopping_cart_id}/items",
     )
 
     assert response.status_code == 200
@@ -167,7 +167,7 @@ async def test_change_shopping_cart(quantity, status_code, ac: AsyncClient):
         "quantity": quantity,
     }
     response = await ac.patch(
-        f"/shopping_carts/{shopping_cart_id}/items/{product_item_id}",
+        f"/api/shopping_carts/{shopping_cart_id}/items/{product_item_id}",
         json=new_shopping_cart_item_data,
     )
 
@@ -175,7 +175,7 @@ async def test_change_shopping_cart(quantity, status_code, ac: AsyncClient):
 
     if status_code == 200:
         response = await ac.get(
-            f"/shopping_carts/{shopping_cart_id}/items",
+            f"/api/shopping_carts/{shopping_cart_id}/items",
         )
 
         assert response.status_code == 200
@@ -188,7 +188,7 @@ async def test_change_shopping_cart(quantity, status_code, ac: AsyncClient):
 @pytest.mark.asyncio
 async def test_delete_shopping_cart_item(ac: AsyncClient):
     response = await ac.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": "user12345@example.com",
             "password": "string",
@@ -206,7 +206,7 @@ async def test_delete_shopping_cart_item(ac: AsyncClient):
     )
 
     response = await ac.get(
-        "/shopping_carts",
+        "/api/shopping_carts",
     )
 
     assert response.status_code == 200
@@ -214,7 +214,7 @@ async def test_delete_shopping_cart_item(ac: AsyncClient):
     shopping_cart_id = response.json()["id"]
 
     response = await ac.get(
-        f"/shopping_carts/{shopping_cart_id}/items",
+        f"/api/shopping_carts/{shopping_cart_id}/items",
     )
 
     assert response.status_code == 200
@@ -226,9 +226,9 @@ async def test_delete_shopping_cart_item(ac: AsyncClient):
     product_item_id = shopping_cart_items[0]["id"]
 
     response = await ac.delete(
-        f"/shopping_carts/{shopping_cart_id}/items/{product_item_id}",
+        f"/api/shopping_carts/{shopping_cart_id}/items/{product_item_id}",
     )
     assert response.status_code == 204
 
-    response = await ac.get(f"/shopping_carts/{shopping_cart_id}/items")
+    response = await ac.get(f"/api/shopping_carts/{shopping_cart_id}/items")
     assert response.status_code == 404

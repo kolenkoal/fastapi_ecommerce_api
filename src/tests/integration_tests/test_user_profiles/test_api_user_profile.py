@@ -9,7 +9,7 @@ async def test_create_shopping_cart_not_authenticated(ac):
     }
 
     response = await ac.post(
-        "/shopping_carts",
+        "/api/shopping_carts",
         json=shopping_cart_data,
         headers={"Content-Type": "application/json"},
     )
@@ -26,7 +26,7 @@ async def test_creating_profile_with_user(ac):
         "last_name": "string",
     }
     response = await ac.post(
-        "/auth/register",
+        "/api/auth/register",
         json=user_data,
         headers={"Content-Type": "application/json"},
     )
@@ -36,7 +36,7 @@ async def test_creating_profile_with_user(ac):
     user_id = response.json()["id"]
 
     response = await ac.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": "user12347890@example.com",
             "password": "string",
@@ -54,7 +54,7 @@ async def test_creating_profile_with_user(ac):
     )
 
     response = await ac.get(
-        "/users/profile",
+        "/api/users/profile",
     )
 
     assert response.status_code == 200
@@ -68,7 +68,7 @@ async def test_creating_profile_with_user(ac):
 @pytest.mark.asyncio
 async def test_change_profile_bio(ac: AsyncClient):
     response = await ac.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": "user12347890@example.com",
             "password": "string",
@@ -90,7 +90,7 @@ async def test_change_profile_bio(ac: AsyncClient):
     }
 
     response = await ac.patch(
-        "/users/profile/bio",
+        "/api/users/profile/bio",
         json=new_bio,
     )
 
@@ -101,7 +101,7 @@ async def test_change_profile_bio(ac: AsyncClient):
 @pytest.mark.asyncio
 async def test_change_profile_image(ac: AsyncClient, temp_products_file):
     response = await ac.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": "user12347890@example.com",
             "password": "string",
@@ -120,7 +120,7 @@ async def test_change_profile_image(ac: AsyncClient, temp_products_file):
 
     with open(temp_products_file, "rb") as file:
         files = {"file": file}
-        response = await ac.patch("/users/profile/image", files=files)
+        response = await ac.patch("/api/users/profile/image", files=files)
         assert response.status_code == 200
 
     assert response.status_code == 200

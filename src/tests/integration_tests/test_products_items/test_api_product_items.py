@@ -7,7 +7,7 @@ async def test_create_product_item_not_authenticated(ac):
     product_item_data = {"name": "Nike Joggers", "category_id": 1}
 
     response = await ac.post(
-        "/products/items",
+        "/api/products/items",
         json=product_item_data,
         headers={"Content-Type": "application/json"},
     )
@@ -30,7 +30,7 @@ async def test_create_product(admin_ac, temp_products_file):
     with open(temp_products_file, "rb") as file:
         files = {"file": file}
         response = await admin_ac.post(
-            "/products", files=files, data=form_data
+            "/api/products", files=files, data=form_data
         )
         assert response.status_code == 200
 
@@ -47,7 +47,7 @@ async def test_create_product(admin_ac, temp_products_file):
 async def test_create_product_item(
     admin_ac, price, quantity_in_stock, status_code, temp_product_items_file
 ):
-    response = await admin_ac.get("/products")
+    response = await admin_ac.get("/api/products")
     assert response.status_code == 200
 
     product_id = response.json()["products"][0]["id"]
@@ -61,14 +61,14 @@ async def test_create_product_item(
     with open(temp_product_items_file, "rb") as file:
         files = {"file": file}
         response = await admin_ac.post(
-            "/products/items", files=files, data=form_data
+            "/api/products/items", files=files, data=form_data
         )
         assert response.status_code == status_code
 
 
 @pytest.mark.asyncio
 async def test_get_product_items(ac: AsyncClient):
-    response = await ac.get("/products/items")
+    response = await ac.get("/api/products/items")
 
     assert response.status_code == 200
 
@@ -81,12 +81,12 @@ async def test_get_product_items(ac: AsyncClient):
 #
 @pytest.mark.asyncio
 async def test_get_product_item(admin_ac: AsyncClient):
-    response = await admin_ac.get("/products/items")
+    response = await admin_ac.get("/api/products/items")
     assert response.status_code == 200
 
     product_item_id = response.json()["product_items"][0]["id"]
 
-    response = await admin_ac.get(f"/products/items/{product_item_id}")
+    response = await admin_ac.get(f"/api/products/items/{product_item_id}")
     assert response.status_code == 200
 
 
@@ -94,7 +94,7 @@ async def test_get_product_item(admin_ac: AsyncClient):
 async def test_change_product_item(
     admin_ac: AsyncClient, temp_product_items_file
 ):
-    response = await admin_ac.get("/products/items")
+    response = await admin_ac.get("/api/products/items")
     assert response.status_code == 200
 
     product_item_id = response.json()["product_items"][0]["id"]
@@ -102,7 +102,7 @@ async def test_change_product_item(
     new_product_item_data = {"price": "2.99"}
 
     response = await admin_ac.patch(
-        f"/products/items/{product_item_id}",
+        f"/api/products/items/{product_item_id}",
         json=new_product_item_data,
     )
 
@@ -114,16 +114,16 @@ async def test_change_product_item(
 #
 @pytest.mark.asyncio
 async def test_delete_product_item(admin_ac: AsyncClient):
-    response = await admin_ac.get("/products/items")
+    response = await admin_ac.get("/api/products/items")
     assert response.status_code == 200
     assert len(response.json()["product_items"]) == 1
 
     product_item_id = response.json()["product_items"][0]["id"]
 
     response = await admin_ac.delete(
-        f"/products/items/{product_item_id}",
+        f"/api/products/items/{product_item_id}",
     )
     assert response.status_code == 204
 
-    response = await admin_ac.get("/products/items")
+    response = await admin_ac.get("/api/products/items")
     assert response.status_code == 404

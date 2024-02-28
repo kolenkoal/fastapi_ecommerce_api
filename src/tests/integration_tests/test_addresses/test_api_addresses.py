@@ -4,7 +4,7 @@ from httpx import AsyncClient
 
 @pytest.fixture
 async def authenticated_ac_with_countries(authenticated_ac):
-    response = await authenticated_ac.get("/countries")
+    response = await authenticated_ac.get("/api/countries")
     assert response.status_code == 200
     return authenticated_ac, response.json()[0]["id"]
 
@@ -23,7 +23,7 @@ async def test_create_address_not_authenticated(ac):
     }
 
     response = await ac.post(
-        "/addresses",
+        "/api/addresses",
         json=address_data,
         headers={"Content-Type": "application/json"},
     )
@@ -105,7 +105,7 @@ async def test_create_address_with_bad_entities(
     }
 
     response = await authenticated_ac.post(
-        "/addresses",
+        "/api/addresses",
         json=address_data,
         headers={"Content-Type": "application/json"},
     )
@@ -130,14 +130,14 @@ async def test_create_address(
     }
 
     response = await authenticated_ac.post(
-        "/addresses",
+        "/api/addresses",
         json=address_data,
         headers={"Content-Type": "application/json"},
     )
     assert response.status_code == 200
 
     response = await authenticated_ac.post(
-        "/addresses",
+        "/api/addresses",
         json=address_data,
         headers={"Content-Type": "application/json"},
     )
@@ -146,32 +146,32 @@ async def test_create_address(
 
 @pytest.mark.asyncio
 async def test_get_user_addresses(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/addresses")
+    response = await authenticated_ac.get("/api/addresses")
     assert response.status_code == 200
 
 
 @pytest.mark.asyncio
 async def test_get_address(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/addresses")
+    response = await authenticated_ac.get("/api/addresses")
     assert response.status_code == 200
 
     address_id = response.json()["addresses"][0]["id"]
-    response = await authenticated_ac.get(f"/addresses/{address_id}")
+    response = await authenticated_ac.get(f"/api/addresses/{address_id}")
     assert response.status_code == 200
 
 
 @pytest.mark.asyncio
 async def test_change_user_address(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/addresses")
+    response = await authenticated_ac.get("/api/addresses")
     assert response.status_code == 200
 
     address_id = response.json()["addresses"][0]["id"]
-    response = await authenticated_ac.get(f"/addresses/{address_id}")
+    response = await authenticated_ac.get(f"/api/addresses/{address_id}")
     assert response.status_code == 200
 
     address_data = {"city": "New City", "postal_code": "11111"}
     response = await authenticated_ac.patch(
-        f"/addresses/{address_id}", json=address_data
+        f"/api/addresses/{address_id}", json=address_data
     )
     new_address_data = response.json()
     assert response.status_code == 200
@@ -181,14 +181,14 @@ async def test_change_user_address(authenticated_ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_delete_user_address(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/addresses")
+    response = await authenticated_ac.get("/api/addresses")
     assert response.status_code == 200
 
     address_id = response.json()["addresses"][0]["id"]
-    response = await authenticated_ac.get(f"/addresses/{address_id}")
+    response = await authenticated_ac.get(f"/api/addresses/{address_id}")
     assert response.status_code == 200
 
-    response = await authenticated_ac.delete(f"/addresses/{address_id}")
+    response = await authenticated_ac.delete(f"/api/addresses/{address_id}")
     assert response.status_code == 204
 
 
@@ -219,14 +219,14 @@ async def test_create_several_addresses(
     }
 
     response = await authenticated_ac.post(
-        "/addresses",
+        "/api/addresses",
         json=address_data_boston,
         headers={"Content-Type": "application/json"},
     )
     assert response.status_code == 200
 
     response = await authenticated_ac.post(
-        "/addresses",
+        "/api/addresses",
         json=address_data_moscow,
         headers={"Content-Type": "application/json"},
     )
@@ -235,7 +235,7 @@ async def test_create_several_addresses(
 
 @pytest.mark.asyncio
 async def test_set_default(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/addresses")
+    response = await authenticated_ac.get("/api/addresses")
     addresses = response.json()["addresses"]
     assert len(addresses) == 2
 
@@ -245,11 +245,11 @@ async def test_set_default(authenticated_ac: AsyncClient):
     assert not is_default2
 
     response = await authenticated_ac.post(
-        f"/addresses/{address_id_2}/set_default"
+        f"/api/addresses/{address_id_2}/set_default"
     )
     assert response.status_code == 200
 
-    response = await authenticated_ac.get("/addresses")
+    response = await authenticated_ac.get("/api/addresses")
     addresses = response.json()["addresses"]
     assert len(addresses) == 2
 

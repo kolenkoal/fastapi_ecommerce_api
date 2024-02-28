@@ -98,7 +98,7 @@ async def authenticated_ac():
             "client_secret": "",
         }
 
-        response = await ac.post("/auth/login", data=data)
+        response = await ac.post("/api/auth/login", data=data)
 
         assert response.status_code == 204
 
@@ -123,7 +123,7 @@ async def admin_ac():
             "client_secret": "",
         }
 
-        response = await ac.post("/auth/login", data=data)
+        response = await ac.post("/api/auth/login", data=data)
 
         assert response.status_code == 204
 

@@ -5,7 +5,7 @@ from httpx import AsyncClient
 @pytest.mark.asyncio
 async def test_create_order_status_not_authenticated(ac):
     response = await ac.post(
-        "/orders/statuses",
+        "/api/orders/statuses",
     )
 
     assert response.status_code == 401
@@ -29,7 +29,7 @@ async def test_create_order_statuses(
     }
 
     response = await admin_ac.post(
-        "/orders/statuses",
+        "/api/orders/statuses",
         json=order_status_data,
         headers={"Content-Type": "application/json"},
     )
@@ -39,7 +39,7 @@ async def test_create_order_statuses(
 
 @pytest.mark.asyncio
 async def test_get_order_statuses(ac: AsyncClient):
-    response = await ac.get("/orders/statuses")
+    response = await ac.get("/api/orders/statuses")
 
     assert response.status_code == 200
 
@@ -51,7 +51,7 @@ async def test_get_order_statuses(ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_get_order_status(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/orders/statuses/6")
+    response = await authenticated_ac.get("/api/orders/statuses/6")
     assert response.status_code == 200
 
 
@@ -73,7 +73,7 @@ async def test_change_product_order_status(
     }
 
     response = await admin_ac.patch(
-        "/orders/statuses/6",
+        "/api/orders/statuses/6",
         json=new_order_status_data,
     )
 
@@ -85,14 +85,14 @@ async def test_change_product_order_status(
 
 @pytest.mark.asyncio
 async def test_delete_product_order_status(admin_ac: AsyncClient):
-    response = await admin_ac.get("/orders/statuses")
+    response = await admin_ac.get("/api/orders/statuses")
     assert len(response.json()["order_statuses"]) == 6
 
     response = await admin_ac.delete(
-        "/orders/statuses/6",
+        "/api/orders/statuses/6",
     )
     assert response.status_code == 204
 
-    response = await admin_ac.get("/orders/statuses")
+    response = await admin_ac.get("/api/orders/statuses")
     assert response.status_code == 200
     assert len(response.json()["order_statuses"]) == 5

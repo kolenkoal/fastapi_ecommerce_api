@@ -18,7 +18,7 @@ async def test_register_user(
     email, first_name, last_name, password, status_code, ac: AsyncClient
 ):
     response = await ac.post(
-        "/auth/register",
+        "api/auth/register",
         json={
             "email": email,
             "last_name": last_name,
@@ -42,7 +42,7 @@ async def test_register_user(
 )
 async def test_login_user(username, password, status_code, ac: AsyncClient):
     response = await ac.post(
-        "/auth/login",
+        "api/auth/login",
         data={
             "username": username,
             "password": password,
