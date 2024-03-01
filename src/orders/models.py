@@ -7,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import uuidpk
+from src.orders.lines.models import OrderLine  # noqa
 
 
 class ShopOrder(Base):

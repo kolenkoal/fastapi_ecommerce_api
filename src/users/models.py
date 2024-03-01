@@ -5,6 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.addresses.models import Address
 from src.database import Base
 from src.models import created_at, str256, updated_at, uuidpk
+from src.users.profiles.models import UserProfile  # noqa
 
 
 class Role(Base):

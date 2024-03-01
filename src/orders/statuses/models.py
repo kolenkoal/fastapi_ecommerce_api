@@ -2,6 +2,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import str20
+from src.orders.models import ShopOrder  # noqa
 
 
 class OrderStatus(Base):
