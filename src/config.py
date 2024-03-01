@@ -23,6 +23,14 @@ class Settings(BaseSettings):
     TEST_DB_PASS: str
     TEST_DB_NAME: str
 
+    REDIS_HOST: str
+    REDIS_PORT: str
+
+    SMTP_HOST: str
+    SMTP_PORT: str
+    EMAIL_SENDER_USERNAME: str
+    EMAIL_SENDER_PASSWORD: str
+
     JWT_SECRET_KEY: str
 
     ADMIN_PASSWORD: str

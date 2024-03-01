@@ -6,6 +6,7 @@ from fastapi_users import BaseUserManager, UUIDIDMixin
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 
 from src.config import settings
+from src.tasks.tasks import send_password_reset_email
 from src.users.dao import UserDAO
 from src.users.models import User
 
@@ -23,7 +24,12 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         self, user: User, token: str, request: Optional[Request] = None
     ):
         print(
-            f"User {user.id} has forgot their password. Reset token: {token}"
+            f"User {user.id} has forgot their password. "
+            f"Sent email with reset token: {token}"
+        )
+
+        send_password_reset_email.delay(
+            settings.EMAIL_SENDER_USERNAME, user.first_name, token
         )
 
     async def on_after_request_verify(
