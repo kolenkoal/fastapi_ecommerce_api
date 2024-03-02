@@ -4,6 +4,16 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, status
 
 from src.addresses.dao import AddressDAO
+from src.addresses.exceptions import (
+    AddressNotImplementedException,
+    NoSuchAddressException,
+    UserHasNoAddressesException,
+)
+from src.addresses.responses import (
+    DELETED_UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE,
+    UNAUTHORIZED_ADDRESS_NOT_FOUND_RESPONSE,
+    UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE,
+)
 from src.addresses.schemas import (
     SAddress,
     SAddressCountry,
@@ -13,18 +23,10 @@ from src.addresses.schemas import (
     SAllUsersAddresses,
 )
 from src.auth.auth import current_user
-from src.examples import example_address
-from src.exceptions import (
-    AddressNotImplementedException,
-    NoSuchAddressException,
-    UserHasNoAddressesException,
-)
-from src.responses import (
-    DELETED_UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE,
-    UNAUTHORIZED_ADDRESS_NOT_FOUND_RESPONSE,
+from src.countries.responses import (
     UNAUTHORIZED_COUNTRY_NOT_FOUND_UNPROCESSABLE_RESPONSE,
-    UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE,
 )
+from src.examples import example_address
 from src.users.models import User
 
 
@@ -86,7 +88,9 @@ async def get_user_addresses(user: User = Depends(current_user)):
     name="Get certain address.",
     responses=UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE,
 )
-async def get_address(address_id: UUID, user: User = Depends(current_user)):
+async def get_address_by_id(
+    address_id: UUID, user: User = Depends(current_user)
+):
     address = await AddressDAO.find_by_id(user, address_id)
 
     if not address:

@@ -3,6 +3,12 @@ from uuid import UUID
 from sqlalchemy import and_, delete, insert, select, update
 from sqlalchemy.orm import joinedload, load_only
 
+from src.addresses.exceptions import (
+    AddressesNotFoundException,
+    AddressNotFoundException,
+    DefaultAddressNotFoundException,
+    UserAlreadyHasThisAddress,
+)
 from src.addresses.models import Address, UserAddress
 from src.addresses.schemas import SAddressOptional
 from src.addresses.utils import add_is_default_to_every_user_address
@@ -10,12 +16,8 @@ from src.countries.dao import CountryDAO
 from src.countries.models import Country
 from src.dao import BaseDAO
 from src.exceptions import (
-    AddressesNotFoundException,
-    AddressNotFoundException,
     CountryNotFoundException,
-    DefaultAddressNotFoundException,
     ForbiddenException,
-    UserAlreadyHasThisAddress,
     raise_http_exception,
 )
 from src.permissions import has_permission

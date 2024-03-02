@@ -29,16 +29,13 @@ router.include_router(router_reviews)
 router.include_router(router_profiles)
 
 
-# router.include_router(fastapi_users.get_users_router(UserRead, UserUpdate))
-
-
 @router.get(
     "/me",
     response_model=UserRead,
     name="Get Current User",
     responses=UNAUTHORIZED_RESPONSE,
 )
-async def me(user: User = Depends(current_user)):
+async def get_me(user: User = Depends(current_user)):
     return user
 
 

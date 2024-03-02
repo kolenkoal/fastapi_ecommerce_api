@@ -21,9 +21,9 @@ DELETED_RESPONSE = {
         "content": {
             "application/json": {
                 "examples": {
-                    "The address was deleted.": {
-                        "summary": "The address was deleted.",
-                        "value": {"detail": "The address was deleted."},
+                    "The item was deleted.": {
+                        "summary": "The item was deleted.",
+                        "value": {"detail": "The item was deleted."},
                     },
                 }
             }
@@ -59,21 +59,6 @@ FORBIDDEN_RESPONSE = {
             }
         }
     },
-}
-
-ADDRESS_NOT_FOUND_RESPONSE = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Addresses not found.": {
-                        "summary": "Addresses not found.",
-                        "value": {"detail": "Addresses not found."},
-                    },
-                }
-            }
-        }
-    }
 }
 
 PAYMENT_TYPES_NOT_FOUND_RESPONSE = {
@@ -361,21 +346,6 @@ VARIATION_OPTIONS_NOT_FOUND = {
     },
 }
 
-COUNTRY_NOT_FOUND_RESPONSE = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Country not found.": {
-                        "summary": "Country not found.",
-                        "value": {"detail": "Country not found."},
-                    },
-                }
-            }
-        }
-    }
-}
-
 PRODUCT_NOT_FOUND = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -501,10 +471,10 @@ UNPROCESSABLE_ENTITY = {
         "content": {
             "application/json": {
                 "examples": {
-                    "You already have this address added.": {
-                        "summary": "You already have this address added.",
+                    "You already have this item added.": {
+                        "summary": "You already have this item added.",
                         "value": {
-                            "detail": "You already have this address added."
+                            "detail": "You already have this item added."
                         },
                     },
                 }
@@ -613,12 +583,6 @@ UNAUTHORIZED_FORBIDDEN_CARTS_NOT_FOUND_RESPONSE = {
     **CARTS_NOT_FOUND_RESPONSE,
 }
 
-UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **ADDRESS_NOT_FOUND_RESPONSE,
-}
-
 UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
@@ -641,13 +605,6 @@ UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_OR_VARIATION_OPTION_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **PRODUCT_ITEM_OR_VARIATION_OPTION_NOT_FOUND_RESPONSE,
-}
-
-DELETED_UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE = {
-    **DELETED_RESPONSE,
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **ADDRESS_NOT_FOUND_RESPONSE,
 }
 
 DELETED_UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
@@ -748,12 +705,6 @@ DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_OPTION_NOT_FOUND_RESPONSE = {
     **VARIATION_OPTION_NOT_FOUND,
 }
 
-UNAUTHORIZED_COUNTRY_NOT_FOUND_UNPROCESSABLE_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **COUNTRY_NOT_FOUND_RESPONSE,
-    **UNPROCESSABLE_ENTITY,
-}
-
 UNAUTHORIZED_FORBIDDEN_PARENT_CATEGORY_NOT_FOUND_UNPROCESSABLE_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
@@ -826,25 +777,12 @@ UNAUTHORIZED_FORBIDDEN_VARIATION_OR_OPTION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTI
     **UNPROCESSABLE_ENTITY,
 }
 
-UNAUTHORIZED_ADDRESS_NOT_FOUND_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **ADDRESS_NOT_FOUND_RESPONSE,
-}
-
 UNAUTHORIZED_PAYMENT_METHODS_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **PAYMENT_METHODS_NOT_FOUND_RESPONSE,
 }
 
-UNAUTHORIZED_PAYMENT_OR_SHIPPING_METHOD_ADDRESS_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **PAYMENT_METHOD_NOT_FOUND_RESPONSE,
-    **SHIPPING_METHOD_NOT_FOUND_RESPONSE,
-    **ADDRESS_NOT_FOUND_RESPONSE,
-    **UNPROCESSABLE_ENTITY,
-}
-
-UNAUTHORIZED_PRODUCT_ITEM_ADDRESS_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE = {
+UNAUTHORIZED_PRODUCT_ITEM_ORDER_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **PRODUCT_ITEM_NOT_FOUND,
     **ORDER_NOT_FOUND_RESPONSE,

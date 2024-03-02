@@ -48,7 +48,7 @@ router = APIRouter(prefix="/countries", tags=["Countries"])
         },
     },
 )
-async def get_countries():
+async def get_all_countries():
     countries = await CountryDAO.find_all()
 
     if not countries:
@@ -76,7 +76,7 @@ async def get_countries():
         }
     },
 )
-async def get_country(country_id: UUID):
+async def get_country_by_id(country_id: UUID):
     country = await CountryDAO.find_by_id(country_id)
 
     if not country:

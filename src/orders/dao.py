@@ -4,9 +4,9 @@ from sqlalchemy import delete, select
 from sqlalchemy.orm import joinedload
 
 from src.addresses.dao import AddressDAO
+from src.addresses.exceptions import AddressNotFoundException
 from src.dao import BaseDAO
 from src.exceptions import (
-    AddressNotFoundException,
     ExpiredCardException,
     ForbiddenException,
     OrderStatusNotFoundException,

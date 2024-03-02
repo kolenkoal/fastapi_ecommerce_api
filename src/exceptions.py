@@ -25,19 +25,9 @@ class CardAlreadyConnectedWithOtherUserException(EcommerceException):
     detail = "Card is already connected to other user."
 
 
-class UserHasNoAddressesException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "You do not have any addresses."
-
-
 class UserProfileNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "User profile not found."
-
-
-class NoSuchAddressException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "There is no such address."
 
 
 class VariationNotFoundException(EcommerceException):
@@ -110,16 +100,6 @@ class CategoryNotFoundException(EcommerceException):
     detail = "Category not found."
 
 
-class AddressesNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Addresses not found."
-
-
-class AddressNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Address not found."
-
-
 class UserReviewNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "User Review not found."
@@ -128,11 +108,6 @@ class UserReviewNotFoundException(EcommerceException):
 class UserReviewsNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "User Reviews not found."
-
-
-class DefaultAddressNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "You do not have default address."
 
 
 class PaymentTypesNotFoundException(EcommerceException):
@@ -240,11 +215,6 @@ class WrongRatingValueException(EcommerceException):
     detail = "Rating value must be from 1 to 5."
 
 
-class WrongCityOrRegionException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid City, Region or Address Line."
-
-
 class WrongUnitOrPostalCodeException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid Unit number or postal code."
@@ -258,11 +228,6 @@ class WrongStreetNumberException(EcommerceException):
 class WrongCategoryNameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid category name."
-
-
-class UserAlreadyHasThisAddress(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "You already have this address added."
 
 
 class PaymentMethodAlreadyExistsException(EcommerceException):
@@ -413,11 +378,6 @@ class InvalidCardException(EcommerceException):
 class QuantityOfProductItemIsMoreThanInStockException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Quantity Of the Product Item is More Than In Stock"
-
-
-class AddressNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add address."
 
 
 class ProductCategoryNotImplementedException(EcommerceException):

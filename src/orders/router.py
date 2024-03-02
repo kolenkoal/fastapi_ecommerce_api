@@ -12,6 +12,9 @@ from src.exceptions import (
 )
 from src.orders.dao import ShopOrderDAO
 from src.orders.lines.router import router as router_lines
+from src.orders.responses import (
+    UNAUTHORIZED_PAYMENT_OR_SHIPPING_METHOD_ADDRESS_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE,
+)
 from src.orders.schemas import (
     SShopOrder,
     SShopOrderChangeOptional,
@@ -24,7 +27,6 @@ from src.responses import (
     DELETED_UNAUTHORIZED_SHOP_ORDER_NOT_FOUND,
     UNAUTHORIZED_FORBIDDEN_ORDER_LINES_NOT_FOUND,
     UNAUTHORIZED_FORBIDDEN_SHOP_ORDER_NOT_FOUND,
-    UNAUTHORIZED_PAYMENT_OR_SHIPPING_METHOD_ADDRESS_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE,
     UNAUTHORIZED_SHOP_ORDER_NOT_FOUND,
     UNAUTHORIZED_SHOP_ORDERS_NOT_FOUND,
 )

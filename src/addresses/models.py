@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
-from src.models import str256, uuidpk, uuidpk_not_unique
+from src.models import str256, uuidpk
 
 
 class Address(Base):
@@ -19,7 +19,7 @@ class Address(Base):
     city: Mapped[str256]
     region: Mapped[str256]
     postal_code: Mapped[str256]
-    country_id: Mapped[uuidpk_not_unique] = mapped_column(
+    country_id: Mapped[UUID] = mapped_column(
         ForeignKey("countries.id", ondelete="CASCADE")
     )
 
