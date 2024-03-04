@@ -110,16 +110,6 @@ class UserReviewsNotFoundException(EcommerceException):
     detail = "User Reviews not found."
 
 
-class PaymentTypesNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Payment types not found."
-
-
-class PaymentTypeNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Payment type not found."
-
-
 class PaymentMethodNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Payment Method not found."
@@ -313,11 +303,6 @@ class ShoppingCartAlreadyExistsException(EcommerceException):
 class ProductCategoryParentNotAllowed(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "A category can not be a parent of itself."
-
-
-class WrongPaymentTypeNameException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid payment type name."
 
 
 class WrongProviderNameException(EcommerceException):

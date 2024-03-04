@@ -10,10 +10,10 @@ from src.exceptions import (
     PaymentMethodAlreadyExistsException,
     PaymentMethodNotFoundException,
     PaymentMethodsNotFoundException,
-    PaymentTypeNotFoundException,
     raise_http_exception,
 )
 from src.payments.methods.models import PaymentMethod
+from src.payments.types.exceptions import PaymentTypeNotFoundException
 from src.payments.types.models import PaymentType
 from src.permissions import has_permission
 from src.users.models import User

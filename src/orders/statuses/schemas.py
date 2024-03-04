@@ -2,8 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel, field_validator
 
-from src.exceptions import WrongPaymentTypeNameException
 from src.patterns import LETTER_MATCH_PATTERN
+from src.payments.types.exceptions import WrongPaymentTypeNameException
 
 
 class SOrderStatusCreate(BaseModel):

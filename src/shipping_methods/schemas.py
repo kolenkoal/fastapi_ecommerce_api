@@ -3,12 +3,9 @@ from typing import Optional, Type, Union
 
 from pydantic import BaseModel, field_validator
 
-from src.exceptions import (
-    PriceLessOrEqualZeroException,
-    WrongPaymentTypeNameException,
-    WrongPriceException,
-)
+from src.exceptions import PriceLessOrEqualZeroException, WrongPriceException
 from src.patterns import LETTER_MATCH_PATTERN
+from src.payments.types.exceptions import WrongPaymentTypeNameException
 
 
 class SShippingMethodCreate(BaseModel):
