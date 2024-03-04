@@ -19,7 +19,7 @@ from src.config import settings  # noqa
 from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
 from src.orders.statuses.models import OrderStatus  # noqa
-from src.payments.payment_types.models import PaymentType  # noqa
+from src.payments.types.models import PaymentType  # noqa
 from src.products.categories.models import ProductCategory  # noqa
 from src.shipping_methods.models import ShippingMethod  # noqa
 from src.users.models import Role, User  # noqa

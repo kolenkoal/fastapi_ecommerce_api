@@ -23,7 +23,7 @@ from src.orders.lines.router import create_order_line
 from src.orders.lines.schemas import SOrderLineCreate
 from src.orders.models import ShopOrder
 from src.orders.statuses.dao import OrderStatusDAO
-from src.payments.payment_methods.dao import UserPaymentMethodDAO
+from src.payments.methods.dao import UserPaymentMethodDAO
 from src.permissions import has_permission
 from src.products.items.dao import ProductItemDAO
 from src.shipping_methods.dao import ShippingMethodDAO

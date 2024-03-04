@@ -7,8 +7,8 @@ from src.exceptions import (
     PaymentTypesNotFoundException,
     raise_http_exception,
 )
-from src.payments.payment_types.dao import PaymentTypeDAO
-from src.payments.payment_types.schemas import SPaymentType
+from src.payments.types.dao import PaymentTypeDAO
+from src.payments.types.schemas import SPaymentType
 from src.responses import (
     PAYMENT_TYPES_NOT_FOUND_RESPONSE,
     PAYMENT_TYPES_SUCCESS_NOT_FOUND_RESPONSE,

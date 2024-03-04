@@ -2,7 +2,7 @@ from sqlalchemy import select
 
 from src.dao import BaseDAO
 from src.database import async_session_factory
-from src.payments.payment_types.models import PaymentType
+from src.payments.types.models import PaymentType
 
 
 class PaymentTypeDAO(BaseDAO):

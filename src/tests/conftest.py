@@ -10,7 +10,7 @@ from sqlalchemy import insert
 
 from src.countries.models import Country
 from src.orders.statuses.models import OrderStatus
-from src.payments.payment_types.models import PaymentType
+from src.payments.types.models import PaymentType
 from src.users.models import Role, User
 
 

@@ -11,7 +11,7 @@ from src.exceptions import (
     WrongProviderNameException,
 )
 from src.patterns import LETTER_MATCH_PATTERN, NUMBER_PATTERN
-from src.payments.payment_types.schemas import SPaymentType
+from src.payments.types.schemas import SPaymentType
 from src.users.schemas import UserRead
 
 

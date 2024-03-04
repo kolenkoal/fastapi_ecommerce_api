@@ -27,7 +27,7 @@ class Address(Base):
 
     users_living: Mapped[list["User"]] = relationship(  # noqa
         back_populates="addresses",
-        secondary="user_addresses",
+        secondary="address_user",
     )
 
     orders = relationship("ShopOrder", back_populates="shipping_address")
@@ -36,7 +36,7 @@ class Address(Base):
 
 
 class UserAddress(Base):
-    __tablename__ = "user_addresses"
+    __tablename__ = "address_user"
 
     user_id: Mapped[UUID] = mapped_column(
         GUID, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True

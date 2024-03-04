@@ -8,8 +8,8 @@ from src.database import Base
 from src.models import str256, uuidpk
 
 
-class UserPaymentMethod(Base):
-    __tablename__ = "user_payment_methods"
+class PaymentMethod(Base):
+    __tablename__ = "payment_methods"
 
     id: Mapped[uuidpk]
     user_id: Mapped[UUID] = mapped_column(

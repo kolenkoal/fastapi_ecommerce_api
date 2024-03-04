@@ -45,10 +45,10 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
 
     addresses: Mapped[list["Address"]] = relationship(
         back_populates="users_living",
-        secondary="user_addresses",
+        secondary="address_user",
     )
 
-    payment_methods = relationship("UserPaymentMethod", back_populates="user")
+    payment_methods = relationship("PaymentMethod", back_populates="user")
     shopping_cart = relationship("ShoppingCart", back_populates="user")
     orders = relationship("ShopOrder", back_populates="user")
     reviews = relationship("UserReview", back_populates="user")

@@ -9,8 +9,8 @@ from src.database import DATABASE_URL, Base
 from src.orders.lines.models import OrderLine  # noqa
 from src.orders.models import ShopOrder  # noqa
 from src.orders.statuses.models import OrderStatus  # noqa
-from src.payments.payment_methods.models import UserPaymentMethod  # noqa
-from src.payments.payment_types.models import PaymentType  # noqa
+from src.payments.methods.models import PaymentMethod  # noqa
+from src.payments.types.models import PaymentType  # noqa
 from src.products.categories.models import ProductCategory  # noqa
 from src.products.configurations.models import ProductConfiguration  # noqa
 from src.products.items.models import ProductItem  # noqa

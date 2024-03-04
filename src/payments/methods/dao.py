@@ -13,8 +13,8 @@ from src.exceptions import (
     PaymentTypeNotFoundException,
     raise_http_exception,
 )
-from src.payments.payment_methods.models import UserPaymentMethod
-from src.payments.payment_types.models import PaymentType
+from src.payments.methods.models import PaymentMethod
+from src.payments.types.models import PaymentType
 from src.permissions import has_permission
 from src.users.models import User
 from src.utils.data_manipulation import get_new_data
@@ -22,7 +22,7 @@ from src.utils.session import manage_session
 
 
 class UserPaymentMethodDAO(BaseDAO):
-    model = UserPaymentMethod
+    model = PaymentMethod
 
     @classmethod
     @manage_session
@@ -36,7 +36,7 @@ class UserPaymentMethodDAO(BaseDAO):
             **data: Additional data for the payment method.
 
         Returns:
-            UserPaymentMethod: The newly created payment method.
+            PaymentMethod: The newly created payment method.
         """
 
         # Make sure payment type exists
@@ -133,7 +133,7 @@ class UserPaymentMethodDAO(BaseDAO):
             session (Session, optional): The database session.
 
         Returns:
-            UserPaymentMethod: The user's payment method if found, else None
+            PaymentMethod: The user's payment method if found, else None
         """
         get_user_payment_methods_query = select(cls.model).where(
             cls.model.user_id == user.id
@@ -294,7 +294,7 @@ class UserPaymentMethodDAO(BaseDAO):
             session (Session, optional): The database session. Defaults to None.
 
         Returns:
-            UserPaymentMethod: The updated default payment method.
+            PaymentMethod: The updated default payment method.
 
         Raises:
             ForbiddenException: If the user does not have permission to set the default payment method.
@@ -323,7 +323,7 @@ class UserPaymentMethodDAO(BaseDAO):
             session (Session, optional): The database session. Defaults to None.
 
         Returns:
-            UserPaymentMethod: The current default payment method.
+            PaymentMethod: The current default payment method.
 
         Raises:
             ForbiddenException: If the user does not have permission to set the default payment method.
@@ -359,7 +359,7 @@ class UserPaymentMethodDAO(BaseDAO):
             session (Session, optional): The database session. Defaults to None.
 
         Returns:
-            UserPaymentMethod: The updated default payment method.
+            PaymentMethod: The updated default payment method.
 
         Raises:
             ForbiddenException: If the user does not have permission to set the default payment method.
@@ -400,7 +400,7 @@ class UserPaymentMethodDAO(BaseDAO):
             session (Session, optional): The database session. Defaults to None.
 
         Returns:
-            UserPaymentMethod: The found payment method.
+            PaymentMethod: The found payment method.
 
         Raises:
             PaymentMethodNotFoundException: If the payment method with the given ID is not found.
@@ -429,7 +429,7 @@ class UserPaymentMethodDAO(BaseDAO):
             session (Session, optional): The database session. Defaults to None.
 
         Returns:
-            UserPaymentMethod: The found payment method, or None if not found.
+            PaymentMethod: The found payment method, or None if not found.
         """
         get_payment_method_query = select(cls.model).where(
             cls.model.id == payment_method_id
@@ -456,7 +456,7 @@ class UserPaymentMethodDAO(BaseDAO):
             session (Session, optional): The database session. Defaults to None.
 
         Returns:
-            UserPaymentMethod: The updated payment method.
+            PaymentMethod: The updated payment method.
 
         Raises:
             PaymentMethodNotFoundException: If the payment method with the given ID is not found.
@@ -546,7 +546,7 @@ class UserPaymentMethodDAO(BaseDAO):
             session (Session, optional): The database session. Defaults to None.
 
         Returns:
-            UserPaymentMethod: The updated payment method.
+            PaymentMethod: The updated payment method.
 
         Raises: PaymentMethodNotFoundException: If the payment method with
         the given ID is not found.

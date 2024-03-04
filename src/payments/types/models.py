@@ -2,7 +2,7 @@ from sqlalchemy.orm import Mapped, relationship
 
 from src.database import Base
 from src.models import str256, uuidpk
-from src.payments.payment_methods.models import UserPaymentMethod  # noqa
+from src.payments.methods.models import PaymentMethod  # noqa
 
 
 class PaymentType(Base):
@@ -12,5 +12,5 @@ class PaymentType(Base):
     name: Mapped[str256]
 
     payment_types_methods = relationship(
-        "UserPaymentMethod", back_populates="payment_type"
+        "PaymentMethod", back_populates="payment_type"
     )
