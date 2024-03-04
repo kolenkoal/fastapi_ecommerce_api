@@ -85,14 +85,14 @@ class UserPaymentMethodDAO(BaseDAO):
         get_payment_method_query = select(cls.model).where(
             cls.model.account_number == payment_method_account_number
         )
-        payment_method = (
-            await session.execute(get_payment_method_query)
-        ).scalar_one_or_none()
+        payment_methods = (
+            (await session.execute(get_payment_method_query)).scalars().all()
+        )
 
-        if payment_method:
-            if payment_method.user_id != user.id:
-                raise_http_exception(ForbiddenException)
-            raise_http_exception(PaymentMethodAlreadyExistsException)
+        if payment_methods:
+            for payment_method in payment_methods:
+                if payment_method.user_id == user.id:
+                    raise_http_exception(PaymentMethodAlreadyExistsException)
 
     @classmethod
     @manage_session
@@ -500,7 +500,6 @@ class UserPaymentMethodDAO(BaseDAO):
             user, new_payment_method_data["account_number"]
         )
 
-        #
         return await cls._handle_existing_or_new_payment_method(
             existing_payment_method,
             user,
@@ -522,10 +521,11 @@ class UserPaymentMethodDAO(BaseDAO):
         Handles existing or new payment_method.
         """
         # Payment method exists
-        if existing_payment_method:
-            if existing_payment_method.user_id == user.id:
-                raise_http_exception(PaymentMethodAlreadyExistsException)
-            raise_http_exception(ForbiddenException)
+        if (
+            existing_payment_method
+            and existing_payment_method.user_id == user.id
+        ):
+            raise_http_exception(PaymentMethodAlreadyExistsException)
 
         # If is does not, we can update
         return await cls._update_payment_method(
