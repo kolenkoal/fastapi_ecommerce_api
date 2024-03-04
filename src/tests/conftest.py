@@ -21,6 +21,9 @@ from src.database import Base, async_engine, async_session_factory  # noqa
 from src.main import app as fastapi_app  # noqa
 
 
+field_paths = []
+
+
 @pytest.fixture(scope="session", autouse=True)
 async def prepare_database():
     assert settings.MODE == "TEST"
@@ -135,13 +138,13 @@ def temp_products_file(request):
     os.makedirs(directory, exist_ok=True)
 
     file_prefix = "test_product"
-    tmp_file = tempfile.NamedTemporaryFile(
-        suffix=".webp", prefix=file_prefix, dir=directory, delete=False
+    fd, file_path = tempfile.mkstemp(
+        suffix=".webp", prefix=file_prefix, dir=directory
     )
-    tmp_file.write(b"test_data")
-    tmp_file.close()
+    os.write(fd, b"test_data")
+    os.close(fd)
 
-    file_path = tmp_file.name
+    field_paths.append(file_path)
 
     yield file_path
 

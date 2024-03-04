@@ -111,7 +111,6 @@ async def test_change_product_item(
     assert response.json()["price"] == "2.99"
 
 
-#
 @pytest.mark.asyncio
 async def test_delete_product_item(admin_ac: AsyncClient):
     response = await admin_ac.get("/api/products/items")

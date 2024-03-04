@@ -85,3 +85,13 @@ async def add_profile_image(name: str, file: UploadFile):
         shutil.copyfileobj(file.file, file_object)
 
     return name
+
+
+@router.delete("/products/items")
+async def delete_profile_image_file(name: str):
+    im_path = f"src/static/images/user_profiles/{name}.webp"
+
+    if os.path.exists(im_path):
+        os.remove(im_path)
+        return True
+    return False

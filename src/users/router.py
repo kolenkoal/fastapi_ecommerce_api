@@ -6,6 +6,7 @@ from fastapi_users.router import ErrorCode
 
 from src.auth.auth import current_user
 from src.auth.manager import UserManager, get_user_manager
+from src.images.router import delete_profile_image_file
 from src.permissions import has_permission
 from src.users.dao import UserDAO
 from src.users.exceptions import NotFoundException, UserAlreadyExistsException
@@ -143,9 +144,7 @@ async def update_user(
 )
 async def delete_user(
     id: UUID,
-    request: Request,
     user: User = Depends(current_user),
-    user_manager: UserManager = Depends(get_user_manager),
 ):
     found_user = await UserDAO.find_one_or_none(id=id)
 
@@ -155,5 +154,7 @@ async def delete_user(
     if not await has_permission(user):
         raise NotFoundException
 
-    await user_manager.delete(found_user, request=request)
+    await delete_profile_image_file(found_user.id)
+
+    await UserDAO.delete_certain_item(found_user.id)
     return None
