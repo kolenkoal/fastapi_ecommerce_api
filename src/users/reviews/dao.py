@@ -3,12 +3,12 @@ from sqlalchemy import select
 from src.dao import BaseDAO
 from src.exceptions import (
     ForbiddenException,
-    OrderLineNotFoundException,
     UserReviewAlreadyExistsException,
     UserReviewNotFoundException,
     raise_http_exception,
 )
 from src.orders.lines.dao import OrderLineDAO
+from src.orders.lines.exceptions import OrderLineNotFoundException
 from src.orders.lines.models import OrderLine
 from src.orders.models import Order
 from src.users.models import User

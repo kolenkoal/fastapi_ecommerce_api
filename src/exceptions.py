@@ -50,16 +50,6 @@ class UserReviewsNotFoundException(EcommerceException):
     detail = "User Reviews not found."
 
 
-class OrderLineNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Order Line not found."
-
-
-class OrderLinesNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Order Lines not found."
-
-
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."

@@ -3,12 +3,16 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
-from src.exceptions import OrderLinesNotFoundException, raise_http_exception
+from src.exceptions import raise_http_exception
 from src.orders.dao import OrderDAO
 from src.orders.exceptions import (
     OrderNotFoundException,
     OrderNotImplementedException,
     OrdersNotFoundException,
+)
+from src.orders.lines.exceptions import OrderLinesNotFoundException
+from src.orders.lines.responses import (
+    UNAUTHORIZED_FORBIDDEN_ORDER_LINES_NOT_FOUND,
 )
 from src.orders.lines.router import router as router_lines
 from src.orders.responses import (
@@ -26,7 +30,6 @@ from src.orders.schemas import (
     SOrderWithLines,
 )
 from src.orders.statuses.router import router as router_statuses
-from src.responses import UNAUTHORIZED_FORBIDDEN_ORDER_LINES_NOT_FOUND
 from src.users.models import User
 
 
