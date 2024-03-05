@@ -4,12 +4,9 @@ from sqlalchemy import and_, delete, desc, select, update
 from sqlalchemy.orm import joinedload, load_only
 
 from src.dao import BaseDAO
-from src.exceptions import (
-    ExpiredCardException,
-    ForbiddenException,
-    raise_http_exception,
-)
+from src.exceptions import ForbiddenException, raise_http_exception
 from src.payments.methods.exceptions import (
+    ExpiredCardException,
     PaymentMethodAlreadyExistsException,
     PaymentMethodNotFoundException,
     PaymentMethodsNotFoundException,

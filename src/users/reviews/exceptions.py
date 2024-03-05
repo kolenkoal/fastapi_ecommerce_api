@@ -21,3 +21,8 @@ class UserReviewAlreadyExistsException(EcommerceException):
 class UserReviewNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add review."
+
+
+class WrongRatingValueException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Rating value must be from 1 to 5."

@@ -4,8 +4,8 @@ from typing import Type, Union
 from fastapi_users import schemas
 from pydantic import ConfigDict, EmailStr, Field, field_validator
 
-from src.exceptions import WrongNameOrSurnameException
 from src.patterns import LETTER_MATCH_PATTERN
+from src.users.exceptions import WrongNameOrSurnameException
 
 
 class UserRead(schemas.CreateUpdateDictModel):

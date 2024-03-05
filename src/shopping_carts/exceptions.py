@@ -18,6 +18,11 @@ class ShoppingCartAlreadyExistsException(EcommerceException):
     detail = "Such shopping cart already exists."
 
 
+class UserAlreadyHasCartException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "User already has a cart."
+
+
 class ShoppingCartNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add shopping cart."

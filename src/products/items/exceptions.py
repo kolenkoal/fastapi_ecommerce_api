@@ -23,6 +23,11 @@ class QuantityOfProductItemIsMoreThanInStockException(EcommerceException):
     detail = "Quantity Of the Product Item is More Than In Stock"
 
 
+class WrongQuantityException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Invalid format of quantity."
+
+
 class ProductItemNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add product item."

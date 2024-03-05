@@ -2,7 +2,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, field_validator
 
-from src.exceptions import QuantityLessThanOneException
+from src.shopping_carts.items.exceptions import QuantityLessThanOneException
 
 
 class SShoppingCartItemCreate(BaseModel):

@@ -18,6 +18,11 @@ class OrderAlreadyExistsException(EcommerceException):
     detail = "Such order already exists."
 
 
+class UserDoesNotHaveCartException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "User does not have a cart."
+
+
 class OrderNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add order."

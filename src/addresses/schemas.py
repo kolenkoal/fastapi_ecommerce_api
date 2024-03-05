@@ -3,12 +3,12 @@ from typing import List, Optional, Type, Union
 
 from pydantic import BaseModel, Field, field_validator
 
-from src.addresses.exceptions import WrongCityOrRegionException
-from src.countries.schemas import SCountry
-from src.exceptions import (
+from src.addresses.exceptions import (
+    WrongCityOrRegionException,
     WrongStreetNumberException,
     WrongUnitOrPostalCodeException,
 )
+from src.countries.schemas import SCountry
 from src.patterns import (
     ALPHA_NUMERIC_PATTERN,
     LETTER_MATCH_PATTERN,

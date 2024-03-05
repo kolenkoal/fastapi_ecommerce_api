@@ -4,13 +4,13 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field, field_validator
 
-from src.exceptions import (
+from src.patterns import LETTER_MATCH_PATTERN, NUMBER_PATTERN
+from src.payments.methods.exceptions import (
     ExpiredCardException,
     InvalidCardException,
     WrongAccountNumberException,
     WrongProviderNameException,
 )
-from src.patterns import LETTER_MATCH_PATTERN, NUMBER_PATTERN
 from src.payments.types.schemas import SPaymentType
 from src.users.schemas import UserRead
 

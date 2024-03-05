@@ -13,13 +13,10 @@ from src.addresses.models import Address, UserAddress
 from src.addresses.schemas import SAddressOptional
 from src.addresses.utils import add_is_default_to_every_user_address
 from src.countries.dao import CountryDAO
+from src.countries.exceptions import CountryNotFoundException
 from src.countries.models import Country
 from src.dao import BaseDAO
-from src.exceptions import (
-    CountryNotFoundException,
-    ForbiddenException,
-    raise_http_exception,
-)
+from src.exceptions import ForbiddenException, raise_http_exception
 from src.permissions import has_permission
 from src.users.models import User
 from src.utils.data_manipulation import get_new_data

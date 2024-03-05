@@ -4,7 +4,7 @@ from typing import List
 import pycountry
 from pydantic import BaseModel, field_validator
 
-from src.exceptions import WrongCountryNameException
+from src.countries.exceptions import WrongCountryNameException
 from src.patterns import LETTER_MATCH_PATTERN
 
 

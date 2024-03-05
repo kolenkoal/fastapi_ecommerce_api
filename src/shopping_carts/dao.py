@@ -1,16 +1,13 @@
 from sqlalchemy import select
 
 from src.dao import BaseDAO
-from src.exceptions import (
-    ForbiddenException,
-    UserAlreadyHasCartException,
-    raise_http_exception,
-)
+from src.exceptions import ForbiddenException, raise_http_exception
 from src.permissions import has_permission
 from src.shopping_carts.exceptions import (
     ShoppingCartAlreadyExistsException,
     ShoppingCartNotFoundException,
     ShoppingCartsNotFoundException,
+    UserAlreadyHasCartException,
 )
 from src.shopping_carts.models import ShoppingCart
 from src.users.models import User

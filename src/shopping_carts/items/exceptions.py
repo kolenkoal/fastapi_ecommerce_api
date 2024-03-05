@@ -13,6 +13,11 @@ class ShoppingCartItemsNotFoundException(EcommerceException):
     detail = "Shopping Cart Items not found."
 
 
+class QuantityLessThanOneException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Quantity should be at least one."
+
+
 class ShoppingCartItemNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add shopping cart item."

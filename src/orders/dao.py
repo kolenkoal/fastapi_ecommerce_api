@@ -6,15 +6,11 @@ from sqlalchemy.orm import joinedload
 from src.addresses.dao import AddressDAO
 from src.addresses.exceptions import AddressNotFoundException
 from src.dao import BaseDAO
-from src.exceptions import (
-    ExpiredCardException,
-    ForbiddenException,
-    UserDoesNotHaveCartException,
-    raise_http_exception,
-)
+from src.exceptions import ForbiddenException, raise_http_exception
 from src.orders.exceptions import (
     OrderAlreadyExistsException,
     OrderNotFoundException,
+    UserDoesNotHaveCartException,
 )
 from src.orders.lines.models import OrderLine
 from src.orders.lines.router import create_order_line
@@ -23,6 +19,7 @@ from src.orders.models import Order
 from src.orders.statuses.dao import OrderStatusDAO
 from src.orders.statuses.exceptions import OrderStatusNotFoundException
 from src.payments.methods.dao import UserPaymentMethodDAO
+from src.payments.methods.exceptions import ExpiredCardException
 from src.permissions import has_permission
 from src.products.items.dao import ProductItemDAO
 from src.products.items.exceptions import ProductItemNotFoundException

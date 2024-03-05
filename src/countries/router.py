@@ -3,12 +3,12 @@ from uuid import UUID
 from fastapi import APIRouter, status
 
 from src.countries.dao import CountryDAO
-from src.countries.schemas import SCountry
-from src.exceptions import (
+from src.countries.exceptions import (
     CountriesNotFoundException,
     CountryNotFoundException,
-    raise_http_exception,
 )
+from src.countries.schemas import SCountry
+from src.exceptions import raise_http_exception
 
 
 router = APIRouter(prefix="/countries", tags=["Countries"])

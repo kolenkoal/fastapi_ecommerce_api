@@ -8,8 +8,8 @@ from src.exceptions import (
     PriceLessOrEqualZeroException,
     QuantityLessThanZeroException,
     WrongPriceException,
-    WrongQuantityException,
 )
+from src.products.items.exceptions import WrongQuantityException
 from src.products.schemas import SProduct
 from src.variations.options.schemas import SVariationOption
 

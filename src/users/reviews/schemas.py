@@ -3,7 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, field_validator
 
-from src.exceptions import WrongRatingValueException
+from src.users.reviews.exceptions import WrongRatingValueException
 
 
 class SUserReview(BaseModel):
