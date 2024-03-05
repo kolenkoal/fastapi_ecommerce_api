@@ -22,6 +22,7 @@ from src.products.responses import (
     PRODUCT_NOT_FOUND,
     PRODUCTS_NOT_FOUND,
     UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_PRODUCT_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+    UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE,
 )
 from src.products.schemas import (
     SProduct,
@@ -38,6 +39,22 @@ router = APIRouter(prefix="/products", tags=["Products"])
 router.include_router(categories_router)
 router.include_router(items_router)
 router.include_router(configurations_router)
+
+
+@router.patch(
+    "/image",
+    response_model=SProduct,
+    name="Change product image.",
+    responses=UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE,
+)
+async def change_product_image_by_id(
+    file: UploadFile = File(...),
+    product_id: UUID = Form(...),
+    user: User = Depends(current_user),
+):
+    product = await ProductDAO.change_image(user, file, product_id)
+
+    return product
 
 
 @router.post(

@@ -134,6 +134,28 @@ class ProductDAO(BaseDAO):
 
     @classmethod
     @manage_session
+    async def change_image(cls, user, file, product_id, session=None):
+        if not await has_permission(user):
+            raise_http_exception(ForbiddenException)
+
+        product = await cls.find_one_or_none(id=product_id)
+
+        if not product:
+            raise_http_exception(ProductNotFoundException)
+
+        current_product_name = product.name.lower().replace(" ", "_")
+
+        # Upload the given file to images
+        uploaded_image_name = await add_product_image(
+            current_product_name, product.category_id, file
+        )
+
+        return await cls.update_data(
+            product.id, {"product_image": uploaded_image_name}
+        )
+
+    @classmethod
+    @manage_session
     async def delete(cls, user, product_id, session=None):
         if not await has_permission(user):
             raise_http_exception(ForbiddenException)
