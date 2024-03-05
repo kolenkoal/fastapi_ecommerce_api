@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, File, UploadFile
 
 from src.auth.auth import current_user
-from src.exceptions import (
-    UserProfileNotFoundException,
-    UserProfileNotImplementedException,
-    raise_http_exception,
-)
+from src.exceptions import raise_http_exception
 from src.responses import UNAUTHORIZED_RESPONSE
 from src.users.models import User
 from src.users.profiles.dao import UserProfileDAO
+from src.users.profiles.exceptions import (
+    UserProfileNotFoundException,
+    UserProfileNotImplementedException,
+)
 from src.users.profiles.schemas import SUserProfile, SUserProfileCreateOptional
 
 
@@ -71,7 +71,7 @@ async def change_user_profile(
     name="Change user profile image.",
     responses=UNAUTHORIZED_RESPONSE,
 )
-async def create_product(
+async def update_user_profile_image(
     file: UploadFile = File(...), user: User = Depends(current_user)
 ):
     user_profile = await UserProfileDAO.change_image(user, file)

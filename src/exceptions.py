@@ -25,11 +25,6 @@ class CardAlreadyConnectedWithOtherUserException(EcommerceException):
     detail = "Card is already connected to other user."
 
 
-class UserProfileNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "User profile not found."
-
-
 class CountriesNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Countries not found."
@@ -68,11 +63,6 @@ class WrongStreetNumberException(EcommerceException):
 class UserAlreadyHasCartException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "User already has a cart."
-
-
-class UserAlreadyHasProfileException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "User already has a profile."
 
 
 class UserDoesNotHaveCartException(EcommerceException):
@@ -123,8 +113,3 @@ class ExpiredCardException(EcommerceException):
 class InvalidCardException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Card number should have 16 digits."
-
-
-class UserProfileNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add user profile."

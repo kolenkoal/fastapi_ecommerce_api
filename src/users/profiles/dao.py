@@ -1,6 +1,7 @@
 from src.dao import BaseDAO
-from src.exceptions import UserAlreadyHasProfileException, raise_http_exception
+from src.exceptions import raise_http_exception
 from src.images.router import add_profile_image
+from src.users.profiles.exceptions import UserAlreadyHasProfileException
 from src.users.profiles.models import UserProfile
 from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
