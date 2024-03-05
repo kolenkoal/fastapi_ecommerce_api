@@ -1,14 +1,13 @@
 from sqlalchemy import select
 
 from src.dao import BaseDAO
-from src.exceptions import (
-    ForbiddenException,
+from src.exceptions import ForbiddenException, raise_http_exception
+from src.permissions import has_permission
+from src.shipping_methods.exceptions import (
     ShippingMethodAlreadyExistsException,
     ShippingMethodNotFoundException,
     ShippingMethodWithNameAlreadyExistsException,
-    raise_http_exception,
 )
-from src.permissions import has_permission
 from src.shipping_methods.models import ShippingMethod
 from src.users.models import User
 from src.utils.data_manipulation import get_new_data

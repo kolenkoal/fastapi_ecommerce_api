@@ -5,11 +5,13 @@ from src.exceptions import (
     ForbiddenException,
     OrderStatusAlreadyExistsException,
     OrderStatusNotFoundException,
-    ShippingMethodWithNameAlreadyExistsException,
     raise_http_exception,
 )
 from src.orders.statuses.models import OrderStatus
 from src.permissions import has_permission
+from src.shipping_methods.exceptions import (
+    ShippingMethodWithNameAlreadyExistsException,
+)
 from src.users.models import User
 from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session

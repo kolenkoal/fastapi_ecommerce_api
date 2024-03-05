@@ -50,16 +50,6 @@ class UserReviewsNotFoundException(EcommerceException):
     detail = "User Reviews not found."
 
 
-class ShippingMethodsNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Shipping Methods not found."
-
-
-class ShippingMethodNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Shipping Method not found."
-
-
 class OrderStatusesNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Order Statuses not found."
@@ -120,11 +110,6 @@ class UserReviewAlreadyExistsException(EcommerceException):
     detail = "You already have this product reviewed."
 
 
-class ShippingMethodAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Such shipping method already exists."
-
-
 class ShopOrderAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such shop order already exists."
@@ -133,11 +118,6 @@ class ShopOrderAlreadyExistsException(EcommerceException):
 class OrderStatusAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such order status already exists."
-
-
-class ShippingMethodWithNameAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Shipping method with new name already exists."
 
 
 class UserAlreadyHasCartException(EcommerceException):
@@ -203,11 +183,6 @@ class InvalidCardException(EcommerceException):
 class UserProfileNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add user profile."
-
-
-class ShippingMethodNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add shipping method."
 
 
 class OrderStatusNotImplementedException(EcommerceException):

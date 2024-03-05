@@ -2,20 +2,20 @@ from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
 from src.examples import example_shipping_method
-from src.exceptions import (
+from src.exceptions import raise_http_exception
+from src.responses import UNAUTHORIZED_FORBIDDEN_UNPROCESSABLE_RESPONSE
+from src.shipping_methods.dao import ShippingMethodDAO
+from src.shipping_methods.exceptions import (
     ShippingMethodNotFoundException,
     ShippingMethodNotImplementedException,
     ShippingMethodsNotFoundException,
-    raise_http_exception,
 )
-from src.responses import (
+from src.shipping_methods.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE,
     SHIPPING_METHOD_NOT_FOUND_RESPONSE,
     SHIPPING_METHODS_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE,
-    UNAUTHORIZED_FORBIDDEN_UNPROCESSABLE_RESPONSE,
 )
-from src.shipping_methods.dao import ShippingMethodDAO
 from src.shipping_methods.schemas import (
     SShippingMethod,
     SShippingMethodCreate,
@@ -67,7 +67,7 @@ async def get_all_shipping_methods():
     response_model=SShippingMethod,
     responses=SHIPPING_METHOD_NOT_FOUND_RESPONSE,
 )
-async def get_shipping_method(shipping_method_id: int):
+async def get_shipping_method_by_id(shipping_method_id: int):
     shipping_method = await ShippingMethodDAO.find_one_or_none(
         id=shipping_method_id
     )
@@ -84,7 +84,7 @@ async def get_shipping_method(shipping_method_id: int):
     response_model=SShippingMethod,
     responses=UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE,
 )
-async def change_user_address(
+async def change_shipping_method_by_id(
     shipping_method_id: int,
     data: SShippingMethodCreateOptional,
     user: User = Depends(current_user),
@@ -105,7 +105,7 @@ async def change_user_address(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE,
 )
-async def delete_shipping_method(
+async def delete_shipping_method_by_id(
     shipping_method_id: int,
     user: User = Depends(current_user),
 ):
