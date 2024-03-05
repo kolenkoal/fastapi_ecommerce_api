@@ -21,11 +21,13 @@ from src.products.items.schemas import (
     SProductItemWithProduct,
     SProductItemWithVariations,
 )
+from src.products.responses import (
+    UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE,
+)
 from src.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_NOT_FOUND_RESPONSE,
     PRODUCT_ITEM_NOT_FOUND,
     PRODUCT_ITEMS_NOT_FOUND,
-    UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE,
 )
 from src.users.models import User
 from src.users.reviews.schemas import SUserReviews

@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, status
 from src.auth.auth import current_user
 from src.examples import example_variation
 from src.exceptions import raise_http_exception
-from src.products.responses import (
+from src.products.categories.responses import (
     UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
 )
 from src.users.models import User

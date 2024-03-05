@@ -196,36 +196,6 @@ USER_REVIEWS_NOT_FOUND_RESPONSE = {
     },
 }
 
-PRODUCT_NOT_FOUND = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Product not found.": {
-                        "summary": "Product not found.",
-                        "value": {"detail": "Product not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
-PRODUCTS_NOT_FOUND = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Products not found.": {
-                        "summary": "Products not found.",
-                        "value": {"detail": "Products not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
 PRODUCT_ITEM_NOT_FOUND = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -444,13 +414,6 @@ DELETED_UNAUTHORIZED_FORBIDDEN_USER_REVIEW_NOT_FOUND_RESPONSE = {
     **USER_REVIEW_NOT_FOUND_RESPONSE,
 }
 
-DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_RESPONSE = {
-    **DELETED_RESPONSE,
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **PRODUCT_NOT_FOUND,
-}
-
 DELETED_UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE = {
     **DELETED_RESPONSE,
     **UNAUTHORIZED_RESPONSE,
@@ -478,13 +441,6 @@ DELETED_UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE = {
     **SHIPPING_METHOD_NOT_FOUND_RESPONSE,
 }
 
-DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCTS_NOT_FOUND_RESPONSE = {
-    **DELETED_RESPONSE,
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **PRODUCTS_NOT_FOUND,
-}
-
 DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_NOT_FOUND_RESPONSE = {
     **DELETED_RESPONSE,
     **UNAUTHORIZED_RESPONSE,
@@ -496,13 +452,6 @@ UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **CART_NOT_FOUND_RESPONSE,
-    **UNPROCESSABLE_ENTITY,
-}
-
-UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **PRODUCT_NOT_FOUND,
     **UNPROCESSABLE_ENTITY,
 }
 

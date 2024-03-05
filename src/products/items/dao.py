@@ -7,7 +7,6 @@ from src.dao import BaseDAO
 from src.exceptions import (
     ForbiddenException,
     ProductItemNotFoundException,
-    ProductNotFoundException,
     raise_http_exception,
 )
 from src.images.router import (
@@ -18,6 +17,7 @@ from src.images.router import (
 from src.orders.lines.models import OrderLine
 from src.permissions import has_permission
 from src.products.dao import ProductDAO
+from src.products.exceptions import ProductNotFoundException
 from src.products.items.models import ProductItem
 from src.products.items.utils import pick
 from src.users.models import User
