@@ -3,13 +3,15 @@ from sqlalchemy import select
 from src.dao import BaseDAO
 from src.exceptions import (
     ForbiddenException,
-    ShoppingCartAlreadyExistsException,
-    ShoppingCartNotFoundException,
-    ShoppingCartsNotFoundException,
     UserAlreadyHasCartException,
     raise_http_exception,
 )
 from src.permissions import has_permission
+from src.shopping_carts.exceptions import (
+    ShoppingCartAlreadyExistsException,
+    ShoppingCartNotFoundException,
+    ShoppingCartsNotFoundException,
+)
 from src.shopping_carts.models import ShoppingCart
 from src.users.models import User
 from src.utils.data_manipulation import get_new_data

@@ -5,24 +5,23 @@ from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
 from src.examples import example_shopping_cart
-from src.exceptions import (
-    ForbiddenException,
+from src.exceptions import ForbiddenException, raise_http_exception
+from src.permissions import has_permission
+from src.responses import UNAUTHORIZED_FORBIDDEN_RESPONSE
+from src.shopping_carts.dao import ShoppingCartDAO
+from src.shopping_carts.exceptions import (
     ShoppingCartNotFoundException,
     ShoppingCartNotImplementedException,
     ShoppingCartsNotFoundException,
-    raise_http_exception,
 )
-from src.permissions import has_permission
-from src.responses import (
-    CART_NOT_FOUND_RESPONSE,
-    DELETED_UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE,
-    UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
-    UNAUTHORIZED_FORBIDDEN_CARTS_NOT_FOUND_RESPONSE,
-    UNAUTHORIZED_FORBIDDEN_RESPONSE,
-)
-from src.shopping_carts.dao import ShoppingCartDAO
 from src.shopping_carts.items.router import (
     router as router_shopping_cart_items,
+)
+from src.shopping_carts.responses import (
+    DELETED_UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE,
+    SHOPPING_CART_NOT_FOUND_RESPONSE,
+    UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+    UNAUTHORIZED_FORBIDDEN_CARTS_NOT_FOUND_RESPONSE,
 )
 from src.shopping_carts.schemas import (
     SShoppingCart,
@@ -72,9 +71,9 @@ async def get_all_shopping_carts(user: User = Depends(current_user)):
     "/{shopping_cart_id}",
     name="Get certain shopping cart.",
     response_model=SShoppingCart,
-    responses=CART_NOT_FOUND_RESPONSE,
+    responses=SHOPPING_CART_NOT_FOUND_RESPONSE,
 )
-async def get_shopping_cart(
+async def get_shopping_cart_by_id(
     shopping_cart_id: UUID, user: User = Depends(current_user)
 ):
     shopping_cart = await ShoppingCartDAO.find_by_id(shopping_cart_id)
@@ -95,7 +94,7 @@ async def get_shopping_cart(
     name="Change certain shopping cart.",
     responses=UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
 )
-async def change_shopping_cart_item(
+async def change_shopping_cart_by_id(
     shopping_cart_id: UUID,
     data: SShoppingCartCreate,
     user: User = Depends(current_user),
@@ -114,7 +113,7 @@ async def change_shopping_cart_item(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE,
 )
-async def delete_shopping_cart(
+async def delete_shopping_cart_by_id(
     shopping_cart_id: UUID,
     user: User = Depends(current_user),
 ):

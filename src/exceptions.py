@@ -70,16 +70,6 @@ class OrderStatusNotFoundException(EcommerceException):
     detail = "Order Status not found."
 
 
-class ShoppingCartNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Shopping Cart not found."
-
-
-class ShoppingCartsNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Shopping Carts not found."
-
-
 class ShoppingCartItemNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Shopping Cart Item not found."
@@ -175,11 +165,6 @@ class UserDoesNotHaveCartException(EcommerceException):
     detail = "User does not have a cart."
 
 
-class ShoppingCartAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Such shopping cart already exists."
-
-
 class WrongProviderNameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid Provider."
@@ -223,11 +208,6 @@ class ExpiredCardException(EcommerceException):
 class InvalidCardException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Card number should have 16 digits."
-
-
-class ShoppingCartNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add shopping cart."
 
 
 class UserProfileNotImplementedException(EcommerceException):

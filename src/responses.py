@@ -196,36 +196,6 @@ USER_REVIEWS_NOT_FOUND_RESPONSE = {
     },
 }
 
-CART_NOT_FOUND_RESPONSE = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Shopping cart not found.": {
-                        "summary": "Shopping cart not found.",
-                        "value": {"detail": "Shopping cart not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
-CARTS_NOT_FOUND_RESPONSE = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Shopping carts not found.": {
-                        "summary": "Shopping carts not found.",
-                        "value": {"detail": "Shopping carts not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
 SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -336,12 +306,6 @@ UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE = {
     **ORDER_STATUS_NOT_FOUND_RESPONSE,
 }
 
-UNAUTHORIZED_FORBIDDEN_CARTS_NOT_FOUND_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **CARTS_NOT_FOUND_RESPONSE,
-}
-
 UNAUTHORIZED_FORBIDDEN_UNPROCESSABLE_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
@@ -361,21 +325,6 @@ DELETED_UNAUTHORIZED_FORBIDDEN_USER_REVIEW_NOT_FOUND_RESPONSE = {
     **FORBIDDEN_RESPONSE,
     **USER_REVIEW_NOT_FOUND_RESPONSE,
 }
-
-DELETED_UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE = {
-    **DELETED_RESPONSE,
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **CART_NOT_FOUND_RESPONSE,
-}
-
-DELETED_UNAUTHORIZED_FORBIDDEN_CART_ITEMS_OR_CART_NOT_FOUND_RESPONSE = {
-    **DELETED_RESPONSE,
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE,
-    **CART_NOT_FOUND_RESPONSE,
-}
 DELETED_UNAUTHORIZED_SHOP_ORDER_NOT_FOUND = {
     **DELETED_RESPONSE,
     **UNAUTHORIZED_RESPONSE,
@@ -387,11 +336,4 @@ DELETED_UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **SHIPPING_METHOD_NOT_FOUND_RESPONSE,
-}
-
-UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY = {
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **CART_NOT_FOUND_RESPONSE,
-    **UNPROCESSABLE_ENTITY,
 }
