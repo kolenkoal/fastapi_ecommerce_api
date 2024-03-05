@@ -2,14 +2,13 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 from src.dao import BaseDAO
-from src.exceptions import (
-    ForbiddenException,
+from src.exceptions import ForbiddenException, raise_http_exception
+from src.permissions import has_permission
+from src.products.categories.exceptions import (
     ParentCategoryNotFoundException,
     ProductCategoryAlreadyExistsException,
     ProductCategoryParentNotAllowed,
-    raise_http_exception,
 )
-from src.permissions import has_permission
 from src.products.categories.models import ProductCategory
 from src.users.models import User
 from src.utils.data_manipulation import get_new_data

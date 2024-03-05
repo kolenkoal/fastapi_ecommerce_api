@@ -2,8 +2,8 @@ from typing import Optional, Type, Union
 
 from pydantic import BaseModel, field_validator
 
-from src.exceptions import WrongCategoryNameException
 from src.patterns import LETTER_MATCH_PATTERN, REMOVE_WHITESPACES
+from src.products.categories.exceptions import WrongCategoryNameException
 
 
 class SProductCategoryCreate(BaseModel):

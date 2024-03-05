@@ -4,13 +4,13 @@ from sqlalchemy.orm import joinedload
 from src.dao import BaseDAO
 from src.exceptions import (
     ForbiddenException,
-    ProductCategoryNotFoundException,
     VariationAlreadyExistsException,
     VariationNotFoundException,
     raise_http_exception,
 )
 from src.permissions import has_permission
 from src.products.categories.dao import ProductCategoryDAO
+from src.products.categories.exceptions import ProductCategoryNotFoundException
 from src.products.categories.models import ProductCategory
 from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session

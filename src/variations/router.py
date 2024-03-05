@@ -10,15 +10,19 @@ from src.exceptions import (
     VariationsNotFoundException,
     raise_http_exception,
 )
+from src.products.responses import (
+    UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+)
 from src.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE,
-    UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
-    UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
     VARIATION_NOT_FOUND,
     VARIATIONS_NOT_FOUND,
 )
 from src.users.models import User
 from src.variations.dao import VariationDAO
+from src.variations.responses import (
+    UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+)
 from src.variations.schemas import (
     SVariation,
     SVariationCreate,

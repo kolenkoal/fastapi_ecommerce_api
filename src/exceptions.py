@@ -55,21 +55,6 @@ class CountriesNotFoundException(EcommerceException):
     detail = "Countries not found."
 
 
-class ProductCategoryNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Product category not found."
-
-
-class ProductCategoriesNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Product categories not found."
-
-
-class ParentCategoryNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Parent category not found."
-
-
 class ProductNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Product not found."
@@ -93,11 +78,6 @@ class ProductConfigurationsNotFoundException(EcommerceException):
 class CountryNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Country not found."
-
-
-class CategoryNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Category not found."
 
 
 class UserReviewNotFoundException(EcommerceException):
@@ -205,11 +185,6 @@ class WrongStreetNumberException(EcommerceException):
     detail = "Invalid street number."
 
 
-class WrongCategoryNameException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid category name."
-
-
 class UserReviewAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "You already have this product reviewed."
@@ -250,11 +225,6 @@ class UserDoesNotHaveCartException(EcommerceException):
     detail = "User does not have a cart."
 
 
-class ProductCategoryAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Such product category already exists."
-
-
 class ProductItemAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such product item already exists."
@@ -283,11 +253,6 @@ class ProductAlreadyExistsException(EcommerceException):
 class ShoppingCartAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such shopping cart already exists."
-
-
-class ProductCategoryParentNotAllowed(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "A category can not be a parent of itself."
 
 
 class WrongProviderNameException(EcommerceException):
@@ -348,11 +313,6 @@ class InvalidCardException(EcommerceException):
 class QuantityOfProductItemIsMoreThanInStockException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Quantity Of the Product Item is More Than In Stock"
-
-
-class ProductCategoryNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add product category."
 
 
 class VariationNotImplementedException(EcommerceException):

@@ -3,27 +3,28 @@ from fastapi import APIRouter, Depends, status
 from src.auth.auth import current_user
 from src.examples import example_product_category
 from src.exceptions import (
-    CategoryNotFoundException,
-    ProductCategoriesNotFoundException,
-    ProductCategoryNotFoundException,
-    ProductCategoryNotImplementedException,
     ProductsNotFoundException,
     VariationsNotFoundException,
     raise_http_exception,
 )
 from src.products.categories.dao import ProductCategoryDAO
+from src.products.categories.exceptions import (
+    ProductCategoriesNotFoundException,
+    ProductCategoryNotFoundException,
+    ProductCategoryNotImplementedException,
+)
+from src.products.categories.responses import (
+    DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE,
+    PRODUCT_CATEGORY_NOT_FOUND,
+    UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE,
+    UNAUTHORIZED_PARENT_CATEGORY_NOT_FOUND_UNPROCESSABLE_RESPONSE,
+)
 from src.products.categories.schemas import (
     SProductCategories,
     SProductCategory,
     SProductCategoryCreate,
     SProductCategoryOptional,
     SProductCategoryWithChildren,
-)
-from src.responses import (
-    DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE,
-    PRODUCT_CATEGORY_NOT_FOUND,
-    UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE,
-    UNAUTHORIZED_PARENT_CATEGORY_NOT_FOUND_UNPROCESSABLE_RESPONSE,
 )
 from src.users.models import User
 from src.variations.schemas import (
@@ -41,7 +42,7 @@ router = APIRouter(prefix="/categories")
     name="Add product category.",
     responses=UNAUTHORIZED_PARENT_CATEGORY_NOT_FOUND_UNPROCESSABLE_RESPONSE,
 )
-async def add_product_category(
+async def create_product_category(
     product_category_data: SProductCategoryCreate = example_product_category,
     user: User = Depends(current_user),
 ):
@@ -87,7 +88,7 @@ async def add_product_category(
         },
     },
 )
-async def get_categories():
+async def get_all_categories():
     categories = await ProductCategoryDAO.find_all()
 
     if not categories:
@@ -102,13 +103,13 @@ async def get_categories():
     response_model=SProductCategoryWithChildren,
     responses=PRODUCT_CATEGORY_NOT_FOUND,
 )
-async def get_category(product_category_id: int):
+async def get_category_by_id(product_category_id: int):
     category = await ProductCategoryDAO.find_by_id_and_children(
         product_category_id
     )
 
     if not category:
-        raise_http_exception(CategoryNotFoundException)
+        raise_http_exception(ProductCategoryNotFoundException)
 
     return category
 
@@ -120,7 +121,7 @@ async def get_category(product_category_id: int):
     name="Change certain product category.",
     responses=UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE,
 )
-async def change_user_address(
+async def change_category_by_id(
     product_category_id: int,
     data: SProductCategoryOptional,
     user: User = Depends(current_user),
@@ -141,7 +142,7 @@ async def change_user_address(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE,
 )
-async def delete_user_address(
+async def delete_category_by_id(
     product_category_id: int,
     user: User = Depends(current_user),
 ):
@@ -165,7 +166,7 @@ async def get_category_variations(product_category_id: int):
     )
 
     if not category:
-        raise_http_exception(CategoryNotFoundException)
+        raise_http_exception(ProductCategoryNotFoundException)
 
     if not category.__dict__["variations"]:
         raise_http_exception(VariationsNotFoundException)
@@ -185,7 +186,7 @@ async def get_category_products(product_category_id: int):
     )
 
     if not category:
-        raise_http_exception(CategoryNotFoundException)
+        raise_http_exception(ProductCategoryNotFoundException)
 
     if not category.__dict__["products"]:
         raise_http_exception(ProductsNotFoundException)

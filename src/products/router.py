@@ -15,6 +15,10 @@ from src.products.configurations.router import router as configurations_router
 from src.products.dao import ProductDAO
 from src.products.items.router import router as items_router
 from src.products.items.schemas import SProductWithItems
+from src.products.responses import (
+    UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_PRODUCT_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+    UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+)
 from src.products.schemas import (
     SProduct,
     SProductCreate,
@@ -26,8 +30,6 @@ from src.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_RESPONSE,
     PRODUCT_NOT_FOUND,
     PRODUCTS_NOT_FOUND,
-    UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_PRODUCT_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
-    UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
 )
 from src.users.models import User
 
