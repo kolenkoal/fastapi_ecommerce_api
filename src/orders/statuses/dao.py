@@ -1,11 +1,10 @@
 from sqlalchemy import select
 
 from src.dao import BaseDAO
-from src.exceptions import (
-    ForbiddenException,
+from src.exceptions import ForbiddenException, raise_http_exception
+from src.orders.statuses.exceptions import (
     OrderStatusAlreadyExistsException,
     OrderStatusNotFoundException,
-    raise_http_exception,
 )
 from src.orders.statuses.models import OrderStatus
 from src.permissions import has_permission

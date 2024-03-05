@@ -106,36 +106,6 @@ ORDER_LINE_NOT_FOUND_RESPONSE = {
     },
 }
 
-ORDER_STATUS_NOT_FOUND_RESPONSE = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Order status not found.": {
-                        "summary": "Order status not found.",
-                        "value": {"detail": "Order status not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
-ORDER_STATUSES_NOT_FOUND_RESPONSE = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Order statuses not found.": {
-                        "summary": "Order statuses not found.",
-                        "value": {"detail": "Order statuses not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
 USER_REVIEW_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -249,23 +219,10 @@ UNAUTHORIZED_FORBIDDEN_SHOP_ORDER_NOT_FOUND = {
     **SHOP_ORDER_NOT_FOUND_RESPONSE,
 }
 
-UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **ORDER_STATUS_NOT_FOUND_RESPONSE,
-}
-
 UNAUTHORIZED_FORBIDDEN_UNPROCESSABLE_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **UNPROCESSABLE_ENTITY,
-}
-
-DELETED_UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE = {
-    **DELETED_RESPONSE,
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **ORDER_STATUS_NOT_FOUND_RESPONSE,
 }
 
 DELETED_UNAUTHORIZED_FORBIDDEN_USER_REVIEW_NOT_FOUND_RESPONSE = {

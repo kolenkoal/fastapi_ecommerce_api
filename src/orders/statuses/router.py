@@ -2,26 +2,26 @@ from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
 from src.examples import example_order_status
-from src.exceptions import (
+from src.exceptions import raise_http_exception
+from src.orders.statuses.dao import OrderStatusDAO
+from src.orders.statuses.exceptions import (
     OrderStatusesNotFoundException,
     OrderStatusNotFoundException,
     OrderStatusNotImplementedException,
-    raise_http_exception,
 )
-from src.orders.statuses.dao import OrderStatusDAO
+from src.orders.statuses.responses import (
+    DELETED_UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE,
+    ORDER_STATUS_NOT_FOUND_RESPONSE,
+    ORDER_STATUSES_NOT_FOUND_RESPONSE,
+    UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE,
+)
 from src.orders.statuses.schemas import (
     SOrderStatus,
     SOrderStatusCreate,
     SOrderStatusCreateOptional,
     SOrderStatuses,
 )
-from src.responses import (
-    DELETED_UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE,
-    ORDER_STATUS_NOT_FOUND_RESPONSE,
-    ORDER_STATUSES_NOT_FOUND_RESPONSE,
-    UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE,
-    UNAUTHORIZED_FORBIDDEN_UNPROCESSABLE_RESPONSE,
-)
+from src.responses import UNAUTHORIZED_FORBIDDEN_UNPROCESSABLE_RESPONSE
 from src.users.models import User
 
 
@@ -67,7 +67,7 @@ async def get_all_order_statuses():
     response_model=SOrderStatus,
     responses=ORDER_STATUS_NOT_FOUND_RESPONSE,
 )
-async def get_order_status(order_status_id: int):
+async def get_order_status_by_id(order_status_id: int):
     order_status = await OrderStatusDAO.find_one_or_none(id=order_status_id)
 
     if not order_status:
@@ -82,7 +82,7 @@ async def get_order_status(order_status_id: int):
     response_model=SOrderStatus,
     responses=UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE,
 )
-async def change_order_status(
+async def change_order_status_by_id(
     order_status_id: int,
     data: SOrderStatusCreateOptional,
     user: User = Depends(current_user),
@@ -101,7 +101,7 @@ async def change_order_status(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE,
 )
-async def delete_order_status(
+async def delete_order_status_by_id(
     order_status_id: int,
     user: User = Depends(current_user),
 ):

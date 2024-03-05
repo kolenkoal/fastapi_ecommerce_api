@@ -9,7 +9,6 @@ from src.dao import BaseDAO
 from src.exceptions import (
     ExpiredCardException,
     ForbiddenException,
-    OrderStatusNotFoundException,
     ShopOrderAlreadyExistsException,
     ShopOrderNotFoundException,
     UserDoesNotHaveCartException,
@@ -20,6 +19,7 @@ from src.orders.lines.router import create_order_line
 from src.orders.lines.schemas import SOrderLineCreate
 from src.orders.models import ShopOrder
 from src.orders.statuses.dao import OrderStatusDAO
+from src.orders.statuses.exceptions import OrderStatusNotFoundException
 from src.payments.methods.dao import UserPaymentMethodDAO
 from src.permissions import has_permission
 from src.products.items.dao import ProductItemDAO
