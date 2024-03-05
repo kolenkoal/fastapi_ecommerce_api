@@ -5,12 +5,12 @@ from src.exceptions import (
     ForbiddenException,
     ProductConfigurationAlreadyExistsException,
     ProductConfigurationNotFoundException,
-    ProductItemNotFoundException,
     raise_http_exception,
 )
 from src.permissions import has_permission
 from src.products.configurations.models import ProductConfiguration
 from src.products.items.dao import ProductItemDAO
+from src.products.items.exceptions import ProductItemNotFoundException
 from src.utils.session import manage_session
 from src.variations.options.dao import VariationOptionDAO
 from src.variations.options.exceptions import VariationOptionNotFoundException

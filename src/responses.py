@@ -196,36 +196,6 @@ USER_REVIEWS_NOT_FOUND_RESPONSE = {
     },
 }
 
-PRODUCT_ITEM_NOT_FOUND = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Product item not found.": {
-                        "summary": "Product item not found.",
-                        "value": {"detail": "Product item not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
-PRODUCT_ITEMS_NOT_FOUND = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Product items not found.": {
-                        "summary": "Product items not found.",
-                        "value": {"detail": "Product items not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
 CART_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -366,28 +336,6 @@ UNAUTHORIZED_FORBIDDEN_ORDER_STATUS_NOT_FOUND_RESPONSE = {
     **ORDER_STATUS_NOT_FOUND_RESPONSE,
 }
 
-UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_OR_CART_NOT_FOUND_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **PRODUCT_ITEM_NOT_FOUND,
-    **CART_NOT_FOUND_RESPONSE,
-}
-
-UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEMS_OR_CART_NOT_FOUND_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **PRODUCT_ITEMS_NOT_FOUND,
-    **CART_NOT_FOUND_RESPONSE,
-}
-
-UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEMS_OR_CART_OR_SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **PRODUCT_ITEMS_NOT_FOUND,
-    **CART_NOT_FOUND_RESPONSE,
-    **SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE,
-}
-
 UNAUTHORIZED_FORBIDDEN_CARTS_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
@@ -441,23 +389,9 @@ DELETED_UNAUTHORIZED_FORBIDDEN_SHIPPING_METHOD_NOT_FOUND_RESPONSE = {
     **SHIPPING_METHOD_NOT_FOUND_RESPONSE,
 }
 
-DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_NOT_FOUND_RESPONSE = {
-    **DELETED_RESPONSE,
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **PRODUCT_ITEM_NOT_FOUND,
-}
-
 UNAUTHORIZED_FORBIDDEN_CART_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **CART_NOT_FOUND_RESPONSE,
-    **UNPROCESSABLE_ENTITY,
-}
-
-UNAUTHORIZED_PRODUCT_ITEM_ORDER_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **PRODUCT_ITEM_NOT_FOUND,
-    **ORDER_NOT_FOUND_RESPONSE,
     **UNPROCESSABLE_ENTITY,
 }

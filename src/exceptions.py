@@ -80,16 +80,6 @@ class OrderStatusNotFoundException(EcommerceException):
     detail = "Order Status not found."
 
 
-class ProductItemNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Product Item not found."
-
-
-class ProductItemsNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Product Items not found."
-
-
 class ShoppingCartNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Shopping Cart not found."
@@ -195,11 +185,6 @@ class UserDoesNotHaveCartException(EcommerceException):
     detail = "User does not have a cart."
 
 
-class ProductItemAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Such product item already exists."
-
-
 class ProductConfigurationAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such product configuration already exists."
@@ -253,16 +238,6 @@ class ExpiredCardException(EcommerceException):
 class InvalidCardException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Card number should have 16 digits."
-
-
-class QuantityOfProductItemIsMoreThanInStockException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Quantity Of the Product Item is More Than In Stock"
-
-
-class ProductItemNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add product item."
 
 
 class ProductConfigurationNotImplementedException(EcommerceException):

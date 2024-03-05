@@ -1,7 +1,8 @@
 from src.dao import BaseDAO
-from src.exceptions import ProductItemNotFoundException, raise_http_exception
+from src.exceptions import raise_http_exception
 from src.orders.lines.models import OrderLine
 from src.products.items.dao import ProductItemDAO
+from src.products.items.exceptions import ProductItemNotFoundException
 from src.utils.session import manage_session
 
 

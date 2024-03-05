@@ -10,7 +10,6 @@ from src.exceptions import (
     ExpiredCardException,
     ForbiddenException,
     OrderStatusNotFoundException,
-    ProductItemNotFoundException,
     ShippingMethodNotFoundException,
     ShopOrderAlreadyExistsException,
     ShopOrderNotFoundException,
@@ -26,6 +25,7 @@ from src.orders.statuses.dao import OrderStatusDAO
 from src.payments.methods.dao import UserPaymentMethodDAO
 from src.permissions import has_permission
 from src.products.items.dao import ProductItemDAO
+from src.products.items.exceptions import ProductItemNotFoundException
 from src.shipping_methods.dao import ShippingMethodDAO
 from src.shopping_carts.dao import ShoppingCartDAO
 from src.shopping_carts.items.dao import ShoppingCartItemDAO

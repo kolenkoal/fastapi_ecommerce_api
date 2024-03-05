@@ -4,14 +4,16 @@ from sqlalchemy.orm import joinedload
 from src.dao import BaseDAO
 from src.exceptions import (
     ForbiddenException,
-    ProductItemNotFoundException,
-    QuantityOfProductItemIsMoreThanInStockException,
     ShoppingCartItemNotFoundException,
     ShoppingCartNotFoundException,
     raise_http_exception,
 )
 from src.permissions import has_permission
 from src.products.items.dao import ProductItemDAO
+from src.products.items.exceptions import (
+    ProductItemNotFoundException,
+    QuantityOfProductItemIsMoreThanInStockException,
+)
 from src.products.items.models import ProductItem
 from src.shopping_carts.dao import ShoppingCartDAO
 from src.shopping_carts.items.models import ShoppingCartItem

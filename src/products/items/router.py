@@ -7,12 +7,19 @@ from starlette import status
 from src.auth.auth import current_user
 from src.exceptions import (
     ProductConfigurationsNotFoundException,
-    ProductItemNotFoundException,
-    ProductItemsNotFoundException,
     UserReviewsNotFoundException,
     raise_http_exception,
 )
 from src.products.items.dao import ProductItemDAO
+from src.products.items.exceptions import (
+    ProductItemNotFoundException,
+    ProductItemsNotFoundException,
+)
+from src.products.items.responses import (
+    DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_NOT_FOUND_RESPONSE,
+    PRODUCT_ITEM_NOT_FOUND,
+    PRODUCT_ITEMS_NOT_FOUND,
+)
 from src.products.items.schemas import (
     SProductItem,
     SProductItemCreate,
@@ -23,11 +30,6 @@ from src.products.items.schemas import (
 )
 from src.products.responses import (
     UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE,
-)
-from src.responses import (
-    DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_NOT_FOUND_RESPONSE,
-    PRODUCT_ITEM_NOT_FOUND,
-    PRODUCT_ITEMS_NOT_FOUND,
 )
 from src.users.models import User
 from src.users.reviews.schemas import SUserReviews
@@ -42,7 +44,7 @@ router = APIRouter(prefix="/items")
     name="Add product item.",
     responses=UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE,
 )
-async def create_product(
+async def create_product_item(
     file: UploadFile = File(...),
     price: Decimal = Form(...),
     quantity_in_stock: int = Form(...),
@@ -64,7 +66,7 @@ async def create_product(
     response_model=SProductItems,
     responses=PRODUCT_ITEMS_NOT_FOUND,
 )
-async def get_product_items():
+async def get_all_product_items():
     product_items = await ProductItemDAO.find_all()
 
     if not product_items:
@@ -79,7 +81,7 @@ async def get_product_items():
     response_model=SProductItemWithProduct,
     responses=PRODUCT_ITEM_NOT_FOUND,
 )
-async def get_product_item(product_item_id: UUID):
+async def get_product_item_by_id(product_item_id: UUID):
     product_item = await ProductItemDAO.find_by_id(product_item_id)
 
     if not product_item:
@@ -132,7 +134,7 @@ async def get_product_item_reviews(product_item_id: UUID):
     name="Change certain product item.",
     responses=UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE,
 )
-async def change_product_item(
+async def change_product_item_by_id(
     product_item_id: UUID,
     data: SProductItemCreateOptional,
     user: User = Depends(current_user),
@@ -151,7 +153,7 @@ async def change_product_item(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_NOT_FOUND_RESPONSE,
 )
-async def delete_variation(
+async def delete_product_item_by_id(
     product_item_id: UUID,
     user: User = Depends(current_user),
 ):

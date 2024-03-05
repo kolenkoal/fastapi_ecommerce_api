@@ -1,7 +1,7 @@
+from src.products.items.responses import PRODUCT_ITEM_NOT_FOUND
 from src.responses import (
     DELETED_RESPONSE,
     FORBIDDEN_RESPONSE,
-    PRODUCT_ITEM_NOT_FOUND,
     UNAUTHORIZED_RESPONSE,
     UNPROCESSABLE_ENTITY,
 )

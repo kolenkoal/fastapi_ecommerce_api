@@ -4,11 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 from src.dao import BaseDAO
-from src.exceptions import (
-    ForbiddenException,
-    ProductItemNotFoundException,
-    raise_http_exception,
-)
+from src.exceptions import ForbiddenException, raise_http_exception
 from src.images.router import (
     add_product_item_image,
     delete_product_item_file,
@@ -18,6 +14,7 @@ from src.orders.lines.models import OrderLine
 from src.permissions import has_permission
 from src.products.dao import ProductDAO
 from src.products.exceptions import ProductNotFoundException
+from src.products.items.exceptions import ProductItemNotFoundException
 from src.products.items.models import ProductItem
 from src.products.items.utils import pick
 from src.users.models import User
