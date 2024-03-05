@@ -7,10 +7,12 @@ from src.dao import BaseDAO
 from src.exceptions import (
     ExpiredCardException,
     ForbiddenException,
+    raise_http_exception,
+)
+from src.payments.methods.exceptions import (
     PaymentMethodAlreadyExistsException,
     PaymentMethodNotFoundException,
     PaymentMethodsNotFoundException,
-    raise_http_exception,
 )
 from src.payments.methods.models import PaymentMethod
 from src.payments.types.exceptions import PaymentTypeNotFoundException

@@ -7,13 +7,11 @@ async def test_create_category_not_authenticated(ac):
     product_category_data = {
         "name": "Trousers",
     }
-
     response = await ac.post(
         "/api/products/categories",
         json=product_category_data,
         headers={"Content-Type": "application/json"},
     )
-
     assert response.status_code == 401
 
 
@@ -33,13 +31,11 @@ async def test_create_product_categories_with_bad_entities(
         "name": name,
         "parent_category_id": parent_category_id,
     }
-
     response = await admin_ac.post(
         "/api/products/categories",
         json=product_category_data,
         headers={"Content-Type": "application/json"},
     )
-
     assert response.status_code == status_code
 
 
@@ -65,18 +61,14 @@ async def test_create_product_categories(
         json=product_category_data,
         headers={"Content-Type": "application/json"},
     )
-
     assert response.status_code == status_code
 
 
 @pytest.mark.asyncio
 async def test_get_user_product_categories(ac: AsyncClient):
     response = await ac.get("/api/products/categories")
-
     assert response.status_code == 200
-
     product_categories = response.json()["product_categories"]
-
     assert len(product_categories) == 2
     assert product_categories[0]["name"] == "Tops"
 
@@ -96,17 +88,13 @@ async def test_change_product_category(admin_ac: AsyncClient):
         "/api/products/categories/1",
         json=new_category_data,
     )
-
     assert response.status_code == 422
-
     new_category_data = {"name": "Bottoms", "parent_category_id": 2}
-
     response = await admin_ac.patch(
         "/api/products/categories/1",
         json=new_category_data,
     )
     assert response.status_code == 200
-
     assert response.json()["name"] == "Bottoms"
     assert response.json()["parent_category_id"] == 2
 
@@ -115,11 +103,7 @@ async def test_change_product_category(admin_ac: AsyncClient):
 async def test_delete_product_category(admin_ac: AsyncClient):
     response = await admin_ac.get("/api/products/categories")
     assert len(response.json()["product_categories"]) == 2
-
-    response = await admin_ac.delete(
-        "/api/products/categories/1",
-    )
+    response = await admin_ac.delete("/api/products/categories/1")
     assert response.status_code == 204
-
     response = await admin_ac.get("/api/products/categories")
     assert response.status_code == 404

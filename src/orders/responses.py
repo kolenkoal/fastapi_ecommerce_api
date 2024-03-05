@@ -1,6 +1,6 @@
 from src.addresses.responses import ADDRESS_NOT_FOUND_RESPONSE
+from src.payments.methods.response import PAYMENT_METHOD_NOT_FOUND_RESPONSE
 from src.responses import (
-    PAYMENT_METHOD_NOT_FOUND_RESPONSE,
     SHIPPING_METHOD_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_RESPONSE,
     UNPROCESSABLE_ENTITY,

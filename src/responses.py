@@ -46,36 +46,6 @@ FORBIDDEN_RESPONSE = {
     },
 }
 
-PAYMENT_METHODS_NOT_FOUND_RESPONSE = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Payment methods not found.": {
-                        "summary": "Payment methods not found.",
-                        "value": {"detail": "Payment methods not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
-PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Payment method not found.": {
-                        "summary": "Payment method not found.",
-                        "value": {"detail": "Payment method not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
 SHIPPING_METHOD_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -560,23 +530,10 @@ UNAUTHORIZED_FORBIDDEN_UNPROCESSABLE_RESPONSE = {
     **UNPROCESSABLE_ENTITY,
 }
 
-UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **PAYMENT_METHOD_NOT_FOUND_RESPONSE,
-}
-
 UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_OR_VARIATION_OPTION_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **FORBIDDEN_RESPONSE,
     **PRODUCT_ITEM_OR_VARIATION_OPTION_NOT_FOUND_RESPONSE,
-}
-
-DELETED_UNAUTHORIZED_FORBIDDEN_PAYMENT_METHOD_NOT_FOUND_RESPONSE = {
-    **DELETED_RESPONSE,
-    **UNAUTHORIZED_RESPONSE,
-    **FORBIDDEN_RESPONSE,
-    **PAYMENT_METHOD_NOT_FOUND_RESPONSE,
 }
 
 DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CATEGORY_NOT_FOUND_RESPONSE = {
@@ -740,11 +697,6 @@ UNAUTHORIZED_FORBIDDEN_VARIATION_OR_OPTION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTI
     **VARIATION_OPTION_NOT_FOUND,
     **VARIATION_NOT_FOUND,
     **UNPROCESSABLE_ENTITY,
-}
-
-UNAUTHORIZED_PAYMENT_METHODS_NOT_FOUND_RESPONSE = {
-    **UNAUTHORIZED_RESPONSE,
-    **PAYMENT_METHODS_NOT_FOUND_RESPONSE,
 }
 
 UNAUTHORIZED_PRODUCT_ITEM_ORDER_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE = {

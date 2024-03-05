@@ -110,11 +110,6 @@ class UserReviewsNotFoundException(EcommerceException):
     detail = "User Reviews not found."
 
 
-class PaymentMethodNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Payment Method not found."
-
-
 class ShippingMethodsNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Shipping Methods not found."
@@ -133,11 +128,6 @@ class OrderStatusesNotFoundException(EcommerceException):
 class OrderStatusNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Order Status not found."
-
-
-class PaymentMethodsNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Payment Methods not found."
 
 
 class ProductItemNotFoundException(EcommerceException):
@@ -218,11 +208,6 @@ class WrongStreetNumberException(EcommerceException):
 class WrongCategoryNameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid category name."
-
-
-class PaymentMethodAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "You already have this payment method added."
 
 
 class UserReviewAlreadyExistsException(EcommerceException):
