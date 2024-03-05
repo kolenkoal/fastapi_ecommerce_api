@@ -50,16 +50,6 @@ class UserReviewsNotFoundException(EcommerceException):
     detail = "User Reviews not found."
 
 
-class ShopOrderNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Shop Order not found."
-
-
-class ShopOrdersNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Shop Orders not found."
-
-
 class OrderLineNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Order Line not found."
@@ -98,11 +88,6 @@ class WrongStreetNumberException(EcommerceException):
 class UserReviewAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "You already have this product reviewed."
-
-
-class ShopOrderAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Such shop order already exists."
 
 
 class UserAlreadyHasCartException(EcommerceException):
@@ -168,11 +153,6 @@ class InvalidCardException(EcommerceException):
 class UserProfileNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add user profile."
-
-
-class ShopOrderNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add shop order."
 
 
 class UserReviewNotImplementedException(EcommerceException):

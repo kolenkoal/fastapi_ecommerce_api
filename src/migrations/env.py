@@ -7,7 +7,7 @@ from src.addresses.models import Address  # noqa
 from src.countries.models import Country  # noqa
 from src.database import DATABASE_URL, Base
 from src.orders.lines.models import OrderLine  # noqa
-from src.orders.models import ShopOrder  # noqa
+from src.orders.models import Order  # noqa
 from src.orders.statuses.models import OrderStatus  # noqa
 from src.payments.methods.models import PaymentMethod  # noqa
 from src.payments.types.models import PaymentType  # noqa

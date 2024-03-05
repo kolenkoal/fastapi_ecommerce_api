@@ -10,7 +10,7 @@ from src.exceptions import (
 )
 from src.orders.lines.dao import OrderLineDAO
 from src.orders.lines.models import OrderLine
-from src.orders.models import ShopOrder
+from src.orders.models import Order
 from src.users.models import User
 from src.users.reviews.models import UserReview
 from src.utils.data_manipulation import get_new_data
@@ -60,8 +60,8 @@ class UserReviewDAO(BaseDAO):
         cls, ordered_product_id, user, session=None
     ):
         query = (
-            select(ShopOrder.user_id)
-            .join(OrderLine, ShopOrder.id == OrderLine.order_id)
+            select(Order.user_id)
+            .join(OrderLine, Order.id == OrderLine.order_id)
             .where(OrderLine.id == ordered_product_id)
         )
 

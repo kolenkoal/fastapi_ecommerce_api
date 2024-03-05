@@ -30,7 +30,7 @@ class Address(Base):
         secondary="address_user",
     )
 
-    orders = relationship("ShopOrder", back_populates="shipping_address")
+    orders = relationship("Order", back_populates="shipping_address")
 
     __mapper_args__ = {"eager_defaults": True}
 

@@ -8,17 +8,17 @@ from pydantic import BaseModel
 from src.orders.lines.schemas import SOrderLineWithoutOrder
 
 
-class SShopOrderCreate(BaseModel):
+class SOrderCreate(BaseModel):
     payment_method_id: UUID
     shipping_address_id: UUID
     shipping_method_id: int
 
 
-class SShopOrderChangeOptional(BaseModel):
+class SOrderChangeOptional(BaseModel):
     order_status_id: Optional[int] = None
 
 
-class SShopOrder(BaseModel):
+class SOrder(BaseModel):
     id: UUID
     user_id: UUID
     order_date: date
@@ -29,9 +29,9 @@ class SShopOrder(BaseModel):
     order_status_id: int
 
 
-class SShopOrders(BaseModel):
-    shop_orders: list[SShopOrder]
+class SOrders(BaseModel):
+    shop_orders: list[SOrder]
 
 
-class SShopOrderWithLines(SShopOrder):
+class SOrderWithLines(SOrder):
     products_in_order: list[SOrderLineWithoutOrder]

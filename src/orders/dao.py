@@ -9,15 +9,17 @@ from src.dao import BaseDAO
 from src.exceptions import (
     ExpiredCardException,
     ForbiddenException,
-    ShopOrderAlreadyExistsException,
-    ShopOrderNotFoundException,
     UserDoesNotHaveCartException,
     raise_http_exception,
+)
+from src.orders.exceptions import (
+    OrderAlreadyExistsException,
+    OrderNotFoundException,
 )
 from src.orders.lines.models import OrderLine
 from src.orders.lines.router import create_order_line
 from src.orders.lines.schemas import SOrderLineCreate
-from src.orders.models import ShopOrder
+from src.orders.models import Order
 from src.orders.statuses.dao import OrderStatusDAO
 from src.orders.statuses.exceptions import OrderStatusNotFoundException
 from src.payments.methods.dao import UserPaymentMethodDAO
@@ -39,7 +41,7 @@ from src.utils.session import manage_session
 
 
 class ShopOrderDAO(BaseDAO):
-    model = ShopOrder
+    model = Order
 
     @classmethod
     @manage_session
@@ -240,7 +242,7 @@ class ShopOrderDAO(BaseDAO):
         existing_shop_order = await cls.find_one_or_none(**new_shop_order)
 
         if existing_shop_order and existing_shop_order.id != shop_order_id:
-            raise_http_exception(ShopOrderAlreadyExistsException)
+            raise_http_exception(OrderAlreadyExistsException)
 
         return await cls.update_data(shop_order_id, data)
 
@@ -251,7 +253,7 @@ class ShopOrderDAO(BaseDAO):
         shop_order = await cls.find_one_or_none(id=shop_order_id)
 
         if not shop_order:
-            raise_http_exception(ShopOrderNotFoundException)
+            raise_http_exception(OrderNotFoundException)
 
         if shop_order.user_id != user.id and not await has_permission(user):
             raise_http_exception(ForbiddenException)
@@ -277,9 +279,9 @@ class ShopOrderDAO(BaseDAO):
     @manage_session
     async def find_shop_order_lines(cls, order_id, user, session=None):
         query = (
-            select(ShopOrder)
-            .options(joinedload(ShopOrder.products_in_order))
-            .where(ShopOrder.id == order_id)
+            select(Order)
+            .options(joinedload(Order.products_in_order))
+            .where(Order.id == order_id)
         )
 
         result = await session.execute(query)
@@ -287,7 +289,7 @@ class ShopOrderDAO(BaseDAO):
         order = result.unique().scalars().one_or_none()
 
         if not order:
-            raise_http_exception(ShopOrderNotFoundException)
+            raise_http_exception(OrderNotFoundException)
 
         if order.user_id != user.id and not await has_permission(user):
             raise_http_exception(ForbiddenException)

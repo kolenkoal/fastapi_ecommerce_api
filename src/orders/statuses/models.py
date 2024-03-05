@@ -2,7 +2,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import str20
-from src.orders.models import ShopOrder  # noqa
+from src.orders.models import Order  # noqa
 
 
 class OrderStatus(Base):
@@ -11,4 +11,4 @@ class OrderStatus(Base):
     id: Mapped[int] = mapped_column(primary_key=True, unique=False)
     status: Mapped[str20]
 
-    orders = relationship("ShopOrder", back_populates="order_status")
+    orders = relationship("Order", back_populates="order_status")

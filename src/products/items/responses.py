@@ -1,9 +1,9 @@
 from fastapi import status
 
+from src.orders.responses import ORDER_NOT_FOUND_RESPONSE
 from src.responses import (
     DELETED_RESPONSE,
     FORBIDDEN_RESPONSE,
-    ORDER_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_RESPONSE,
     UNPROCESSABLE_ENTITY,
 )

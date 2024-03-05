@@ -10,8 +10,8 @@ from src.models import uuidpk
 from src.orders.lines.models import OrderLine  # noqa
 
 
-class ShopOrder(Base):
-    __tablename__ = "shop_orders"
+class Order(Base):
+    __tablename__ = "orders"
 
     id: Mapped[uuidpk]
     user_id: Mapped[UUID] = mapped_column(

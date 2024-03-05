@@ -17,7 +17,7 @@ class OrderLine(Base):
         ForeignKey("product_items.id", ondelete="CASCADE"), nullable=False
     )
     order_id: Mapped[UUID] = mapped_column(
-        ForeignKey("shop_orders.id", ondelete="CASCADE"), nullable=False
+        ForeignKey("orders.id", ondelete="CASCADE"), nullable=False
     )
     quantity: Mapped[int] = mapped_column(default=1)
     price: Mapped[Decimal] = mapped_column(nullable=False)
@@ -25,5 +25,5 @@ class OrderLine(Base):
     product_item = relationship(
         "ProductItem", back_populates="products_in_order"
     )
-    order = relationship("ShopOrder", back_populates="products_in_order")
+    order = relationship("Order", back_populates="products_in_order")
     reviews = relationship("UserReview", back_populates="ordered_product")

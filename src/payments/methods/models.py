@@ -29,4 +29,4 @@ class PaymentMethod(Base):
     )
 
     user = relationship("User", back_populates="payment_methods")
-    orders = relationship("ShopOrder", back_populates="payment_method")
+    orders = relationship("Order", back_populates="payment_method")
