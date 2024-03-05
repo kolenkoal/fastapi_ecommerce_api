@@ -4,13 +4,13 @@ from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
 from src.examples import example_shopping_cart_item
-from src.exceptions import (
+from src.exceptions import raise_http_exception
+from src.shopping_carts.items.dao import ShoppingCartItemDAO
+from src.shopping_carts.items.exceptions import (
     ShoppingCartItemNotFoundException,
     ShoppingCartItemNotImplementedException,
     ShoppingCartItemsNotFoundException,
-    raise_http_exception,
 )
-from src.shopping_carts.items.dao import ShoppingCartItemDAO
 from src.shopping_carts.items.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_CART_ITEMS_OR_CART_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_OR_CART_NOT_FOUND_RESPONSE,
@@ -78,7 +78,7 @@ async def get_all_shopping_cart_items(
     name="Change certain shopping cart item.",
     responses=UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEMS_OR_CART_NOT_FOUND_RESPONSE,
 )
-async def change_shopping_cart_item(
+async def change_shopping_cart_item_by_id(
     shopping_cart_id: UUID,
     shopping_cart_item_id: UUID,
     data: ShoppingCartItemChange,
@@ -100,7 +100,7 @@ async def change_shopping_cart_item(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_CART_ITEMS_OR_CART_NOT_FOUND_RESPONSE,
 )
-async def delete_shopping_cart_item(
+async def delete_shopping_cart_item_by_id(
     shopping_cart_id: UUID,
     shopping_cart_item_id: UUID,
     user: User = Depends(current_user),

@@ -70,16 +70,6 @@ class OrderStatusNotFoundException(EcommerceException):
     detail = "Order Status not found."
 
 
-class ShoppingCartItemNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Shopping Cart Item not found."
-
-
-class ShoppingCartItemsNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Shopping Cart Items not found."
-
-
 class ShopOrderNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Shop Order not found."
@@ -213,11 +203,6 @@ class InvalidCardException(EcommerceException):
 class UserProfileNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add user profile."
-
-
-class ShoppingCartItemNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add shopping cart item."
 
 
 class ShippingMethodNotImplementedException(EcommerceException):

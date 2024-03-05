@@ -196,21 +196,6 @@ USER_REVIEWS_NOT_FOUND_RESPONSE = {
     },
 }
 
-SHOPPING_CART_ITEM_NOT_FOUND_RESPONSE = {
-    status.HTTP_404_NOT_FOUND: {
-        "content": {
-            "application/json": {
-                "examples": {
-                    "Shopping cart item not found.": {
-                        "summary": "Shopping cart item not found.",
-                        "value": {"detail": "Shopping cart item not found."},
-                    },
-                }
-            }
-        }
-    },
-}
-
 ORDER_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {

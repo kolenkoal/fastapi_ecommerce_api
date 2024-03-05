@@ -13,7 +13,6 @@ from src.exceptions import (
     ShippingMethodNotFoundException,
     ShopOrderAlreadyExistsException,
     ShopOrderNotFoundException,
-    ShoppingCartItemsNotFoundException,
     UserDoesNotHaveCartException,
     raise_http_exception,
 )
@@ -29,6 +28,9 @@ from src.products.items.exceptions import ProductItemNotFoundException
 from src.shipping_methods.dao import ShippingMethodDAO
 from src.shopping_carts.dao import ShoppingCartDAO
 from src.shopping_carts.items.dao import ShoppingCartItemDAO
+from src.shopping_carts.items.exceptions import (
+    ShoppingCartItemsNotFoundException,
+)
 from src.shopping_carts.items.models import ShoppingCartItem
 from src.shopping_carts.items.router import get_all_shopping_cart_items
 from src.users.models import User
