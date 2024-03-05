@@ -1,17 +1,16 @@
 from sqlalchemy import select
 
 from src.dao import BaseDAO
-from src.exceptions import (
-    ForbiddenException,
-    UserReviewAlreadyExistsException,
-    UserReviewNotFoundException,
-    raise_http_exception,
-)
+from src.exceptions import ForbiddenException, raise_http_exception
 from src.orders.lines.dao import OrderLineDAO
 from src.orders.lines.exceptions import OrderLineNotFoundException
 from src.orders.lines.models import OrderLine
 from src.orders.models import Order
 from src.users.models import User
+from src.users.reviews.exceptions import (
+    UserReviewAlreadyExistsException,
+    UserReviewNotFoundException,
+)
 from src.users.reviews.models import UserReview
 from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session

@@ -3,21 +3,21 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
-from src.exceptions import (
-    UserReviewNotFoundException,
-    UserReviewNotImplementedException,
-    UserReviewsNotFoundException,
-    raise_http_exception,
-)
+from src.exceptions import raise_http_exception
 from src.orders.lines.responses import (
     UNAUTHORIZED_FORBIDDEN_ORDER_LINE_NOT_FOUND,
 )
-from src.responses import (
+from src.users.models import User
+from src.users.reviews.dao import UserReviewDAO
+from src.users.reviews.exceptions import (
+    UserReviewNotFoundException,
+    UserReviewNotImplementedException,
+    UserReviewsNotFoundException,
+)
+from src.users.reviews.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_USER_REVIEW_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_FORBIDDEN_USER_REVIEWS_NOT_FOUND_RESPONSE,
 )
-from src.users.models import User
-from src.users.reviews.dao import UserReviewDAO
 from src.users.reviews.schemas import (
     SUserReview,
     SUserReviewCreate,
@@ -67,7 +67,7 @@ async def get_user_reviews(user: User = Depends(current_user)):
     name="Change certain user review.",
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_USER_REVIEW_NOT_FOUND_RESPONSE,
 )
-async def change_shopping_cart_item(
+async def change_user_review_item_by_id(
     user_review_id: UUID,
     data: SUserReviewCreateOptional,
     user: User = Depends(current_user),
@@ -86,7 +86,7 @@ async def change_shopping_cart_item(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_FORBIDDEN_USER_REVIEW_NOT_FOUND_RESPONSE,
 )
-async def delete_shopping_cart(
+async def delete_user_review_by_id(
     user_review_id: UUID,
     user: User = Depends(current_user),
 ):

@@ -40,16 +40,6 @@ class CountryNotFoundException(EcommerceException):
     detail = "Country not found."
 
 
-class UserReviewNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "User Review not found."
-
-
-class UserReviewsNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "User Reviews not found."
-
-
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."
@@ -73,11 +63,6 @@ class WrongUnitOrPostalCodeException(EcommerceException):
 class WrongStreetNumberException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid street number."
-
-
-class UserReviewAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "You already have this product reviewed."
 
 
 class UserAlreadyHasCartException(EcommerceException):
@@ -143,8 +128,3 @@ class InvalidCardException(EcommerceException):
 class UserProfileNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed to add user profile."
-
-
-class UserReviewNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add review."

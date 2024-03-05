@@ -94,7 +94,7 @@ async def get_user_order_lines(
     response_model=SOrder,
     responses=UNAUTHORIZED_ORDER_NOT_FOUND,
 )
-async def get_order(order_id: UUID):
+async def get_order_by_id(order_id: UUID):
     order = await OrderDAO.find_one_or_none(id=order_id)
 
     if not order:
@@ -109,7 +109,7 @@ async def get_order(order_id: UUID):
     response_model=SOrder,
     responses=UNAUTHORIZED_FORBIDDEN_ORDER_NOT_FOUND,
 )
-async def change_order_status(
+async def change_order_by_id(
     order_id: UUID,
     data: SOrderChangeOptional,
     user: User = Depends(current_user),
@@ -128,7 +128,7 @@ async def change_order_status(
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_ORDER_NOT_FOUND,
 )
-async def delete_order_status(
+async def delete_order_by_id(
     order_id: UUID,
     user: User = Depends(current_user),
 ):

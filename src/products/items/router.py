@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, File, Form, UploadFile
 from starlette import status
 
 from src.auth.auth import current_user
-from src.exceptions import UserReviewsNotFoundException, raise_http_exception
+from src.exceptions import raise_http_exception
 from src.products.configurations.exceptions import (
     ProductConfigurationsNotFoundException,
 )
@@ -31,6 +31,7 @@ from src.products.responses import (
     UNAUTHORIZED_FORBIDDEN_PRODUCT_NOT_FOUND_UNPROCESSABLE_RESPONSE,
 )
 from src.users.models import User
+from src.users.reviews.exceptions import UserReviewsNotFoundException
 from src.users.reviews.schemas import SUserReviews
 
 
