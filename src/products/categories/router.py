@@ -2,11 +2,7 @@ from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
 from src.examples import example_product_category
-from src.exceptions import (
-    ProductsNotFoundException,
-    VariationsNotFoundException,
-    raise_http_exception,
-)
+from src.exceptions import ProductsNotFoundException, raise_http_exception
 from src.products.categories.dao import ProductCategoryDAO
 from src.products.categories.exceptions import (
     ProductCategoriesNotFoundException,
@@ -27,6 +23,7 @@ from src.products.categories.schemas import (
     SProductCategoryWithChildren,
 )
 from src.users.models import User
+from src.variations.exceptions import VariationsNotFoundException
 from src.variations.schemas import (
     SProductCategoryWithProducts,
     SProductCategoryWithVariations,

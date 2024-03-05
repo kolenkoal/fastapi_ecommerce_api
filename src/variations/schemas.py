@@ -3,11 +3,11 @@ from uuid import UUID
 
 from pydantic import BaseModel, field_validator
 
-from src.exceptions import WrongVariationNameException
 from src.patterns import LETTER_MATCH_PATTERN, REMOVE_WHITESPACES
 from src.products.categories.schemas import SProductCategory
 from src.products.schemas import SProduct
 from src.variation_options.schemas import SVariationOption
+from src.variations.exceptions import WrongVariationNameException
 
 
 class SVariationCreate(BaseModel):

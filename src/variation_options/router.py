@@ -12,18 +12,22 @@ from src.exceptions import (
 )
 from src.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_OPTION_NOT_FOUND_RESPONSE,
-    UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
-    UNAUTHORIZED_FORBIDDEN_VARIATION_OR_OPTION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
     VARIATION_OPTION_NOT_FOUND,
     VARIATION_OPTIONS_NOT_FOUND,
 )
 from src.users.models import User
 from src.variation_options.dao import VariationOptionDAO
+from src.variation_options.responses import (
+    UNAUTHORIZED_FORBIDDEN_VARIATION_OR_OPTION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+)
 from src.variation_options.schemas import (
     SVariationOption,
     SVariationOptionCreate,
     SVariationOptionCreateOptional,
     SVariationOptions,
+)
+from src.variations.responses import (
+    UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
 )
 
 
@@ -32,7 +36,6 @@ router = APIRouter(prefix="/variation_options", tags=["Variation Options"])
 
 @router.post(
     "",
-    # response_model=SVariationOption,
     name="Add variation option to the variation.",
     responses=UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
 )

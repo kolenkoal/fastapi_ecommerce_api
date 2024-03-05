@@ -4,7 +4,6 @@ from sqlalchemy.orm import joinedload
 from src.dao import BaseDAO
 from src.exceptions import (
     ForbiddenException,
-    VariationNotFoundException,
     VariationOptionAlreadyExistsException,
     VariationOptionNotFoundException,
     raise_http_exception,
@@ -15,6 +14,7 @@ from src.utils.data_manipulation import get_new_data
 from src.utils.session import manage_session
 from src.variation_options.models import VariationOption
 from src.variations.dao import VariationDAO
+from src.variations.exceptions import VariationNotFoundException
 from src.variations.models import Variation
 
 
