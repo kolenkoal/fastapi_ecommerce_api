@@ -9,14 +9,14 @@ from src.exceptions import (
     raise_http_exception,
 )
 from src.products.configurations.dao import ProductConfigurationDAO
-from src.products.configurations.schemas import (
-    SProductConfiguration,
-    SProductConfigurations,
-)
-from src.responses import (
+from src.products.configurations.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CONFIGURATION_NOT_FOUND_RESPONSE,
     PRODUCT_ITEM_OR_VARIATION_OPTION_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEM_OR_VARIATION_OPTION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
+)
+from src.products.configurations.schemas import (
+    SProductConfiguration,
+    SProductConfigurations,
 )
 from src.users.models import User
 

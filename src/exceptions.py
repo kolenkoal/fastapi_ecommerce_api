@@ -30,16 +30,6 @@ class UserProfileNotFoundException(EcommerceException):
     detail = "User profile not found."
 
 
-class VariationOptionNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Variation Option not found."
-
-
-class VariationOptionsNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Variation Options not found."
-
-
 class CountriesNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Countries not found."
@@ -225,11 +215,6 @@ class ProductConfigurationAlreadyExistsException(EcommerceException):
     detail = "Such product configuration already exists."
 
 
-class VariationOptionAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Such variation option already exists."
-
-
 class ProductAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such product already exists."
@@ -270,11 +255,6 @@ class QuantityLessThanOneException(EcommerceException):
     detail = "Quantity should be at least one."
 
 
-class WrongVariationOptionNameException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Invalid Variation Option Name."
-
-
 class WrongAccountNumberException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid Account Number."
@@ -293,11 +273,6 @@ class InvalidCardException(EcommerceException):
 class QuantityOfProductItemIsMoreThanInStockException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Quantity Of the Product Item is More Than In Stock"
-
-
-class VariationOptionNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add variation option."
 
 
 class ProductItemNotImplementedException(EcommerceException):

@@ -6,14 +6,14 @@ from src.exceptions import (
     ProductConfigurationAlreadyExistsException,
     ProductConfigurationNotFoundException,
     ProductItemNotFoundException,
-    VariationOptionNotFoundException,
     raise_http_exception,
 )
 from src.permissions import has_permission
 from src.products.configurations.models import ProductConfiguration
 from src.products.items.dao import ProductItemDAO
 from src.utils.session import manage_session
-from src.variation_options.dao import VariationOptionDAO
+from src.variations.options.dao import VariationOptionDAO
+from src.variations.options.exceptions import VariationOptionNotFoundException
 
 
 class ProductConfigurationDAO(BaseDAO):

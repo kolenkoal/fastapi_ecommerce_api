@@ -12,7 +12,7 @@ from src.products.router import router as router_products
 from src.shipping_methods.router import router as router_shipping_methods
 from src.shopping_carts.router import router as router_shopping_carts
 from src.users.router import router as router_users
-from src.variation_options.router import router as router_variation_options
+from src.variations.options.router import router as router_variation_options
 from src.variations.router import router as router_variations
 
 

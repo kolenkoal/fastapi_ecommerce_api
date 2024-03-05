@@ -3,8 +3,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, field_validator
 
-from src.exceptions import WrongVariationOptionNameException
 from src.patterns import ALPHA_NUMBERS_PATTERN, REMOVE_WHITESPACES
+from src.variations.options.exceptions import WrongVariationOptionNameException
 
 
 class SVariationOptionCreate(BaseModel):

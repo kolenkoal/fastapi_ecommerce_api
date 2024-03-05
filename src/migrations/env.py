@@ -21,8 +21,8 @@ from src.shopping_carts.models import ShoppingCart  # noqa
 from src.users.models import User  # noqa
 from src.users.profiles.models import UserProfile  # noqa
 from src.users.reviews.models import UserReview  # noqa
-from src.variation_options.models import VariationOption  # noqa
 from src.variations.models import Variation  # noqa
+from src.variations.options.models import VariationOption  # noqa
 
 
 # this is the Alembic Config object, which provides

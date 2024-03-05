@@ -11,7 +11,7 @@ from src.exceptions import (
     WrongQuantityException,
 )
 from src.products.schemas import SProduct
-from src.variation_options.schemas import SVariationOption
+from src.variations.options.schemas import SVariationOption
 
 
 class SProductItemCreate(BaseModel):

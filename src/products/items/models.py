@@ -8,7 +8,7 @@ from src.database import Base
 from src.models import str20, uuidpk
 from src.products.items.utils import pick
 from src.shopping_carts.models import ShoppingCart  # noqa
-from src.variation_options.models import VariationOption
+from src.variations.options.models import VariationOption
 
 
 class ProductItem(Base):
