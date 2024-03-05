@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
 from src.exceptions import OrderLinesNotFoundException, raise_http_exception
-from src.orders.dao import ShopOrderDAO
+from src.orders.dao import OrderDAO
 from src.orders.exceptions import (
     OrderNotFoundException,
     OrderNotImplementedException,
@@ -42,15 +42,15 @@ router.include_router(router_lines)
     response_model=SOrder,
     responses=UNAUTHORIZED_PAYMENT_OR_SHIPPING_METHOD_ADDRESS_NOT_FOUND_UNPROCESSABLE_ENTITY_RESPONSE,
 )
-async def create_shop_order(
-    shop_order_data: SOrderCreate, user: User = Depends(current_user)
+async def create_order(
+    order_data: SOrderCreate, user: User = Depends(current_user)
 ):
-    shop_order = await ShopOrderDAO.add(user, shop_order_data)
+    order = await OrderDAO.add(user, order_data)
 
-    if not shop_order:
+    if not order:
         raise OrderNotImplementedException
 
-    return shop_order
+    return order
 
 
 @router.get(
@@ -59,13 +59,13 @@ async def create_shop_order(
     response_model=SOrders,
     responses=UNAUTHORIZED_ORDERS_NOT_FOUND,
 )
-async def get_user_shop_orders(user: User = Depends(current_user)):
-    shop_orders = await ShopOrderDAO.find_all(user)
+async def get_user_orders(user: User = Depends(current_user)):
+    orders = await OrderDAO.find_all(user)
 
-    if not shop_orders:
+    if not orders:
         raise OrdersNotFoundException
 
-    return {"shop_orders": shop_orders}
+    return {"orders": orders}
 
 
 @router.get(
@@ -77,7 +77,7 @@ async def get_user_shop_orders(user: User = Depends(current_user)):
 async def get_user_order_lines(
     order_id: UUID, user: User = Depends(current_user)
 ):
-    order_with_lines = await ShopOrderDAO.find_shop_order_lines(order_id, user)
+    order_with_lines = await OrderDAO.find_order_lines(order_id, user)
 
     if not order_with_lines:
         raise OrderLinesNotFoundException
@@ -86,50 +86,50 @@ async def get_user_order_lines(
 
 
 @router.get(
-    "/{shop_order_id}",
+    "/{order_id}",
     name="Get certain product order status.",
     response_model=SOrder,
     responses=UNAUTHORIZED_ORDER_NOT_FOUND,
 )
-async def get_shop_order(shop_order_id: UUID):
-    shop_order = await ShopOrderDAO.find_one_or_none(id=shop_order_id)
+async def get_order(order_id: UUID):
+    order = await OrderDAO.find_one_or_none(id=order_id)
 
-    if not shop_order:
+    if not order:
         raise_http_exception(OrderNotFoundException)
 
-    return shop_order
+    return order
 
 
 @router.patch(
-    "/{shop_order_id}",
+    "/{order_id}",
     name="Change certain shop order.",
     response_model=SOrder,
     responses=UNAUTHORIZED_FORBIDDEN_ORDER_NOT_FOUND,
 )
 async def change_order_status(
-    shop_order_id: UUID,
+    order_id: UUID,
     data: SOrderChangeOptional,
     user: User = Depends(current_user),
 ):
-    shop_order = await ShopOrderDAO.change(shop_order_id, user, data)
+    order = await OrderDAO.change(order_id, user, data)
 
-    if not shop_order:
+    if not order:
         raise OrderNotFoundException
 
-    return shop_order
+    return order
 
 
 @router.delete(
-    "/{shop_order_id}",
+    "/{order_id}",
     name="Delete certain order.",
     status_code=status.HTTP_204_NO_CONTENT,
     responses=DELETED_UNAUTHORIZED_ORDER_NOT_FOUND,
 )
 async def delete_order_status(
-    shop_order_id: UUID,
+    order_id: UUID,
     user: User = Depends(current_user),
 ):
-    shop_order = await ShopOrderDAO.delete(user, shop_order_id)
+    order = await OrderDAO.delete(user, order_id)
 
-    if not shop_order:
+    if not order:
         return {"detail": "The order was deleted."}

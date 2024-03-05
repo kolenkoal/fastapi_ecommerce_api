@@ -30,7 +30,7 @@ class SOrder(BaseModel):
 
 
 class SOrders(BaseModel):
-    shop_orders: list[SOrder]
+    orders: list[SOrder]
 
 
 class SOrderWithLines(SOrder):

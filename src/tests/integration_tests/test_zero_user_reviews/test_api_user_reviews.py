@@ -123,7 +123,7 @@ async def test_get_order_(ac: AsyncClient):
 
     assert response.status_code == 200
 
-    product_categories = response.json()["shop_orders"]
+    product_categories = response.json()["orders"]
 
     assert len(product_categories) == 1
 
@@ -159,7 +159,7 @@ async def test_create_review(
 
     assert response.status_code == 200
 
-    order_id = response.json()["shop_orders"][0]["id"]
+    order_id = response.json()["orders"][0]["id"]
 
     response = await ac.get(f"/api/orders/{order_id}/lines")
     assert response.status_code == 200
