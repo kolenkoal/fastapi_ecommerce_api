@@ -28,7 +28,7 @@ class ProductItem(Base):
 
     variations: Mapped[list["VariationOption"]] = relationship(  # noqa
         back_populates="product_items",
-        secondary="product_configurations",
+        secondary="configuration_product",
     )
 
     products_in_order = relationship(

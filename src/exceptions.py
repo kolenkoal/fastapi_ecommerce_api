@@ -35,16 +35,6 @@ class CountriesNotFoundException(EcommerceException):
     detail = "Countries not found."
 
 
-class ProductConfigurationNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Product Configuration not found."
-
-
-class ProductConfigurationsNotFoundException(EcommerceException):
-    status_code = status.HTTP_404_NOT_FOUND
-    detail = "Product Configurations not found."
-
-
 class CountryNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Country not found."
@@ -185,11 +175,6 @@ class UserDoesNotHaveCartException(EcommerceException):
     detail = "User does not have a cart."
 
 
-class ProductConfigurationAlreadyExistsException(EcommerceException):
-    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-    detail = "Such product configuration already exists."
-
-
 class ShoppingCartAlreadyExistsException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Such shopping cart already exists."
@@ -238,11 +223,6 @@ class ExpiredCardException(EcommerceException):
 class InvalidCardException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Card number should have 16 digits."
-
-
-class ProductConfigurationNotImplementedException(EcommerceException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add product configuration."
 
 
 class ShoppingCartNotImplementedException(EcommerceException):

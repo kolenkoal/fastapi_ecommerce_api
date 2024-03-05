@@ -11,7 +11,7 @@ from src.exceptions import (
     raise_http_exception,
 )
 from src.responses import (
-    DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEMS_OR_CART_NOT_FOUND_RESPONSE,
+    DELETED_UNAUTHORIZED_FORBIDDEN_CART_ITEMS_OR_CART_NOT_FOUND_RESPONSE,
 )
 from src.shopping_carts.items.dao import ShoppingCartItemDAO
 from src.shopping_carts.items.responses import (
@@ -100,7 +100,7 @@ async def change_shopping_cart_item(
     "/{shopping_cart_item_id}",
     name="Delete certain shopping cart item.",
     status_code=status.HTTP_204_NO_CONTENT,
-    responses=DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_ITEMS_OR_CART_NOT_FOUND_RESPONSE,
+    responses=DELETED_UNAUTHORIZED_FORBIDDEN_CART_ITEMS_OR_CART_NOT_FOUND_RESPONSE,
 )
 async def delete_shopping_cart_item(
     shopping_cart_id: UUID,

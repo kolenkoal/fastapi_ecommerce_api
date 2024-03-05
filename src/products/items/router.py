@@ -5,10 +5,9 @@ from fastapi import APIRouter, Depends, File, Form, UploadFile
 from starlette import status
 
 from src.auth.auth import current_user
-from src.exceptions import (
+from src.exceptions import UserReviewsNotFoundException, raise_http_exception
+from src.products.configurations.exceptions import (
     ProductConfigurationsNotFoundException,
-    UserReviewsNotFoundException,
-    raise_http_exception,
 )
 from src.products.items.dao import ProductItemDAO
 from src.products.items.exceptions import (

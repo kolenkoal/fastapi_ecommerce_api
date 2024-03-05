@@ -3,12 +3,12 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 
 from src.auth.auth import current_user
-from src.exceptions import (
+from src.exceptions import raise_http_exception
+from src.products.configurations.dao import ProductConfigurationDAO
+from src.products.configurations.exceptions import (
     ProductConfigurationNotImplementedException,
     ProductConfigurationsNotFoundException,
-    raise_http_exception,
 )
-from src.products.configurations.dao import ProductConfigurationDAO
 from src.products.configurations.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_PRODUCT_CONFIGURATION_NOT_FOUND_RESPONSE,
     PRODUCT_ITEM_OR_VARIATION_OPTION_NOT_FOUND_RESPONSE,

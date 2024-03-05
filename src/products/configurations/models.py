@@ -8,7 +8,7 @@ from src.database import Base
 
 
 class ProductConfiguration(Base):
-    __tablename__ = "product_configurations"
+    __tablename__ = "configuration_product"
 
     product_item_id: Mapped[UUID] = mapped_column(
         GUID,

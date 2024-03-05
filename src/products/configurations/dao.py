@@ -1,13 +1,12 @@
 from sqlalchemy import and_, delete, insert, select
 
 from src.dao import BaseDAO
-from src.exceptions import (
-    ForbiddenException,
+from src.exceptions import ForbiddenException, raise_http_exception
+from src.permissions import has_permission
+from src.products.configurations.exceptions import (
     ProductConfigurationAlreadyExistsException,
     ProductConfigurationNotFoundException,
-    raise_http_exception,
 )
-from src.permissions import has_permission
 from src.products.configurations.models import ProductConfiguration
 from src.products.items.dao import ProductItemDAO
 from src.products.items.exceptions import ProductItemNotFoundException
