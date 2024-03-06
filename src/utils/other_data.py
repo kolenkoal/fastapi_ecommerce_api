@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from src.config import settings
 
 
@@ -244,5 +246,68 @@ address_data = [
         "city": "Newark",
         "region": "New Jersey",
         "postal_code": "07112",
+    },
+]
+
+payment_methods_data = [
+    {
+        "provider": "Master Card",
+        "account_number": "6837536537771158",
+        "expiry_date": datetime(2024, 11, 5),
+        "is_default": True,
+    },
+    {
+        "provider": "Master Card",
+        "account_number": "2239045303432029",
+        "expiry_date": datetime(2025, 4, 6),
+        "is_default": True,
+    },
+    {
+        "provider": "Visa",
+        "account_number": "5829373658136293",
+        "expiry_date": datetime(2025, 6, 26),
+        "is_default": True,
+    },
+    {
+        "provider": "Visa",
+        "account_number": "8541919801138361",
+        "expiry_date": datetime(2025, 1, 11),
+        "is_default": True,
+    },
+    {
+        "provider": "Visa",
+        "account_number": "2206178905378059",
+        "expiry_date": datetime(2025, 5, 9),
+        "is_default": True,
+    },
+    {
+        "provider": "Master Card",
+        "account_number": "9712864412586547",
+        "expiry_date": datetime(2024, 11, 28),
+        "is_default": True,
+    },
+    {
+        "provider": "Visa",
+        "account_number": "3166250367651548",
+        "expiry_date": datetime(2025, 2, 24),
+        "is_default": True,
+    },
+    {
+        "provider": "Master Card",
+        "account_number": "1098426077427530",
+        "expiry_date": datetime(2025, 9, 28),
+        "is_default": True,
+    },
+    {
+        "provider": "Master Card",
+        "account_number": "5783906991081809",
+        "expiry_date": datetime(2025, 4, 14),
+        "is_default": True,
+    },
+    {
+        "provider": "Visa",
+        "account_number": "3755517087203477",
+        "expiry_date": datetime(2025, 6, 1),
+        "is_default": True,
     },
 ]

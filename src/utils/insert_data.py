@@ -20,12 +20,15 @@ from src.addresses.models import Address, UserAddress  # noqa
 from src.auth.manager import UserManager, get_user_manager  # noqa
 from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
+from src.payments.methods.models import PaymentMethod  # noqa
+from src.payments.types.models import PaymentType  # noqa
 from src.shopping_carts.router import create_shopping_cart  # noqa
 from src.shopping_carts.schemas import SShoppingCartCreate  # noqa
 from src.users.models import User  # noqa
 from src.users.profiles.router import create_user_profile  # noqa
 from src.users.schemas import UserCreate  # noqa
 from src.utils.hasher import Hasher  # noqa
+from src.utils.other_data import payment_methods_data  # noqa
 from src.utils.other_data import address_data, users_data  # noqa
 
 
@@ -72,31 +75,77 @@ async def insert_dummy_data():
 
                 await session.commit()
 
+        # Insert user addresses
+        async with async_session_factory() as session:
+            payment_methods_query = select(UserAddress)
+
+            user_addresses = (
+                (await session.execute(payment_methods_query)).scalars().all()
+            )
+
+            if not user_addresses:
+                user_query = select(User).filter_by().offset(1)
+
+                users = (await session.execute(user_query)).scalars().all()
+
+                for user in users:
+                    address_query = select(Address).order_by(func.random())
+
+                    address = (await session.execute(address_query)).scalar()
+
+                    data = {
+                        "user_id": user.id,
+                        "address_id": address.id,
+                        "is_default": True,
+                    }
+
+                    existing_address = await AddressDAO.check_existing_address(
+                        address, user
+                    )
+
+                    if not existing_address:
+                        created_payment_method = UserAddress(**data)
+
+                        session.add(created_payment_method)
+
+                        await session.commit()
+
         # Insert addresses
         async with async_session_factory() as session:
-            user_query = select(User).filter_by().offset(1)
+            payment_methods_query = select(PaymentMethod)
 
-            users = (await session.execute(user_query)).scalars().all()
+            payment_methods = (
+                (await session.execute(payment_methods_query)).scalars().all()
+            )
 
-            for user in users:
-                address_query = select(Address).order_by(func.random())
+            if not payment_methods:
+                counter = 0
 
-                address = (await session.execute(address_query)).scalar()
+                user_query = select(User).filter_by().offset(1)
 
-                data = {
-                    "user_id": user.id,
-                    "address_id": address.id,
-                    "is_default": True,
-                }
+                users = (await session.execute(user_query)).scalars().all()
 
-                existing_address = await AddressDAO.check_existing_address(
-                    address, user
-                )
+                payment_type_query = select(PaymentType)
 
-                if not existing_address:
-                    created_user_address = UserAddress(**data)
+                payment_type = (
+                    await session.execute(payment_type_query)
+                ).scalar_one_or_none()
 
-                    session.add(created_user_address)
+                for user in users:
+                    data = payment_methods_data[counter]
+
+                    counter += 1
+
+                    data.update(
+                        {
+                            "user_id": user.id,
+                            "payment_type_id": payment_type.id,
+                        }
+                    )
+
+                    created_payment_method = PaymentMethod(**data)
+
+                    session.add(created_payment_method)
 
                     await session.commit()
 
