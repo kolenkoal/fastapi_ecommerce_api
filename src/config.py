@@ -10,6 +10,7 @@ env_file_path = os.path.join(root_dir, ".env")
 
 class Settings(BaseSettings):
     MODE: Literal["DEV", "TEST", "PROD"]
+    LOG_LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
     DB_HOST: str
     DB_PORT: int
@@ -34,6 +35,9 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str
 
     ADMIN_PASSWORD: str
+
+    SENTRY_URL_NUMBER: str
+    SENTRY_PROJECT_NUMBER: str
 
     @property
     def DATABASE_URL_asyncpg(self):

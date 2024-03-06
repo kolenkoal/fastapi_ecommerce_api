@@ -1,9 +1,11 @@
+import sentry_sdk
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from src.addresses.router import router as router_addresses
 from src.auth.router import router as router_auth
+from src.config import settings
 from src.countries.router import router as router_countries
 from src.images.router import router as router_images
 from src.orders.router import router as router_orders
@@ -17,6 +19,11 @@ from src.variations.router import router as router_variations
 
 
 app = FastAPI(title="Ecommerce API")
+
+sentry_sdk.init(
+    dsn=f"https://{settings.SENTRY_URL_NUMBER}.ingest.us.sentry.io/{settings.SENTRY_PROJECT_NUMBER}",
+    enable_tracing=True,
+)
 
 router = APIRouter(prefix="/api")
 
