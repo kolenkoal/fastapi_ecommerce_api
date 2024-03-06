@@ -319,3 +319,11 @@ variations_data = [
     {"name": "Size", "category_id": 1},
     {"name": "Size", "category_id": 2},
 ]
+
+variation_options_data = [
+    {"value": "XS"},
+    {"value": "S"},
+    {"value": "M"},
+    {"value": "L"},
+    {"value": "XL"},
+]

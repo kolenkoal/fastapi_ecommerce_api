@@ -32,10 +32,14 @@ from src.utils.other_data import (  # noqa
     address_data,
     payment_methods_data,
     users_data,
+    variation_options_data,
     variations_data,
 )
 from src.variations.dao import VariationDAO  # noqa
 from src.variations.models import Variation  # noqa
+from src.variations.options.dao import VariationOptionDAO  # noqa
+from src.variations.options.models import VariationOption  # noqa
+from src.variations.options.schemas import SVariationOptionCreate  # noqa
 from src.variations.schemas import SVariationCreate  # noqa
 
 
@@ -84,10 +88,12 @@ async def insert_dummy_data():
 
         # Insert user addresses
         async with async_session_factory() as session:
-            variations_query = select(UserAddress)
+            variation_options_query = select(UserAddress)
 
             user_addresses = (
-                (await session.execute(variations_query)).scalars().all()
+                (await session.execute(variation_options_query))
+                .scalars()
+                .all()
             )
 
             if not user_addresses:
@@ -119,10 +125,12 @@ async def insert_dummy_data():
 
         # Insert payment methods
         async with async_session_factory() as session:
-            variations_query = select(PaymentMethod)
+            variation_options_query = select(PaymentMethod)
 
             variations = (
-                (await session.execute(variations_query)).scalars().all()
+                (await session.execute(variation_options_query))
+                .scalars()
+                .all()
             )
 
             if not variations:
@@ -158,10 +166,12 @@ async def insert_dummy_data():
 
         # Insert variations
         async with async_session_factory() as session:
-            variations_query = select(Variation)
+            variation_options_query = select(Variation)
 
             variations = (
-                (await session.execute(variations_query)).scalars().all()
+                (await session.execute(variation_options_query))
+                .scalars()
+                .all()
             )
 
             if not variations:
@@ -173,35 +183,54 @@ async def insert_dummy_data():
                     data = SVariationCreate(**variation)
 
                     await VariationDAO.add(user, data)
-                # counter = 0
-                #
-                # user_query = select(User).filter_by().offset(1)
-                #
-                # users = (await session.execute(user_query)).scalars().all()
-                #
-                # payment_type_query = select(PaymentType)
-                #
-                # payment_type = (
-                #     await session.execute(payment_type_query)
-                # ).scalar_one_or_none()
-                #
-                # for user in users:
-                #     data = payment_methods_data[counter]
-                #
-                #     counter += 1
-                #
-                #     data.update(
-                #         {
-                #             "user_id": user.id,
-                #             "payment_type_id": payment_type.id,
-                #         }
-                #     )
-                #
-                #     created_payment_method = PaymentMethod(**data)
-                #
-                #     session.add(created_payment_method)
-                #
-                #     await session.commit()
+
+        # Insert variation options
+        async with async_session_factory() as session:
+            variation_options_query = select(VariationOption)
+
+            variation_options = (
+                (await session.execute(variation_options_query))
+                .scalars()
+                .all()
+            )
+
+            if not variation_options:
+                user_query = select(User).filter_by(email="admin@admin.com")
+
+                user = (await session.execute(user_query)).scalar_one()
+
+                variations_query = select(Variation).filter(
+                    Variation.category_id.in_((1, 2)), Variation.name == "Size"
+                )
+
+                variations = (
+                    (await session.execute(variations_query)).scalars().all()
+                )
+
+                for variation in variations:
+                    for variation_option in variation_options_data:
+                        variation_option.update({"variation_id": variation.id})
+
+                        data = SVariationOptionCreate(**variation_option)
+
+                        await VariationOptionDAO.add(user, data)
+
+                variations_query = select(Variation).filter(
+                    Variation.category_id.in_((1, 2, 3)),
+                    Variation.name == "Color",
+                )
+
+                variations = (
+                    (await session.execute(variations_query)).scalars().all()
+                )
+
+                for variation in variations:
+                    for variation_option in variation_options_data:
+                        variation_option.update({"variation_id": variation.id})
+
+                        data = SVariationOptionCreate(**variation_option)
+
+                        await VariationOptionDAO.add(user, data)
 
 
 loop = asyncio.get_event_loop()
