@@ -15,10 +15,15 @@ great_grandparent_dir = os.path.dirname(grandparent_dir)
 
 sys.path.insert(1, os.path.dirname(grandparent_dir))
 
+from src.auth.manager import UserManager, get_user_manager  # noqa
 from src.database import async_session_factory  # noqa
+from src.shopping_carts.router import create_shopping_cart  # noqa
+from src.shopping_carts.schemas import SShoppingCartCreate  # noqa
 from src.users.models import User  # noqa
+from src.users.profiles.router import create_user_profile  # noqa
+from src.users.schemas import UserCreate  # noqa
 from src.utils.hasher import Hasher  # noqa
-from src.utils.other_data import user_data  # noqa
+from src.utils.other_data import users_data  # noqa
 
 
 async def insert_dummy_data():
@@ -27,19 +32,23 @@ async def insert_dummy_data():
 
         users = (await session.execute(query)).all()
 
-        print(len(users), users)
-
         if len(users) == 1:
-            for data in user_data:
+            for data in users_data:
                 hashed_password = Hasher.get_password_hash(
                     data["hashed_password"]
                 )
                 data.update({"hashed_password": hashed_password})
-                print(data)
-                user = User(**data)
-                session.add(user)
+                created_user = User(**data)
+                session.add(created_user)
 
                 await session.commit()
+
+                shopping_cart_data = SShoppingCartCreate(
+                    user_id=created_user.id
+                )
+                await create_shopping_cart(shopping_cart_data, created_user)
+
+                await create_user_profile(created_user)
 
 
 loop = asyncio.get_event_loop()
