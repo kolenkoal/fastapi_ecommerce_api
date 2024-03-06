@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database import Base
 from src.models import str256, uuidpk
 from src.products.configurations.models import ProductConfiguration  # noqa
+from src.variations.models import Variation  # noqa
 
 
 class VariationOption(Base):

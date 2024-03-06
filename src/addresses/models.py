@@ -4,8 +4,10 @@ from fastapi_users_db_sqlalchemy import GUID
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from src.countries.models import Country  # noqa
 from src.database import Base
 from src.models import str256, uuidpk
+from src.orders.models import Order  # noqa
 
 
 class Address(Base):

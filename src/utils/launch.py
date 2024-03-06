@@ -23,7 +23,8 @@ from src.payments.types.models import PaymentType  # noqa
 from src.products.categories.models import ProductCategory  # noqa
 from src.shipping_methods.models import ShippingMethod  # noqa
 from src.users.models import Role, User  # noqa
-from src.utils.data import (  # noqa
+from src.utils.hasher import Hasher  # noqa
+from src.utils.launch_data import (  # noqa
     admin_data,
     countries_data,
     order_statuses_data,
@@ -34,7 +35,6 @@ from src.utils.data import (  # noqa
     roles_data,
     shipping_methods_data,
 )
-from src.utils.hasher import Hasher  # noqa
 
 
 async def insert_initial_values():

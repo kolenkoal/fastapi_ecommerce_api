@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import uuidpk
+from src.products.items.models import ProductItem  # noqa
 from src.users.reviews.models import UserReview  # noqa
 
 

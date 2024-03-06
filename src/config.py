@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str
 
     ADMIN_PASSWORD: str
+    USER_PASSWORD: str
 
     SENTRY_URL_NUMBER: str
     SENTRY_PROJECT_NUMBER: str

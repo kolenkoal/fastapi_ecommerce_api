@@ -2,6 +2,7 @@ import sentry_sdk
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from src.addresses.router import router as router_addresses
 from src.auth.router import router as router_auth
@@ -59,3 +60,11 @@ router.include_router(router_shipping_methods)
 router.include_router(router_orders)
 
 app.include_router(router)
+
+instrumentator = (
+    Instrumentator(
+        should_group_status_codes=False, excluded_handlers=["/metrics"]
+    )
+    .instrument(app)
+    .expose(app)
+)

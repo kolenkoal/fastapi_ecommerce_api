@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import str256, uuidpk
+from src.payments.types.models import PaymentType  # noqa
 
 
 class PaymentMethod(Base):

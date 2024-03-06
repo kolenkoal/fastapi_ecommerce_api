@@ -3,7 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import str256, uuidpk
-from src.variations.options.models import VariationOption  # noqa
+from src.products.categories.models import ProductCategory  # noqa
 
 
 class Variation(Base):
@@ -15,5 +15,5 @@ class Variation(Base):
         ForeignKey("product_categories.id", ondelete="CASCADE"), nullable=False
     )
 
-    category = relationship("ProductCategory", back_populates="variations")
+    category = relationship("ProductCategory", back_populates="variation")
     options = relationship("VariationOption", back_populates="variation")

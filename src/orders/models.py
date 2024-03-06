@@ -8,6 +8,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database import Base
 from src.models import uuidpk
 from src.orders.lines.models import OrderLine  # noqa
+from src.orders.statuses.models import OrderStatus  # noqa
+from src.payments.methods.models import PaymentMethod  # noqa
+from src.shipping_methods.models import ShippingMethod  # noqa
 
 
 class Order(Base):
