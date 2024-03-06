@@ -28,16 +28,23 @@ from src.users.models import User  # noqa
 from src.users.profiles.router import create_user_profile  # noqa
 from src.users.schemas import UserCreate  # noqa
 from src.utils.hasher import Hasher  # noqa
-from src.utils.other_data import payment_methods_data  # noqa
-from src.utils.other_data import address_data, users_data  # noqa
+from src.utils.other_data import (  # noqa
+    address_data,
+    payment_methods_data,
+    users_data,
+    variations_data,
+)
+from src.variations.dao import VariationDAO  # noqa
+from src.variations.models import Variation  # noqa
+from src.variations.schemas import SVariationCreate  # noqa
 
 
 async def insert_dummy_data():
     # Insert users
     async with async_session_factory() as session:
-        query = select(User)
+        user_query = select(User)
 
-        users = (await session.execute(query)).all()
+        users = (await session.execute(user_query)).all()
 
         if len(users) == 1:
             for data in users_data:
@@ -59,9 +66,9 @@ async def insert_dummy_data():
 
     # Insert addresses
     async with async_session_factory() as session:
-        query = select(Address)
+        user_query = select(Address)
 
-        addresses = (await session.execute(query)).all()
+        addresses = (await session.execute(user_query)).all()
 
         country_query = select(Country).filter_by(name="United States")
 
@@ -77,10 +84,10 @@ async def insert_dummy_data():
 
         # Insert user addresses
         async with async_session_factory() as session:
-            payment_methods_query = select(UserAddress)
+            variations_query = select(UserAddress)
 
             user_addresses = (
-                (await session.execute(payment_methods_query)).scalars().all()
+                (await session.execute(variations_query)).scalars().all()
             )
 
             if not user_addresses:
@@ -110,15 +117,15 @@ async def insert_dummy_data():
 
                         await session.commit()
 
-        # Insert addresses
+        # Insert payment methods
         async with async_session_factory() as session:
-            payment_methods_query = select(PaymentMethod)
+            variations_query = select(PaymentMethod)
 
-            payment_methods = (
-                (await session.execute(payment_methods_query)).scalars().all()
+            variations = (
+                (await session.execute(variations_query)).scalars().all()
             )
 
-            if not payment_methods:
+            if not variations:
                 counter = 0
 
                 user_query = select(User).filter_by().offset(1)
@@ -148,6 +155,53 @@ async def insert_dummy_data():
                     session.add(created_payment_method)
 
                     await session.commit()
+
+        # Insert variations
+        async with async_session_factory() as session:
+            variations_query = select(Variation)
+
+            variations = (
+                (await session.execute(variations_query)).scalars().all()
+            )
+
+            if not variations:
+                user_query = select(User).filter_by(email="admin@admin.com")
+
+                user = (await session.execute(user_query)).scalar_one()
+
+                for variation in variations_data:
+                    data = SVariationCreate(**variation)
+
+                    await VariationDAO.add(user, data)
+                # counter = 0
+                #
+                # user_query = select(User).filter_by().offset(1)
+                #
+                # users = (await session.execute(user_query)).scalars().all()
+                #
+                # payment_type_query = select(PaymentType)
+                #
+                # payment_type = (
+                #     await session.execute(payment_type_query)
+                # ).scalar_one_or_none()
+                #
+                # for user in users:
+                #     data = payment_methods_data[counter]
+                #
+                #     counter += 1
+                #
+                #     data.update(
+                #         {
+                #             "user_id": user.id,
+                #             "payment_type_id": payment_type.id,
+                #         }
+                #     )
+                #
+                #     created_payment_method = PaymentMethod(**data)
+                #
+                #     session.add(created_payment_method)
+                #
+                #     await session.commit()
 
 
 loop = asyncio.get_event_loop()

@@ -311,3 +311,11 @@ payment_methods_data = [
         "is_default": True,
     },
 ]
+
+variations_data = [
+    {"name": "Color", "category_id": 1},
+    {"name": "Color", "category_id": 2},
+    {"name": "Color", "category_id": 3},
+    {"name": "Size", "category_id": 1},
+    {"name": "Size", "category_id": 2},
+]
