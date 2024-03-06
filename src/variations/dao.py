@@ -185,9 +185,9 @@ class VariationDAO(BaseDAO):
 
                 if (
                     current_product_category
-                    and current_product_category.variations
+                    and current_product_category.variation
                 ):
-                    for variation in current_product_category.variations:
+                    for variation in current_product_category.variation:
                         if variation.name == variation_name:
                             await cls.delete(user, variation.id)
 

@@ -316,7 +316,7 @@ class AddressDAO(BaseDAO):
         session=None,
     ):
         if existing_address:
-            if await cls._check_existing_address(existing_address, user):
+            if await cls.check_existing_address(existing_address, user):
                 raise_http_exception(UserAlreadyHasThisAddress)
             return await cls._update_to_existing_address(
                 user, address_id, existing_address
@@ -333,7 +333,7 @@ class AddressDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def _check_existing_address(
+    async def check_existing_address(
         cls, existing_address, user, session=None
     ):
         get_user_existing_address_query = select(UserAddress).where(

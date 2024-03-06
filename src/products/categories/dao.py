@@ -154,7 +154,7 @@ class ProductCategoryDAO(BaseDAO):
     ):
         query = (
             select(cls.model)
-            .options(joinedload(cls.model.variations))
+            .options(joinedload(cls.model.variation))
             .filter_by(id=product_category_id)
         )
 
