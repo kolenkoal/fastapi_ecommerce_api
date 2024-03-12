@@ -29,6 +29,10 @@ from src.products.dao import ProductDAO  # noqa
 from src.products.items.models import ProductItem  # noqa
 from src.products.models import Product  # noqa
 from src.products.router import create_product  # noqa
+from src.shopping_carts.items.dao import ShoppingCartItemDAO  # noqa
+from src.shopping_carts.items.models import ShoppingCartItem  # noqa
+from src.shopping_carts.items.schemas import SShoppingCartItemCreate  # noqa
+from src.shopping_carts.models import ShoppingCart  # noqa
 from src.shopping_carts.router import create_shopping_cart  # noqa
 from src.shopping_carts.schemas import SShoppingCartCreate  # noqa
 from src.users.models import User  # noqa
@@ -377,6 +381,49 @@ async def insert_dummy_data():
                         await session.commit()
 
                         counter += 1
+        # Insert shopping cart items
+        async with async_session_factory() as session:
+            shopping_cart_items_query = select(ShoppingCartItem)
+
+            shopping_cart_items = (
+                (await session.execute(shopping_cart_items_query))
+                .scalars()
+                .all()
+            )
+
+            if not shopping_cart_items:
+                counter = 0
+
+                user_query = select(User).filter_by().offset(1)
+
+                users = (await session.execute(user_query)).scalars().all()
+
+                for user in users:
+                    user_shopping_cart_query = select(ShoppingCart).where(
+                        ShoppingCart.user_id == user.id
+                    )
+
+                    user_shopping_cart = (
+                        await session.execute(user_shopping_cart_query)
+                    ).scalar_one()
+
+                    product_item_query = select(ProductItem).offset(counter)
+
+                    product_item = (
+                        (await session.execute(product_item_query))
+                        .scalars()
+                        .first()
+                    )
+
+                    data = SShoppingCartItemCreate(
+                        product_item_id=product_item.id
+                    )
+
+                    await ShoppingCartItemDAO.add(
+                        user_shopping_cart.id, data, user
+                    )
+
+                    counter += 1
 
 
 loop = asyncio.get_event_loop()
