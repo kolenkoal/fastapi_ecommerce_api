@@ -24,6 +24,7 @@ from src.images.router import rename_product_item_image_file  # noqa
 from src.payments.methods.models import PaymentMethod  # noqa
 from src.payments.types.models import PaymentType  # noqa
 from src.products.categories.models import ProductCategory  # noqa
+from src.products.configurations.models import ProductConfiguration  # noqa
 from src.products.dao import ProductDAO  # noqa
 from src.products.items.models import ProductItem  # noqa
 from src.products.models import Product  # noqa
@@ -279,7 +280,7 @@ async def insert_dummy_data():
 
                     counter += 1
 
-        # Insert products
+        # Insert product items
         async with async_session_factory() as session:
             product_items_query = select(ProductItem)
 
@@ -321,6 +322,61 @@ async def insert_dummy_data():
                     await session.commit()
 
                     counter += 1
+
+        # Insert product configurations
+        async with async_session_factory() as session:
+            product_configuration_query = select(ProductConfiguration)
+
+            product_configurations = (
+                (await session.execute(product_configuration_query))
+                .scalars()
+                .all()
+            )
+
+            if not product_configurations:
+                product_items_query = select(
+                    ProductItem.__table__.columns, Product.__table__.columns
+                ).join(Product, Product.id == ProductItem.product_id)
+
+                product_items = (
+                    (await session.execute(product_items_query))
+                    .mappings()
+                    .all()
+                )
+
+                counter = 0
+
+                for product_item in product_items:
+                    if (
+                        "Men" in product_item.name
+                        or "Women" in product_item.name
+                    ):
+                        variation_option_query = (
+                            select(VariationOption)
+                            .where(VariationOption.value == "XS")
+                            .offset(counter)
+                        )
+
+                        variation_option = (
+                            (await session.execute(variation_option_query))
+                            .scalars()
+                            .first()
+                        )
+
+                        data = {
+                            "product_item_id": product_item.id,
+                            "variation_option_id": variation_option.id,
+                        }
+
+                        create_product_configuration = ProductConfiguration(
+                            **data
+                        )
+
+                        session.add(create_product_configuration)
+
+                        await session.commit()
+
+                        counter += 1
 
 
 loop = asyncio.get_event_loop()
