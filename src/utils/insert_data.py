@@ -21,6 +21,9 @@ from src.auth.manager import UserManager, get_user_manager  # noqa
 from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
 from src.images.router import rename_product_item_image_file  # noqa
+from src.orders.dao import OrderDAO  # noqa
+from src.orders.models import Order  # noqa
+from src.orders.schemas import SOrderCreate  # noqa
 from src.payments.methods.models import PaymentMethod  # noqa
 from src.payments.types.models import PaymentType  # noqa
 from src.products.categories.models import ProductCategory  # noqa
@@ -29,6 +32,7 @@ from src.products.dao import ProductDAO  # noqa
 from src.products.items.models import ProductItem  # noqa
 from src.products.models import Product  # noqa
 from src.products.router import create_product  # noqa
+from src.shipping_methods.models import ShippingMethod  # noqa
 from src.shopping_carts.items.dao import ShoppingCartItemDAO  # noqa
 from src.shopping_carts.items.models import ShoppingCartItem  # noqa
 from src.shopping_carts.items.schemas import SShoppingCartItemCreate  # noqa
@@ -422,6 +426,56 @@ async def insert_dummy_data():
                     await ShoppingCartItemDAO.add(
                         user_shopping_cart.id, data, user
                     )
+
+                    counter += 1
+
+        # Insert orders
+        async with async_session_factory() as session:
+            orders_query = select(Order)
+
+            orders = (await session.execute(orders_query)).scalars().all()
+
+            if not orders:
+                counter = 0
+
+                user_query = select(User).offset(1)
+
+                users = (await session.execute(user_query)).scalars().all()
+
+                shipping_method_query = select(ShippingMethod).where(
+                    ShippingMethod.name == "Standard"
+                )
+
+                shipping_method = (
+                    await session.execute(shipping_method_query)
+                ).scalar_one()
+
+                for user in users:
+                    payment_method_query = select(PaymentMethod).where(
+                        PaymentMethod.user_id == user.id
+                    )
+
+                    payment_method = (
+                        await session.execute(payment_method_query)
+                    ).scalar_one()
+
+                    address_query = select(UserAddress).where(
+                        UserAddress.user_id == user.id
+                    )
+
+                    address = (
+                        (await session.execute(address_query))
+                        .scalars()
+                        .first()
+                    )
+
+                    data = SOrderCreate(
+                        payment_method_id=payment_method.id,
+                        shipping_address_id=address.address_id,
+                        shipping_method_id=shipping_method.id,
+                    )
+
+                    await OrderDAO.add(user, data)
 
                     counter += 1
 
