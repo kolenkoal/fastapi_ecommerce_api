@@ -22,6 +22,10 @@ from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
 from src.payments.methods.models import PaymentMethod  # noqa
 from src.payments.types.models import PaymentType  # noqa
+from src.products.categories.models import ProductCategory  # noqa
+from src.products.dao import ProductDAO  # noqa
+from src.products.models import Product  # noqa
+from src.products.router import create_product  # noqa
 from src.shopping_carts.router import create_shopping_cart  # noqa
 from src.shopping_carts.schemas import SShoppingCartCreate  # noqa
 from src.users.models import User  # noqa
@@ -31,6 +35,7 @@ from src.utils.hasher import Hasher  # noqa
 from src.utils.other_data import (  # noqa
     address_data,
     payment_methods_data,
+    products_data,
     users_data,
     variation_options_data,
     variations_data,
@@ -231,6 +236,49 @@ async def insert_dummy_data():
                         data = SVariationOptionCreate(**variation_option)
 
                         await VariationOptionDAO.add(user, data)
+
+        # Insert products
+        async with async_session_factory() as session:
+            product_query = select(Product)
+
+            products = (await session.execute(product_query)).scalars().all()
+
+            if not products:
+                user_query = select(User).filter_by(email="admin@admin.com")
+
+                user = (await session.execute(user_query)).scalar_one()
+
+                belt_query = select(ProductCategory.id).where(
+                    ProductCategory.name == "Belts"
+                )
+
+                belt_id = (await session.execute(belt_query)).scalar_one()
+
+                categories_query = select(ProductCategory).offset(belt_id - 1)
+
+                categories = (
+                    (await session.execute(categories_query)).scalars().all()
+                )
+
+                counter = 0
+
+                for category in categories:
+                    data = products_data[counter]
+                    product_image = data["product_image"]
+                    data.update({"category_id": category.id})
+                    data.update(
+                        {
+                            "product_image": f"{product_image}_{category.id}.webp"
+                        }
+                    )
+
+                    created_product = Product(**data)
+
+                    session.add(created_product)
+
+                    await session.commit()
+
+                    counter += 1
 
 
 loop = asyncio.get_event_loop()

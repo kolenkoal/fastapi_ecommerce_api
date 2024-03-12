@@ -46,7 +46,9 @@ class ProductDAO(BaseDAO):
             raise_http_exception(ProductAlreadyExistsException)
 
         # Create a product image name as name and category of the product
-        product_image_name = product_data["name"].lower().replace(" ", "_")
+        product_image_name = (
+            product_data["name"].lower().replace(" ", "_").replace("-", "_")
+        )
 
         # Upload the given file to images
         uploaded_image_name = await add_product_image(
@@ -117,8 +119,15 @@ class ProductDAO(BaseDAO):
         if existing_product:
             raise_http_exception(ProductAlreadyExistsException)
 
-        current_product_name = current_product.name.lower().replace(" ", "_")
-        new_product_name = new_product_data["name"].lower().replace(" ", "_")
+        current_product_name = (
+            current_product.name.lower().replace(" ", "_").replace("-", "_")
+        )
+        new_product_name = (
+            new_product_data["name"]
+            .lower()
+            .replace(" ", "_")
+            .replace("-", "_")
+        )
 
         new_file = await rename_product_image_file(
             old_name=current_product_name,
@@ -143,7 +152,9 @@ class ProductDAO(BaseDAO):
         if not product:
             raise_http_exception(ProductNotFoundException)
 
-        current_product_name = product.name.lower().replace(" ", "_")
+        current_product_name = (
+            product.name.lower().replace(" ", "_").replace("-", "_")
+        )
 
         # Upload the given file to images
         uploaded_image_name = await add_product_image(
@@ -166,7 +177,7 @@ class ProductDAO(BaseDAO):
         if not product:
             raise_http_exception(ProductNotFoundException)
 
-        product_name = product.name.lower().replace(" ", "_")
+        product_name = product.name.lower().replace(" ", "_").replace("-", "_")
 
         is_deleted = await delete_products_file(
             product_name, product.category_id

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="test_ecommerce_db@localhost" uuid="ed98c8b3-aaed-49e1-8b9b-e09efa52d5f4">
+    <data-source source="LOCAL" name="test_ecommerce_db@localhost" uuid="030e3b85-9dad-41f1-ac13-503fe9683608">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/test_ecommerce_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="ecommerce_db@localhost" uuid="61c7cc40-3368-46b3-a71e-a23090d57d04">
+    <data-source source="LOCAL" name="ecommerce_db@localhost" uuid="577563c7-1250-4465-bbf5-0f9bda7ab26e">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

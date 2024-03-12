@@ -327,3 +327,111 @@ variation_options_data = [
     {"value": "L"},
     {"value": "XL"},
 ]
+
+products_data = [
+    {
+        "name": "Men Belt",
+        "description": "It will always hold your pants",
+        "product_image": "men_belt",
+    },
+    {
+        "name": "Men T-Shirt",
+        "description": "Very comfortable t-shirt. 100% cotton.",
+        "product_image": "men_t_shirt",
+    },
+    {
+        "name": "Men Sweater",
+        "description": "Very comfortable sweater. 100% cotton.",
+        "product_image": "men_sweater",
+    },
+    {
+        "name": "Men Jeans",
+        "description": "Very comfortable jeans.",
+        "product_image": "men_jeans",
+    },
+    {
+        "name": "Men Pants",
+        "description": "Very comfortable pants",
+        "product_image": "men_pants",
+    },
+    {
+        "name": "Men Shorts",
+        "description": "Very comfortable shorts",
+        "product_image": "men_shorts",
+    },
+    {
+        "name": "Men Sweatpants",
+        "description": "Very comfortable sweatpants.",
+        "product_image": "men_sweatpants",
+    },
+    {
+        "name": "Men Jacket",
+        "description": "Very comfortable jacket.",
+        "product_image": "men_jacket",
+    },
+    {
+        "name": "Men Coat",
+        "description": "Very comfortable coat",
+        "product_image": "men_coat",
+    },
+    {
+        "name": "Men Blazer",
+        "description": "Very comfortable blazer.",
+        "product_image": "men_blazer",
+    },
+    {
+        "name": "Women Blouse",
+        "description": "Very comfortable blouse.",
+        "product_image": "women_blouse",
+    },
+    {
+        "name": "Women T-Shirt",
+        "description": "Very comfortable t-shirt.",
+        "product_image": "women_t_shirt",
+    },
+    {
+        "name": "Women Sweater",
+        "description": "Very comfortable sweater.",
+        "product_image": "women_sweater",
+    },
+    {
+        "name": "Women Jeans",
+        "description": "Very comfortable jeans.",
+        "product_image": "women_jeans",
+    },
+    {
+        "name": "Women Pants",
+        "description": "Very comfortable pants",
+        "product_image": "women_pants",
+    },
+    {
+        "name": "Women Skirt",
+        "description": "Very comfortable skirt.",
+        "product_image": "women_skirt",
+    },
+    {
+        "name": "Baseball Cap",
+        "description": "Very comfortable baseball_cap.",
+        "product_image": "baseball_cap",
+    },
+    {
+        "name": "Beanie",
+        "description": "Very comfortable beanie.",
+        "product_image": "beanie",
+    },
+    {
+        "name": "Sun Hat",
+        "description": "Very comfortable sun hat.",
+        "product_image": "sun_hat",
+    },
+    {
+        "name": "Backpack",
+        "description": "Very comfortable backpack",
+        "product_image": "backpack",
+    },
+    {
+        "name": "Handback",
+        "description": "Very comfortable handback.",
+        "product_image": "handback",
+    },
+]
