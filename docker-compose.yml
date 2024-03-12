@@ -1,0 +1,48 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:15
+    container_name: ecommerce_db
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+
+  redis:
+    image: redis:7
+    container_name: ecommerce_redis
+
+  ecommerce:
+    build:
+      context: .
+    env_file:
+      - .env
+    container_name: ecommerce_app
+    depends_on:
+      - db
+      - redis
+    command: [ "/ecommerce/docker/app.sh" ]
+    ports:
+      - "8000:8000"
+
+  celery:
+    build:
+      context: .
+    container_name: ecommerce_celery
+    command: [ "/ecommerce/docker/celery.sh", "celery" ]
+    env_file:
+      - .env
+    depends_on:
+      - redis
+
+  flower:
+    build:
+      context: .
+    container_name: ecommerce_flower
+    command: [ "/ecommerce/docker/celery.sh", "flower" ]
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    ports:
+      - "5555:5555"

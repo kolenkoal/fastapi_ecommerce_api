@@ -18,3 +18,5 @@ celery==5.2.7
 redis==5.0.2
 urllib3==1.26.15
 prometheus-fastapi-instrumentator==6.1.0
+flower==2.0.1
+fastapi-cache2==0.2.1
