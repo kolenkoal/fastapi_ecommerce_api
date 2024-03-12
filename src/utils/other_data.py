@@ -460,3 +460,28 @@ product_items_data = [
     {"SKU": "744_IVJ_876", "quantity_in_stock": 3, "price": Decimal("9.99")},
     {"SKU": "958_VQN_926", "quantity_in_stock": 2, "price": Decimal("4.99")},
 ]
+
+user_reviews_data = [
+    {
+        "rating_value": 4,
+        "comment": "Amazing product, but was very expensive for me",
+    },
+    {
+        "rating_value": 1,
+        "comment": "There was a spider in the box. Disgusting",
+    },
+    {
+        "rating_value": 5,
+        "comment": "The delivery came 2 days before the expected date, nice!",
+    },
+    {"rating_value": 3, "comment": "Okay, but expensive."},
+    {
+        "rating_value": 4,
+        "comment": "The delivery was too long, but the product is awesome",
+    },
+    {"rating_value": 5, "comment": "Nice product, everything nice."},
+    {"rating_value": 3, "comment": "The size does not fit me"},
+    {"rating_value": 1, "comment": "It was ordered with stains on it"},
+    {"rating_value": 5, "comment": "Wonderful product, it fits me!"},
+    {"rating_value": 2, "comment": "It was awful, but the price is too good."},
+]

@@ -22,6 +22,7 @@ from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
 from src.images.router import rename_product_item_image_file  # noqa
 from src.orders.dao import OrderDAO  # noqa
+from src.orders.lines.models import OrderLine  # noqa
 from src.orders.models import Order  # noqa
 from src.orders.schemas import SOrderCreate  # noqa
 from src.payments.methods.models import PaymentMethod  # noqa
@@ -41,6 +42,9 @@ from src.shopping_carts.router import create_shopping_cart  # noqa
 from src.shopping_carts.schemas import SShoppingCartCreate  # noqa
 from src.users.models import User  # noqa
 from src.users.profiles.router import create_user_profile  # noqa
+from src.users.reviews.dao import UserReviewDAO  # noqa
+from src.users.reviews.models import UserReview  # noqa
+from src.users.reviews.schemas import SUserReviewCreate  # noqa
 from src.users.schemas import UserCreate  # noqa
 from src.utils.hasher import Hasher  # noqa
 from src.utils.other_data import (  # noqa
@@ -48,6 +52,7 @@ from src.utils.other_data import (  # noqa
     payment_methods_data,
     product_items_data,
     products_data,
+    user_reviews_data,
     users_data,
     variation_options_data,
     variations_data,
@@ -436,8 +441,6 @@ async def insert_dummy_data():
             orders = (await session.execute(orders_query)).scalars().all()
 
             if not orders:
-                counter = 0
-
                 user_query = select(User).offset(1)
 
                 users = (await session.execute(user_query)).scalars().all()
@@ -476,6 +479,40 @@ async def insert_dummy_data():
                     )
 
                     await OrderDAO.add(user, data)
+
+        # Insert user reviews
+        async with async_session_factory() as session:
+            reviews_query = select(UserReview)
+
+            reviews = (await session.execute(reviews_query)).scalars().all()
+
+            if not reviews:
+                counter = 0
+
+                user_query = select(User).offset(1)
+
+                users = (await session.execute(user_query)).scalars().all()
+
+                for user in users:
+                    ordered_product_query = (
+                        select(OrderLine)
+                        .join(Order, Order.id == OrderLine.order_id)
+                        .where(Order.user_id == user.id)
+                    )
+
+                    ordered_product = (
+                        await session.execute(ordered_product_query)
+                    ).scalar_one()
+
+                    data = user_reviews_data[counter]
+
+                    review_data = SUserReviewCreate(
+                        ordered_product_id=ordered_product.id,
+                        rating_value=data["rating_value"],
+                        comment=data["comment"],
+                    )
+
+                    await UserReviewDAO.add(user, review_data)
 
                     counter += 1
 
