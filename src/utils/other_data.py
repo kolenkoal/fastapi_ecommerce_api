@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 
 from src.config import settings
 
@@ -330,9 +331,9 @@ variation_options_data = [
 
 products_data = [
     {
-        "name": "Men Belt",
+        "name": "Belt",
         "description": "It will always hold your pants",
-        "product_image": "men_belt",
+        "product_image": "belt",
     },
     {
         "name": "Men T-Shirt",
@@ -434,4 +435,28 @@ products_data = [
         "description": "Very comfortable handback.",
         "product_image": "handback",
     },
+]
+
+product_items_data = [
+    {"SKU": "999_JRZ_682", "quantity_in_stock": 4, "price": Decimal("6.99")},
+    {"SKU": "473_JHI_115", "quantity_in_stock": 5, "price": Decimal("7.99")},
+    {"SKU": "010_RNK_498", "quantity_in_stock": 3, "price": Decimal("10.99")},
+    {"SKU": "533_DOH_461", "quantity_in_stock": 2, "price": Decimal("12.99")},
+    {"SKU": "364_GNJ_157", "quantity_in_stock": 3, "price": Decimal("9.99")},
+    {"SKU": "190_ILR_299", "quantity_in_stock": 1, "price": Decimal("8.99")},
+    {"SKU": "351_FMA_897", "quantity_in_stock": 4, "price": Decimal("4.99")},
+    {"SKU": "652_XFD_829", "quantity_in_stock": 8, "price": Decimal("13.99")},
+    {"SKU": "289_XTV_984", "quantity_in_stock": 5, "price": Decimal("8.99")},
+    {"SKU": "140_EJL_189", "quantity_in_stock": 1, "price": Decimal("4.99")},
+    {"SKU": "438_XEA_781", "quantity_in_stock": 3, "price": Decimal("12.99")},
+    {"SKU": "429_UAG_536", "quantity_in_stock": 4, "price": Decimal("17.99")},
+    {"SKU": "835_IGY_289", "quantity_in_stock": 2, "price": Decimal("5.99")},
+    {"SKU": "655_SWX_813", "quantity_in_stock": 3, "price": Decimal("9.99")},
+    {"SKU": "722_JIB_059", "quantity_in_stock": 7, "price": Decimal("8.99")},
+    {"SKU": "075_XZC_445", "quantity_in_stock": 6, "price": Decimal("4.99")},
+    {"SKU": "608_KCD_726", "quantity_in_stock": 5, "price": Decimal("12.99")},
+    {"SKU": "989_USO_636", "quantity_in_stock": 1, "price": Decimal("3.99")},
+    {"SKU": "422_VRR_938", "quantity_in_stock": 2, "price": Decimal("10.99")},
+    {"SKU": "744_IVJ_876", "quantity_in_stock": 3, "price": Decimal("9.99")},
+    {"SKU": "958_VQN_926", "quantity_in_stock": 2, "price": Decimal("4.99")},
 ]

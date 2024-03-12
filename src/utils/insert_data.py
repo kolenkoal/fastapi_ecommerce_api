@@ -20,10 +20,12 @@ from src.addresses.models import Address, UserAddress  # noqa
 from src.auth.manager import UserManager, get_user_manager  # noqa
 from src.countries.models import Country  # noqa
 from src.database import async_session_factory  # noqa
+from src.images.router import rename_product_item_image_file  # noqa
 from src.payments.methods.models import PaymentMethod  # noqa
 from src.payments.types.models import PaymentType  # noqa
 from src.products.categories.models import ProductCategory  # noqa
 from src.products.dao import ProductDAO  # noqa
+from src.products.items.models import ProductItem  # noqa
 from src.products.models import Product  # noqa
 from src.products.router import create_product  # noqa
 from src.shopping_carts.router import create_shopping_cart  # noqa
@@ -35,6 +37,7 @@ from src.utils.hasher import Hasher  # noqa
 from src.utils.other_data import (  # noqa
     address_data,
     payment_methods_data,
+    product_items_data,
     products_data,
     users_data,
     variation_options_data,
@@ -244,10 +247,6 @@ async def insert_dummy_data():
             products = (await session.execute(product_query)).scalars().all()
 
             if not products:
-                user_query = select(User).filter_by(email="admin@admin.com")
-
-                user = (await session.execute(user_query)).scalar_one()
-
                 belt_query = select(ProductCategory.id).where(
                     ProductCategory.name == "Belts"
                 )
@@ -275,6 +274,49 @@ async def insert_dummy_data():
                     created_product = Product(**data)
 
                     session.add(created_product)
+
+                    await session.commit()
+
+                    counter += 1
+
+        # Insert products
+        async with async_session_factory() as session:
+            product_items_query = select(ProductItem)
+
+            product_items = (
+                (await session.execute(product_items_query)).scalars().all()
+            )
+
+            if not product_items:
+                products_query = select(Product)
+
+                products = (
+                    (await session.execute(products_query)).scalars().all()
+                )
+
+                counter = 0
+
+                for product in products:
+                    data = product_items_data[counter]
+                    product_item_SKU = data["SKU"]
+
+                    await rename_product_item_image_file(
+                        old_SKU=product_item_SKU,
+                        old_product="",
+                        new_SKU=product_item_SKU,
+                        new_product=product.id,
+                    )
+
+                    data.update(
+                        {
+                            "product_image": f"{product_item_SKU}_{product.id}.webp",
+                            "product_id": product.id,
+                        }
+                    )
+
+                    create_product_item = ProductItem(**data)
+
+                    session.add(create_product_item)
 
                     await session.commit()
 
