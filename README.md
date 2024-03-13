@@ -1,6 +1,6 @@
-### [Russian documentation](#Интернет магазин с использованием FastAPI)
+- [Russian documentation](#интернет-магазин-с-использованием-FastAPI)
 
-### [English documentation](#E-commerce with FastAPI)
+- [English documentation](#e-commerce-with-FastAPI)
 
 # E-commerce with FastAPI
 
