@@ -4,7 +4,7 @@
 
 # E-commerce with FastAPI
 
-This project is an educational application developed using FastAPI.
+This project is a personal application developed using FastAPI.
 The Ecommerce is created to demonstrate the principles of building APIs,
 handling requests, and working with databases. The main goal of the project
 is to provide learning opportunities and practice in developing web applications
@@ -332,7 +332,7 @@ you want to use it, you need to set it up:
 
 1. Navigate to http://0.0.0.0:9090/targets?search= and verify that both
    prometheus and ecommerce are up:
-   ![Database](src/static/images/readme/prometheus.png)
+   ![Prometheus](src/static/images/readme/prometheus.png)
 2. You can access Grafana by navigating to http://0.0.0.0:3000 in your web
    browser. Log in to Grafana with the default credentials (username: admin,
    password:
@@ -347,7 +347,7 @@ you want to use it, you need to set it up:
    all `POarCC0Ik` with id of your prometheus data source, which is shown in the
    URL of the
    page.
-   ![Database](src/static/images/readme/grafana.png)
+   ![Grafana](src/static/images/readme/grafana.png)
 5. Go to http://0.0.0.0:3000/dashboards. New -> Import and insert
    updated `grafana-dashboard.json` in `Import via panel json`. Everything
    should work after that
@@ -447,7 +447,7 @@ FastAPI.
     пользователями.
 20. **Линии заказов (order_lines):** Содержит информацию о товарах, заказанных
     пользователями.
-21. **Отзывы о товарах(user_reviews):** Содержит отзывы пользователей о
+21. **Отзывы о товарах (user_reviews):** Содержит отзывы пользователей о
     заказанных товарах.
 
 ## Структура проекта
@@ -709,22 +709,41 @@ project/
 
 ## Дополнительные настройки
 
-- **Настройка Celery:** Перейдите к файлу `.env` и установите необходимые
-  переменные окружения для настройки брокера сообщений (например, Redis) и
-  задачи периодической очистки.
+После запуска приложения вы можете получить доступ к документации Swagger,
+перейдя по адресу http://0.0.0.0:8000/docs в своем веб-браузере. Используйте
+пользовательский интерфейс Swagger для тестирования конечных точек API и
+изучения доступных функций.
 
-- **Настройка мониторинга:** Приложение включает файлы конфигурации для
-  мониторинга с использованием Prometheus и Grafana. Вы можете настроить их
-  по вашему усмотрению.
+Prometheus и Grafana запускаются автоматически вместе с приложением. Если вы
+хотите его использовать, вам необходимо его настроить:
 
-## Вклад
+1. Перейдите по адресу http://0.0.0.0:9090/targets?search= и убедитесь, что
+   Prometheus и интернет магазин работают:
+   ![Prometheus](src/static/images/readme/prometheus.png)
+2. Вы можете получить доступ к Grafana, перейдя по адресу http://0.0.0.0:3000 в
+   своем веб-сайте.
+   браузер. Войдите в Grafana с учетными данными по умолчанию (имя пользователя:
+   admin,
+   пароль: admin) и настройте Prometheus в качестве источника данных, чтобы
+   начать визуализацию вашего
+   метрики приложения.
+3. Перейдите по адресу http://0.0.0.0:3000/datasources. Нажмите «Добавить новый
+   источник данных».
+   Выбирать Prometheus. В HTTP -> URL введите `http://prometheus:9090`. Нажмите
+   «Сохранить и протестировать». Если вы увидите сообщение «Источник
+   данных работает», значит все хорошо.
+4. Найдите `grafana-dashboard.json` в корне проекта. Замените
+   все `POarCC0Ik` на идентификатор вашего источника данных Prometheus, который
+   показан в URL-адресе страницы.
+   ![Grafana](src/static/images/readme/grafana.png)
+5. Перейдите по адресу http://0.0.0.0:3000/dashboards. Создать -> Импортировать
+   и вставить
+   обновлен `grafana-dashboard.json` в разделе `Импорт через панель json`. Все
+   после этого должно работать
 
-Если вы нашли ошибку, у вас есть предложения по улучшению или хотите добавить
-новые
-функции, не стесняйтесь создавать запросы на включение изменений (pull
-requests). Я всегда
-рад вносить улучшения в проект.
+## Обратная связь
 
-## Лицензия
-
-Этот проект лицензирован в соответствии с условиями лицензии MIT.
+Если у вас есть какие-либо отзывы, вопросы или предложения относительно этого
+проекта, пишите мне в [Telegram](https://t.me/kolenkoa). Вы можете написать мне
+здесь. Буду рад помочь
+Вам и дальше!
