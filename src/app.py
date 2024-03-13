@@ -20,10 +20,11 @@ from src.variations.router import router as router_variations
 
 app = FastAPI(title="Ecommerce API")
 
-sentry_sdk.init(
-    dsn=f"https://{settings.SENTRY_URL_NUMBER}.ingest.us.sentry.io/{settings.SENTRY_PROJECT_NUMBER}",
-    enable_tracing=True,
-)
+if settings.SENTRY_URL_NUMBER != "" and settings.SENTRY_PROJECT_NUMBER != "":
+    sentry_sdk.init(
+        dsn=f"https://{settings.SENTRY_URL_NUMBER}.ingest.us.sentry.io/{settings.SENTRY_PROJECT_NUMBER}",
+        enable_tracing=True,
+    )
 
 router = APIRouter(prefix="/api")
 
