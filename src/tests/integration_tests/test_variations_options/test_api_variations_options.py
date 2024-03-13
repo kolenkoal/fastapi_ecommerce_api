@@ -7,7 +7,7 @@ async def test_create_variation_option(ac):
     variation_option_data = {"value": "Hello", "variation_id": 1}
 
     response = await ac.post(
-        "/api/variation_options",
+        "/api/variations/options",
         json=variation_option_data,
         headers={"Content-Type": "application/json"},
     )
@@ -32,7 +32,7 @@ async def test_create_variation_options_with_bad_entities(
     }
 
     response = await admin_ac.post(
-        "/api/variation_options",
+        "/api/variations/options",
         json=variation_option_data,
         headers={"Content-Type": "application/json"},
     )
@@ -76,7 +76,7 @@ async def test_create_variation_options(admin_ac, value, status_code):
     variation_option_data = {"value": value, "variation_id": variation_id}
 
     response = await admin_ac.post(
-        "/api/variation_options",
+        "/api/variations/options",
         json=variation_option_data,
         headers={"Content-Type": "application/json"},
     )
@@ -86,7 +86,7 @@ async def test_create_variation_options(admin_ac, value, status_code):
 
 @pytest.mark.asyncio
 async def test_get_variation_options(ac: AsyncClient):
-    response = await ac.get("/api/variation_options")
+    response = await ac.get("/api/variations/options")
     assert response.status_code == 200
 
     variations = response.json()["variation_options"]
@@ -97,13 +97,13 @@ async def test_get_variation_options(ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_get_variation_option(authenticated_ac: AsyncClient):
-    response = await authenticated_ac.get("/api/variation_options")
+    response = await authenticated_ac.get("/api/variations/options")
     assert response.status_code == 200
 
     variation_option_id = response.json()["variation_options"][0]["id"]
 
     response = await authenticated_ac.get(
-        f"/api/variation_options/{variation_option_id}"
+        f"/api/variations/options/{variation_option_id}"
     )
     assert response.status_code == 200
 
@@ -113,7 +113,7 @@ async def test_get_variation_option(authenticated_ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_change_variation_option(admin_ac: AsyncClient):
-    response = await admin_ac.get("/api/variation_options")
+    response = await admin_ac.get("/api/variations/options")
     assert response.status_code == 200
 
     variation_option_id = response.json()["variation_options"][0]["id"]
@@ -122,7 +122,7 @@ async def test_change_variation_option(admin_ac: AsyncClient):
         "value": "S",
     }
     response = await admin_ac.patch(
-        f"/api/variation_options/{variation_option_id}",
+        f"/api/variations/options/{variation_option_id}",
         json=new_variation_option_data,
     )
 
@@ -133,16 +133,16 @@ async def test_change_variation_option(admin_ac: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_delete_variation_option(admin_ac: AsyncClient):
-    response = await admin_ac.get("/api/variation_options")
+    response = await admin_ac.get("/api/variations/options")
     assert response.status_code == 200
 
     variation_option_id = response.json()["variation_options"][0]["id"]
 
     response = await admin_ac.delete(
-        f"/api/variation_options/{variation_option_id}",
+        f"/api/variations/options/{variation_option_id}",
     )
     assert response.status_code == 204
 
-    response = await admin_ac.get("/api/variation_options")
+    response = await admin_ac.get("/api/variations/options")
     assert response.status_code == 200
     assert len(response.json()) == 1

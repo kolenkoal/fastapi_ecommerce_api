@@ -51,7 +51,7 @@ async def test_create_product_configuration(admin_ac):
 
     product_item_id = response.json()["product_items"][0]["id"]
 
-    response = await admin_ac.get("/api/variation_options")
+    response = await admin_ac.get("/api/variations/options")
     assert response.status_code == 200
 
     variation_option_id = response.json()["variation_options"][0]["id"]

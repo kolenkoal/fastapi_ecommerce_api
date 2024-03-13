@@ -29,7 +29,7 @@ from src.variations.responses import (
 )
 
 
-router = APIRouter(prefix="/variation_options", tags=["Variation Options"])
+router = APIRouter(prefix="/options")
 
 
 @router.post(

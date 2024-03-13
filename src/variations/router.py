@@ -15,6 +15,7 @@ from src.variations.exceptions import (
     VariationNotImplementedException,
     VariationsNotFoundException,
 )
+from src.variations.options.router import router as router_variation_option
 from src.variations.responses import (
     DELETED_UNAUTHORIZED_FORBIDDEN_VARIATION_NOT_FOUND_RESPONSE,
     UNAUTHORIZED_FORBIDDEN_CATEGORY_OR_VARIATION_NOT_FOUND_RESPONSE_UNPROCESSABLE_ENTITY,
@@ -31,6 +32,8 @@ from src.variations.schemas import (
 
 
 router = APIRouter(prefix="/variations", tags=["Variations"])
+
+router.include_router(router_variation_option)
 
 
 @router.post(
