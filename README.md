@@ -356,8 +356,7 @@ you want to use it, you need to set it up:
 
 If you have any feedback, questions, or suggestions regarding this project, feel
 free to reach out to me on Telegram. You can write
-me [here](https://t.me/kolenkoa). I'd be happy to assist you
-further!
+me [here](https://t.me/kolenkoa). I'd be happy to assist you further!
 
 # Интернет магазин с использованием FastAPI
 
@@ -745,5 +744,4 @@ Prometheus и Grafana запускаются автоматически вмес
 
 Если у вас есть какие-либо отзывы, вопросы или предложения относительно этого
 проекта, пишите мне в [Telegram](https://t.me/kolenkoa). Вы можете написать мне
-здесь. Буду рад помочь
-Вам и дальше!
+здесь. Буду рад помочь Вам!
