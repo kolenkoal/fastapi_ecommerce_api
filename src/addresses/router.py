@@ -56,9 +56,7 @@ async def add_address(
     name="Set an address to default.",
     responses=UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE,
 )
-async def set_address_to_default(
-    address_id: UUID, user: User = Depends(current_user)
-):
+async def set_address_to_default(address_id: UUID, user: User = Depends(current_user)):
     address = await AddressDAO.set_to_default(address_id, user)
 
     if not address:
@@ -88,9 +86,7 @@ async def get_user_addresses(user: User = Depends(current_user)):
     name="Get certain address.",
     responses=UNAUTHORIZED_FORBIDDEN_ADDRESS_NOT_FOUND_RESPONSE,
 )
-async def get_address_by_id(
-    address_id: UUID, user: User = Depends(current_user)
-):
+async def get_address_by_id(address_id: UUID, user: User = Depends(current_user)):
     address = await AddressDAO.find_by_id(user, address_id)
 
     if not address:
@@ -129,7 +125,5 @@ async def delete_user_address(
     address_id: UUID,
     user: User = Depends(current_user),
 ):
-    address = await AddressDAO.delete_address(user, address_id)
-
-    if not address:
-        return {"detail": "The address was deleted."}
+    await AddressDAO.delete_address(user, address_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
